@@ -1,0 +1,153 @@
+{% extends 'base.html' %}
+{% load static %}
+
+<!-- Template: Parcelles - Liste -->
+<!-- Affichage et gestion de la liste des parcelles -->
+
+{% block title %}Parcelles - SmartFarm{% endblock %}
+
+{% block breadcrumbs %}
+    <li class="breadcrumb-item"><a href="{% url 'dashboard:accueil' %}">Tableau de Bord</a></li>
+    <li class="breadcrumb-item active">Parcelles</li>
+{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-md-8">
+        <h1 class="h3 mb-0">
+            <i class="bi bi-grid-3x2 text-success"></i> Parcelles
+        </h1>
+    </div>
+    <div class="col-md-4 text-md-end">
+        <a href="{% url 'parcelles:parcelle_create' %}" class="btn btn-success">
+            <i class="bi bi-plus-circle"></i> Ajouter une parcelle
+        </a>
+    </div>
+</div>
+
+<!-- Filtres -->
+<div class="row mb-4">
+    <div class="col-md-12">
+        <div class="card bg-light">
+            <div class="card-body">
+                <form method="GET" id="parcelle-filter-form" class="row">
+                    <div class="col-md-4">
+                        <select class="form-select form-select-sm parcelle-filter" name="exploitation">
+                            <option value="">Toutes les exploitations</option>
+                            {% for exploitation in exploitations %}
+                                <option value="{{ exploitation.id }}" {% if request.GET.exploitation == exploitation.id|stringformat:"s" %}selected{% endif %}>{{ exploitation.nom }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <select class="form-select form-select-sm parcelle-filter" name="statut">
+                            <option value="">Tous les statuts</option>
+                            {% for statut, label in statuts %}
+                                <option value="{{ statut }}" {% if request.GET.statut == statut %}selected{% endif %}>{{ label }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <input type="text" class="form-control form-control-sm" name="q" placeholder="Rechercher..." value="{{ request.GET.q }}">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Tableau des Parcelles -->
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="table-responsive">
+                <table class="table table-hover mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Code</th>
+                            <th>Parcelle</th>
+                            <th>Exploitation</th>
+                            <th>Superficie (m²)</th>
+                            <th>Type de Sol</th>
+                            <th>Statut</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for parcelle in parcelles %}
+                        <tr class="parcelle-item">
+                            <td><strong>{{ parcelle.code }}</strong></td>
+                            <td>{{ parcelle.nom }}</td>
+                            <td>{{ parcelle.exploitation.nom }}</td>
+                            <td>{{ parcelle.superficie|floatformat:0 }}</td>
+                            <td>{{ parcelle.get_type_sol_display }}</td>
+                            <td>
+                                {% if parcelle.statut == 'actif' %}
+                                    <span class="badge bg-success">{{ parcelle.get_statut_display }}</span>
+                                {% elif parcelle.statut == 'en_preparation' %}
+                                    <span class="badge bg-warning">{{ parcelle.get_statut_display }}</span>
+                                {% elif parcelle.statut == 'reposante' %}
+                                    <span class="badge bg-secondary">{{ parcelle.get_statut_display }}</span>
+                                {% else %}
+                                    <span class="badge bg-danger">{{ parcelle.get_statut_display }}</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                <a href="{% url 'parcelles:parcelle_detail' parcelle.id %}" class="btn btn-sm btn-outline-primary" title="Voir">
+                                    <i class="bi bi-eye"></i>
+                                </a>
+                                <a href="{% url 'parcelles:parcelle_update' parcelle.id %}" class="btn btn-sm btn-outline-primary" title="Modifier">
+                                    <i class="bi bi-pencil"></i>
+                                </a>
+                                <a href="{% url 'parcelles:parcelle_delete' parcelle.id %}" class="btn btn-sm btn-outline-danger" title="Supprimer" onclick="return parcellesApp.confirmDelete('{{ parcelle.nom }}')">
+                                    <i class="bi bi-trash"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="7" class="text-center py-4">
+                                <p class="text-muted">Aucune parcelle trouvée.</p>
+                                <a href="{% url 'parcelles:parcelle_create' %}" class="btn btn-sm btn-success">Créer la première parcelle</a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Pagination -->
+        {% if is_paginated %}
+        <nav aria-label="Page navigation" class="mt-4">
+            <ul class="pagination justify-content-center">
+                {% if page_obj.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?page=1">Première</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Précédente</a>
+                </li>
+                {% endif %}
+
+                {% for num in page_obj.paginator.page_range %}
+                <li class="page-item {% if num == page_obj.number %}active{% endif %}">
+                    <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+                </li>
+                {% endfor %}
+
+                {% if page_obj.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.next_page_number }}">Suivante</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">Dernière</a>
+                </li>
+                {% endif %}
+            </ul>
+        </nav>
+        {% endif %}
+    </div>
+</div>
+
+{% endblock %}

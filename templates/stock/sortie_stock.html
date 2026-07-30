@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+{% load static %}
+
+<!-- Template: Stock - Sortie -->
+<!-- Enregistrement d'une sortie de stock -->
+
+{% block title %}Sortie de Stock - SmartFarm{% endblock %}
+
+{% block breadcrumbs %}
+    <li class="breadcrumb-item"><a href="{% url 'dashboard:accueil' %}">Tableau de Bord</a></li>
+    <li class="breadcrumb-item"><a href="#">Stock</a></li>
+    <li class="breadcrumb-item active">Sortie</li>
+{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-md-12">
+        <h1 class="h3 mb-0">
+            <i class="bi bi-arrow-up text-danger"></i> Enregistrer une Sortie de Stock
+        </h1>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-body">
+                <form method="POST" action="">
+                    {% csrf_token %}
+                    
+                    <h5 class="mb-3">Informations de la Sortie</h5>
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="date" class="form-label">Date *</label>
+                            <input type="date" class="form-control" id="date" name="date" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="intrant" class="form-label">Intrant *</label>
+                            <select class="form-select" id="intrant" name="intrant" required>
+                                <option value="">-- Sélectionner --</option>
+                                <option>Engrais NPK</option>
+                                <option>Fongicide</option>
+                                <option>Semences</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="quantity" class="form-label">Quantité *</label>
+                            <input type="number" class="form-control" id="quantity" name="quantity" step="0.01" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="reason" class="form-label">Raison *</label>
+                            <select class="form-select" id="reason" name="reason" required>
+                                <option value="">-- Sélectionner --</option>
+                                <option>Traitement culture</option>
+                                <option>Plantation</option>
+                                <option>Perte/Dégât</option>
+                                <option>Vente</option>
+                                <option>Autre</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="parcelle" class="form-label">Parcelle associée (si applicable)</label>
+                        <select class="form-select" id="parcelle" name="parcelle">
+                            <option value="">-- Optionnel --</option>
+                            <option>A1</option>
+                            <option>A2</option>
+                            <option>B1</option>
+                        </select>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="notes" class="form-label">Notes</label>
+                        <textarea class="form-control" id="notes" name="notes" rows="3"></textarea>
+                    </div>
+                    
+                    <hr class="my-4">
+                    
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-danger">
+                            <i class="bi bi-check-circle"></i> Enregistrer la sortie
+                        </button>
+                        <a href="#" class="btn btn-outline-secondary">Annuler</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

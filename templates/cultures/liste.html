@@ -1,0 +1,135 @@
+{% extends 'base.html' %}
+{% load static %}
+
+<!-- Template: Cultures - Liste -->
+<!-- Affichage et gestion de la liste des cultures -->
+
+{% block title %}Cultures - SmartFarm{% endblock %}
+
+{% block breadcrumbs %}
+    <li class="breadcrumb-item"><a href="{% url 'dashboard:accueil' %}">Tableau de Bord</a></li>
+    <li class="breadcrumb-item active">Cultures</li>
+{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-md-8">
+        <h1 class="h3 mb-0">
+            <i class="bi bi-flower1 text-success"></i> Cultures
+        </h1>
+    </div>
+    <div class="col-md-4 text-md-end">
+        <a href="{% url 'cultures:ajouter' %}" class="btn btn-success">
+            <i class="bi bi-plus-circle"></i> Ajouter une culture
+        </a>
+    </div>
+</div>
+
+<!-- Filtres -->
+<div class="row mb-4">
+    <div class="col-md-12">
+        <div class="card bg-light">
+            <div class="card-body">
+                <form method="GET" class="row gx-2 gy-2">
+                    <div class="col-md-4">
+                        <select name="parcelle" class="form-select form-select-sm">
+                            <option value="">Toutes les parcelles</option>
+                            {% for parcelle in parcelles %}
+                                <option value="{{ parcelle.id }}" {% if request.GET.parcelle == parcelle.id|stringformat:"s" %}selected{% endif %}>{{ parcelle.nom }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <select name="statut" class="form-select form-select-sm">
+                            <option value="">Tous les statuts</option>
+                            {% for statut, label in statuts %}
+                                <option value="{{ statut }}" {% if request.GET.statut == statut %}selected{% endif %}>{{ label }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <input type="text" name="q" class="form-control form-control-sm" placeholder="Rechercher..." value="{{ request.GET.q }}">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Tableau des Cultures -->
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="table-responsive">
+                <table class="table table-hover mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Culture</th>
+                            <th>Parcelle</th>
+                            <th>Variété</th>
+                            <th>Semis/Plantation</th>
+                            <th>Récolte Prévue</th>
+                            <th>Statut</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for culture in cultures %}
+                        <tr>
+                            <td><strong>{{ culture.nom }}</strong></td>
+                            <td>{{ culture.parcelle.nom }}</td>
+                            <td>{{ culture.variete }}</td>
+                            <td>{{ culture.date_semis|date:'d/m/Y' }}</td>
+                            <td>{{ culture.date_prevision_recolte|date:'d/m/Y' }}</td>
+                            <td>
+                                <span class="badge {% if culture.statut == 'en_croissance' %}bg-success{% elif culture.statut == 'mature' %}bg-warning{% elif culture.statut == 'recolte' %}bg-info{% else %}bg-secondary{% endif %}">{{ culture.get_statut_display }}</span>
+                            </td>
+                            <td>
+                                <a href="{% url 'cultures:detail' culture.id %}" class="btn btn-sm btn-outline-primary"><i class="bi bi-eye"></i></a>
+                                <a href="{% url 'cultures:modifier' culture.id %}" class="btn btn-sm btn-outline-primary"><i class="bi bi-pencil"></i></a>
+                                <a href="{% url 'cultures:supprimer' culture.id %}" class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></a>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="7" class="text-center py-4">
+                                <p class="text-muted mb-2">Aucune culture trouvée.</p>
+                                <a href="{% url 'cultures:ajouter' %}" class="btn btn-sm btn-success">Ajouter une culture</a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        {% if is_paginated %}
+        <nav aria-label="Page navigation" class="mt-4">
+            <ul class="pagination justify-content-center">
+                {% if page_obj.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?page=1">Première</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Précédente</a>
+                </li>
+                {% endif %}
+                {% for num in page_obj.paginator.page_range %}
+                <li class="page-item {% if num == page_obj.number %}active{% endif %}">
+                    <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+                </li>
+                {% endfor %}
+                {% if page_obj.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.next_page_number }}">Suivante</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">Dernière</a>
+                </li>
+                {% endif %}
+            </ul>
+        </nav>
+        {% endif %}
+    </div>
+</div>
+
+{% endblock %}

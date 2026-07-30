@@ -1,0 +1,15 @@
+<!-- Breadcrumbs - Fil d'Ariane -->
+<!-- Permet à l'utilisateur de naviguer dans la hiérarchie des pages -->
+
+<nav aria-label="breadcrumb" class="mb-4">
+    <ol class="breadcrumb bg-light p-3 rounded">
+        <li class="breadcrumb-item">
+            <a href="{% url 'dashboard:accueil' %}" class="text-decoration-none">
+                <i class="bi bi-house-door"></i> Accueil
+            </a>
+        </li>
+        
+        <!-- Les breadcrumbs spécifiques sont définis dans chaque template -->
+        {% block breadcrumbs %}{% endblock %}
+    </ol>
+</nav>

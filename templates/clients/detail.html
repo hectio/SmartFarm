@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+{% load static %}
+
+<!-- Template: Clients - Détail -->
+{% block title %}Détail Client - SmartFarm{% endblock %}
+
+{% block breadcrumbs %}
+    <li class="breadcrumb-item"><a href="{% url 'dashboard:accueil' %}">Tableau de Bord</a></li>
+    <li class="breadcrumb-item"><a href="#">Clients</a></li>
+    <li class="breadcrumb-item active">Détail</li>
+{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-md-8">
+        <h1 class="h3 mb-0">
+            <i class="bi bi-person text-success"></i> Restaurant La Maison
+        </h1>
+        <p class="text-muted">Client depuis 2024</p>
+    </div>
+    <div class="col-md-4 text-md-end">
+        <a href="#" class="btn btn-primary btn-sm">
+            <i class="bi bi-pencil"></i> Modifier
+        </a>
+    </div>
+</div>
+
+<!-- Informations du Client -->
+<div class="row mb-4">
+    <div class="col-md-6 mb-4">
+        <div class="card">
+            <div class="card-header bg-light border-bottom">
+                <h6 class="mb-0">Informations Générales</h6>
+            </div>
+            <div class="card-body">
+                <p><strong>Nom :</strong> Restaurant La Maison</p>
+                <p><strong>Type :</strong> Restaurant</p>
+                <p><strong>Email :</strong> contact@lamaison.fr</p>
+                <p class="mb-0"><strong>Téléphone :</strong> 03 88 12 34 56</p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-6 mb-4">
+        <div class="card">
+            <div class="card-header bg-light border-bottom">
+                <h6 class="mb-0">Adresse</h6>
+            </div>
+            <div class="card-body">
+                <p><strong>Rue :</strong> 45 Grand Rue</p>
+                <p><strong>Code Postal :</strong> 67000</p>
+                <p class="mb-0"><strong>Ville :</strong> Strasbourg</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Historique Commandes -->
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header bg-light border-bottom">
+                <h6 class="mb-0">Commandes Récentes</h6>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-hover mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Date</th>
+                            <th>Montant</th>
+                            <th>Statut</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>15/07/2026</td>
+                            <td>450 €</td>
+                            <td><span class="badge bg-success">Livré</span></td>
+                            <td><a href="#" class="btn btn-sm btn-outline-primary">Voir</a></td>
+                        </tr>
+                        <tr>
+                            <td>10/07/2026</td>
+                            <td>320 €</td>
+                            <td><span class="badge bg-success">Livré</span></td>
+                            <td><a href="#" class="btn btn-sm btn-outline-primary">Voir</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

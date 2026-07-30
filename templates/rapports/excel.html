@@ -1,0 +1,102 @@
+{% extends 'base.html' %}
+{% load static %}
+
+<!-- Template: Rapports - Excel -->
+<!-- Export de rapports en Excel -->
+
+{% block title %}Exporter en Excel - SmartFarm{% endblock %}
+
+{% block breadcrumbs %}
+    <li class="breadcrumb-item"><a href="{% url 'dashboard:accueil' %}">Tableau de Bord</a></li>
+    <li class="breadcrumb-item"><a href="#">Rapports</a></li>
+    <li class="breadcrumb-item active">Excel</li>
+{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-md-12">
+        <h1 class="h3 mb-0">
+            <i class="bi bi-file-earmark-spreadsheet text-success"></i> Exporter en Excel
+        </h1>
+    </div>
+</div>
+
+<!-- Formulaire Export Excel -->
+<div class="row">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-body">
+                <form method="POST" action="">
+                    {% csrf_token %}
+                    
+                    <h5 class="mb-3">Sélectionnez les données à exporter</h5>
+                    
+                    <div class="mb-3">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="data" value="exploitations" id="data_exploitations">
+                            <label class="form-check-label" for="data_exploitations">
+                                Exploitations
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="data" value="parcelles" id="data_parcelles">
+                            <label class="form-check-label" for="data_parcelles">
+                                Parcelles
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="data" value="cultures" id="data_cultures">
+                            <label class="form-check-label" for="data_cultures">
+                                Cultures
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="data" value="recoltes" id="data_recoltes">
+                            <label class="form-check-label" for="data_recoltes">
+                                Récoltes
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="data" value="ventes" id="data_ventes">
+                            <label class="form-check-label" for="data_ventes">
+                                Ventes
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="data" value="finances" id="data_finances">
+                            <label class="form-check-label" for="data_finances">
+                                Finances
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <hr class="my-4">
+                    
+                    <h5 class="mb-3">Période (optionnel)</h5>
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="date_from" class="form-label">Du</label>
+                            <input type="date" class="form-control" id="date_from" name="date_from">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="date_to" class="form-label">Au</label>
+                            <input type="date" class="form-control" id="date_to" name="date_to">
+                        </div>
+                    </div>
+                    
+                    <hr class="my-4">
+                    
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-success">
+                            <i class="bi bi-download"></i> Télécharger Excel
+                        </button>
+                        <a href="#" class="btn btn-outline-secondary">Annuler</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

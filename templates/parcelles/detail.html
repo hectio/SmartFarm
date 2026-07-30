@@ -1,0 +1,132 @@
+{% extends 'base.html' %}
+{% load static %}
+
+<!-- Template: Parcelles - Détail -->
+<!-- Affichage détaillé d'une parcelle -->
+
+{% block title %}{{ object.nom }} - Parcelle - SmartFarm{% endblock %}
+
+{% block breadcrumbs %}
+    <li class="breadcrumb-item"><a href="{% url 'dashboard:accueil' %}">Tableau de Bord</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'parcelles:parcelle_list' %}">Parcelles</a></li>
+    <li class="breadcrumb-item active">{{ object.nom }}</li>
+{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-md-8">
+        <h1 class="h3 mb-0">
+            <i class="bi bi-grid-3x2 text-success"></i> {{ object.nom }}
+        </h1>
+        <p class="text-muted">Code: <strong>{{ object.code }}</strong> | Exploitation: <strong>{{ object.exploitation.nom }}</strong></p>
+    </div>
+    <div class="col-md-4 text-md-end">
+        <a href="{% url 'parcelles:parcelle_update' object.id %}" class="btn btn-primary btn-sm">
+            <i class="bi bi-pencil"></i> Modifier
+        </a>
+        <a href="{% url 'parcelles:parcelle_delete' object.id %}" class="btn btn-danger btn-sm" onclick="return parcellesApp.confirmDelete('{{ object.nom }}')">
+            <i class="bi bi-trash"></i> Supprimer
+        </a>
+    </div>
+</div>
+
+<!-- Informations Principales -->
+<div class="row mb-4">
+    <div class="col-md-6 mb-4">
+        <div class="card">
+            <div class="card-header bg-light border-bottom">
+                <h6 class="mb-0">Informations Générales</h6>
+            </div>
+            <div class="card-body">
+                <p><strong>Code :</strong> {{ object.code }}</p>
+                <p><strong>Nom :</strong> {{ object.nom }}</p>
+                <p><strong>Exploitation :</strong> {{ object.exploitation.nom }}</p>
+                <p><strong>Superficie :</strong> {{ object.superficie|floatformat:2 }} m²</p>
+                <p class="mb-0">
+                    <strong>Statut :</strong> 
+                    {% if object.statut == 'actif' %}
+                        <span class="badge bg-success">{{ object.get_statut_display }}</span>
+                    {% elif object.statut == 'en_preparation' %}
+                        <span class="badge bg-warning">{{ object.get_statut_display }}</span>
+                    {% elif object.statut == 'reposante' %}
+                        <span class="badge bg-secondary">{{ object.get_statut_display }}</span>
+                    {% else %}
+                        <span class="badge bg-danger">{{ object.get_statut_display }}</span>
+                    {% endif %}
+                </p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-6 mb-4">
+        <div class="card">
+            <div class="card-header bg-light border-bottom">
+                <h6 class="mb-0">Caractéristiques du Sol</h6>
+            </div>
+            <div class="card-body">
+                <p><strong>Type de sol :</strong> {{ object.get_type_sol_display }}</p>
+                {% if object.description %}
+                <p><strong>Description :</strong></p>
+                <p>{{ object.description|linebreaks }}</p>
+                {% else %}
+                <p class="text-muted">Aucune description disponible</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Localisation -->
+<div class="row mb-4">
+    <div class="col-md-12 mb-4">
+        <div class="card">
+            <div class="card-header bg-light border-bottom">
+                <h6 class="mb-0">Localisation GPS</h6>
+            </div>
+            <div class="card-body">
+                {% if object.latitude and object.longitude %}
+                <p><strong>Latitude :</strong> {{ object.latitude }}°</p>
+                <p><strong>Longitude :</strong> {{ object.longitude }}°</p>
+                <p class="text-muted small">Les coordonnées GPS peuvent être utilisées pour localiser précisément la parcelle sur une carte.</p>
+                {% else %}
+                <p class="text-muted">Aucunes coordonnées GPS enregistrées pour cette parcelle.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Informations de Gestion -->
+<div class="row">
+    <div class="col-md-6 mb-4">
+        <div class="card">
+            <div class="card-header bg-light border-bottom">
+                <h6 class="mb-0">Dates</h6>
+            </div>
+            <div class="card-body">
+                <p><strong>Créée le :</strong> {{ object.date_creation|date:"d/m/Y à H:i" }}</p>
+                <p class="mb-0"><strong>Modifiée le :</strong> {{ object.date_modification|date:"d/m/Y à H:i" }}</p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-6 mb-4">
+        <div class="card">
+            <div class="card-header bg-light border-bottom">
+                <h6 class="mb-0">Actions Rapides</h6>
+            </div>
+            <div class="card-body">
+                <a href="{% url 'parcelles:parcelle_list' %}" class="btn btn-sm btn-outline-primary">
+                    <i class="bi bi-arrow-left"></i> Retour à la liste
+                </a>
+                <a href="{% url 'parcelles:parcelle_update' object.id %}" class="btn btn-sm btn-outline-primary">
+                    <i class="bi bi-pencil"></i> Modifier
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="{% static 'parcelles/js/parcelles.js' %}"></script>
+
+{% endblock %}

@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+{% load static %}
+
+<!-- Template: Finances - Bénéfices -->
+<!-- Affichage des bénéfices et analyses de rentabilité -->
+
+{% block title %}Bénéfices - SmartFarm{% endblock %}
+
+{% block breadcrumbs %}
+    <li class="breadcrumb-item"><a href="{% url 'dashboard:accueil' %}">Tableau de Bord</a></li>
+    <li class="breadcrumb-item"><a href="#">Finances</a></li>
+    <li class="breadcrumb-item active">Bénéfices</li>
+{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-md-12">
+        <h1 class="h3 mb-0">
+            <i class="bi bi-cash-stack text-success"></i> Analyse des Bénéfices
+        </h1>
+    </div>
+</div>
+
+<!-- KPI Cards -->
+<div class="row mb-4">
+    <div class="col-md-3 mb-3">
+        <div class="card">
+            <div class="card-body">
+                <p class="text-muted small">Recettes (Mois)</p>
+                <p class="h4 text-success">2,450 €</p>
+                <small class="text-success"><i class="bi bi-arrow-up"></i> +15% vs mois dernier</small>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 mb-3">
+        <div class="card">
+            <div class="card-body">
+                <p class="text-muted small">Dépenses (Mois)</p>
+                <p class="h4 text-danger">850 €</p>
+                <small class="text-danger"><i class="bi bi-arrow-up"></i> +8% vs mois dernier</small>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 mb-3">
+        <div class="card">
+            <div class="card-body">
+                <p class="text-muted small">Bénéfice (Mois)</p>
+                <p class="h4 text-success">1,600 €</p>
+                <small class="text-success"><i class="bi bi-arrow-up"></i> +20% vs mois dernier</small>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 mb-3">
+        <div class="card">
+            <div class="card-body">
+                <p class="text-muted small">Marge Nette</p>
+                <p class="h4 text-success">65.3%</p>
+                <small class="text-muted">Ratio bénéfice/recettes</small>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Graphiques (Placeholder) -->
+<div class="row">
+    <div class="col-md-6 mb-4">
+        <div class="card">
+            <div class="card-header bg-light">
+                <h6 class="mb-0">Évolution Mensuelle</h6>
+            </div>
+            <div class="card-body" style="height: 250px; display: flex; align-items: center; justify-content: center;">
+                <p class="text-muted">Graphique à intégrer</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 mb-4">
+        <div class="card">
+            <div class="card-header bg-light">
+                <h6 class="mb-0">Répartition Dépenses</h6>
+            </div>
+            <div class="card-body" style="height: 250px; display: flex; align-items: center; justify-content: center;">
+                <p class="text-muted">Graphique à intégrer</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

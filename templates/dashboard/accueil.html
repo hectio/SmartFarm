@@ -1,0 +1,154 @@
+{% extends 'base.html' %}
+{% load static %}
+
+<!-- Template: Dashboard - Accueil -->
+<!-- Page d'accueil du tableau de bord -->
+
+{% block title %}Accueil - SmartFarm{% endblock %}
+
+{% block breadcrumbs %}
+    <li class="breadcrumb-item active">Tableau de Bord</li>
+{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-md-12">
+        <h1 class="h3 mb-0">
+            <i class="bi bi-speedometer2 text-success"></i> Tableau de Bord
+        </h1>
+        <p class="text-muted">Bienvenue sur SmartFarm - Plateforme de gestion des exploitations maraîchères</p>
+    </div>
+</div>
+
+<div class="row mb-4">
+    <div class="col-md-12">
+        <div class="card border-secondary">
+            <div class="card-body d-flex flex-column flex-md-row align-items-start align-items-md-center gap-3">
+                <div>
+                    <h6 class="mb-1">Sommaire</h6>
+                    <p class="text-muted mb-0">Accédez rapidement aux sections principales du tableau de bord.</p>
+                </div>
+                <div class="d-flex flex-wrap gap-2">
+                    <a href="#statistiques" class="btn btn-sm btn-outline-primary">Statistiques</a>
+                    <a href="#activites" class="btn btn-sm btn-outline-primary">Activités</a>
+                    <a href="#alertes" class="btn btn-sm btn-outline-primary">Alertes</a>
+                    <a href="#graphique" class="btn btn-sm btn-outline-primary">Graphiques</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Statistiques Principales -->
+<div class="row mb-4" id="statistiques">
+    <div class="col-md-3 mb-3">
+        <div class="card text-center">
+            <div class="card-body">
+                <i class="bi bi-building text-success" style="font-size: 2rem;"></i>
+                <h6 class="card-title mt-2">Exploitations</h6>
+                <p class="h4 text-success">{{ total_exploitations }}</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3 mb-3">
+        <div class="card text-center">
+            <div class="card-body">
+                <i class="bi bi-grid-3x2 text-info" style="font-size: 2rem;"></i>
+                <h6 class="card-title mt-2">Parcelles Actives</h6>
+                <p class="h4 text-info">{{ total_parcelles_actives }}</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3 mb-3">
+        <div class="card text-center">
+            <div class="card-body">
+                <i class="bi bi-flower1 text-warning" style="font-size: 2rem;"></i>
+                <h6 class="card-title mt-2">Cultures</h6>
+                <p class="h4 text-warning">{{ total_cultures }}</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3 mb-3">
+        <div class="card text-center">
+            <div class="card-body">
+                <i class="bi bi-calendar-check text-success" style="font-size: 2rem;"></i>
+                <h6 class="card-title mt-2">Récoltes prévues</h6>
+                <p class="h4 text-success">{{ total_recoltes_prevues }}</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Contenu Principal -->
+<div class="row" id="activites">
+    <div class="col-md-8 mb-4">
+        <div class="card">
+            <div class="card-header bg-light border-bottom">
+                <h5 class="mb-0">
+                    <i class="bi bi-activity"></i> Activités Récentes
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="list-group list-group-flush">
+                    {% if recent_cultures %}
+                        {% for culture in recent_cultures %}
+                        <div class="list-group-item">
+                            <p class="mb-1"><strong>{{ culture.nom }} - {{ culture.variete }}</strong></p>
+                            <p class="text-muted small mb-0">Parcelle {{ culture.parcelle.nom }} - Semis {{ culture.date_semis|date:'d/m/Y' }}</p>
+                        </div>
+                        {% endfor %}
+                    {% else %}
+                        <div class="list-group-item text-center text-muted">
+                            Aucune activité récente enregistrée.
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="card-footer bg-light">
+                <a href="#" class="btn btn-sm btn-outline-success">Voir toutes les activités</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4 mb-4" id="alertes">
+        <div class="card">
+            <div class="card-header bg-light border-bottom">
+                <h5 class="mb-0">
+                    <i class="bi bi-exclamation-triangle"></i> Alertes
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="alert alert-warning mb-2" role="alert">
+                    <small><strong>Stock bas :</strong> Engrais NPK (5 unités)</small>
+                </div>
+                <div class="alert alert-info mb-2" role="alert">
+                    <small><strong>Entretien :</strong> Irrigation prévue demain</small>
+                </div>
+                <div class="alert alert-success mb-0" role="alert">
+                    <small><strong>Récolte :</strong> Courgettes prêtes à récolter</small>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Graphiques (Placeholder) -->
+<div class="row" id="graphique">
+    <div class="col-md-12 mb-4">
+        <div class="card">
+            <div class="card-header bg-light border-bottom">
+                <h5 class="mb-0">
+                    <i class="bi bi-graph-up"></i> Statistiques
+                </h5>
+            </div>
+            <div class="card-body" style="height: 300px; display: flex; align-items: center; justify-content: center;">
+                <p class="text-muted">Graphiques de production et de ventes à intégrer avec Chart.js ou un autre outil.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

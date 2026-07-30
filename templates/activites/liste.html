@@ -1,0 +1,112 @@
+{% extends 'base.html' %}
+{% load static %}
+
+<!-- Template: Activités - Liste -->
+<!-- Affichage et gestion de la liste des activités -->
+
+{% block title %}Activités - SmartFarm{% endblock %}
+
+{% block breadcrumbs %}
+    <li class="breadcrumb-item"><a href="{% url 'dashboard:accueil' %}">Tableau de Bord</a></li>
+    <li class="breadcrumb-item active">Activités</li>
+{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-md-8">
+        <h1 class="h3 mb-0">
+            <i class="bi bi-calendar-check text-success"></i> Activités
+        </h1>
+    </div>
+    <div class="col-md-4 text-md-end">
+        <a href="#" class="btn btn-success">
+            <i class="bi bi-plus-circle"></i> Ajouter une activité
+        </a>
+    </div>
+</div>
+
+<!-- Filtres -->
+<div class="row mb-4">
+    <div class="col-md-12">
+        <div class="card bg-light">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-3">
+                        <input type="date" class="form-control form-control-sm">
+                    </div>
+                    <div class="col-md-3">
+                        <select class="form-select form-select-sm">
+                            <option>Tous les types</option>
+                            <option>Plantation</option>
+                            <option>Arrosage</option>
+                            <option>Traitement</option>
+                            <option>Récolte</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <select class="form-select form-select-sm">
+                            <option>Toutes les parcelles</option>
+                            <option>A1</option>
+                            <option>A2</option>
+                            <option>B1</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <input type="text" class="form-control form-control-sm" placeholder="Rechercher...">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Tableau des Activités -->
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="table-responsive">
+                <table class="table table-hover mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Date</th>
+                            <th>Type</th>
+                            <th>Parcelle</th>
+                            <th>Description</th>
+                            <th>Responsable</th>
+                            <th>Statut</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>15/07/2026</td>
+                            <td><span class="badge bg-info">Arrosage</span></td>
+                            <td>A1</td>
+                            <td>Arrosage de la parcelle</td>
+                            <td>Jean Dupont</td>
+                            <td><span class="badge bg-success">Complété</span></td>
+                            <td>
+                                <a href="#" class="btn btn-sm btn-outline-primary"><i class="bi bi-eye"></i></a>
+                                <a href="#" class="btn btn-sm btn-outline-primary"><i class="bi bi-pencil"></i></a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>14/07/2026</td>
+                            <td><span class="badge bg-warning">Traitement</span></td>
+                            <td>A1</td>
+                            <td>Traitement anti-parasitaire</td>
+                            <td>Marie Martin</td>
+                            <td><span class="badge bg-success">Complété</span></td>
+                            <td>
+                                <a href="#" class="btn btn-sm btn-outline-primary"><i class="bi bi-eye"></i></a>
+                                <a href="#" class="btn btn-sm btn-outline-primary"><i class="bi bi-pencil"></i></a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

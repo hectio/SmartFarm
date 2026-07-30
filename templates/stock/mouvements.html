@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% load static %}
+
+<!-- Template: Stock - Mouvements -->
+<!-- Historique des mouvements d'entrée et sortie de stock -->
+
+{% block title %}Mouvements de Stock - SmartFarm{% endblock %}
+
+{% block breadcrumbs %}
+    <li class="breadcrumb-item"><a href="{% url 'dashboard:accueil' %}">Tableau de Bord</a></li>
+    <li class="breadcrumb-item"><a href="#">Stock</a></li>
+    <li class="breadcrumb-item active">Mouvements</li>
+{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-md-12">
+        <h1 class="h3 mb-0">
+            <i class="bi bi-arrow-left-right text-success"></i> Mouvements de Stock
+        </h1>
+    </div>
+</div>
+
+<!-- Tableau des Mouvements -->
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="table-responsive">
+                <table class="table table-hover mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Date</th>
+                            <th>Type</th>
+                            <th>Intrant</th>
+                            <th>Quantité</th>
+                            <th>Raison</th>
+                            <th>Utilisateur</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>15/07/2026</td>
+                            <td><span class="badge bg-success">Entrée</span></td>
+                            <td>Engrais NPK</td>
+                            <td>+100 kg</td>
+                            <td>Achat</td>
+                            <td>Jean Dupont</td>
+                        </tr>
+                        <tr>
+                            <td>14/07/2026</td>
+                            <td><span class="badge bg-danger">Sortie</span></td>
+                            <td>Fongicide</td>
+                            <td>-2 L</td>
+                            <td>Traitement Parcelle A1</td>
+                            <td>Marie Martin</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

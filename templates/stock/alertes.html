@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+{% load static %}
+
+<!-- Template: Stock - Alertes -->
+<!-- Affichage des alertes de stock -->
+
+{% block title %}Alertes Stock - SmartFarm{% endblock %}
+
+{% block breadcrumbs %}
+    <li class="breadcrumb-item"><a href="{% url 'dashboard:accueil' %}">Tableau de Bord</a></li>
+    <li class="breadcrumb-item"><a href="#">Stock</a></li>
+    <li class="breadcrumb-item active">Alertes</li>
+{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-md-12">
+        <h1 class="h3 mb-0">
+            <i class="bi bi-exclamation-circle text-warning"></i> Alertes Stock
+        </h1>
+    </div>
+</div>
+
+<!-- Alertes en Danger -->
+<div class="row mb-4">
+    <div class="col-md-12">
+        <h5 class="mb-3">Stock Critique (Minimum atteint)</h5>
+        <div class="card border-danger">
+            <div class="table-responsive">
+                <table class="table table-hover mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Intrant</th>
+                            <th>Stock Actuel</th>
+                            <th>Minimum</th>
+                            <th>Écart</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="table-danger">
+                            <td><strong>Fongicide</strong></td>
+                            <td>5 L</td>
+                            <td>10 L</td>
+                            <td>-5 L</td>
+                            <td>
+                                <a href="#" class="btn btn-sm btn-outline-danger">
+                                    <i class="bi bi-plus"></i> Commander
+                                </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Alertes en Avertissement -->
+<div class="row">
+    <div class="col-md-12">
+        <h5 class="mb-3">Stock Faible (Approche du minimum)</h5>
+        <div class="card border-warning">
+            <div class="table-responsive">
+                <table class="table table-hover mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Intrant</th>
+                            <th>Stock Actuel</th>
+                            <th>Minimum</th>
+                            <th>Écart</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Semences Tomates</strong></td>
+                            <td>15 Unités</td>
+                            <td>20 Unités</td>
+                            <td>-5 Unités</td>
+                            <td>
+                                <a href="#" class="btn btn-sm btn-outline-warning">
+                                    <i class="bi bi-plus"></i> Commander
+                                </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

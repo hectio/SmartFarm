@@ -1,0 +1,99 @@
+{% extends 'base.html' %}
+{% load static %}
+
+<!-- Template: Activités - Ajouter -->
+{% block title %}Ajouter Activité - SmartFarm{% endblock %}
+
+{% block breadcrumbs %}
+    <li class="breadcrumb-item"><a href="{% url 'dashboard:accueil' %}">Tableau de Bord</a></li>
+    <li class="breadcrumb-item"><a href="#">Activités</a></li>
+    <li class="breadcrumb-item active">Ajouter</li>
+{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-md-12">
+        <h1 class="h3 mb-0">
+            <i class="bi bi-plus-circle text-success"></i> Ajouter une Activité
+        </h1>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-body">
+                <form method="POST" action="">
+                    {% csrf_token %}
+                    
+                    <h5 class="mb-3">Informations de l'Activité</h5>
+                    
+                    <div class="mb-3">
+                        <label for="type" class="form-label">Type d'activité *</label>
+                        <select class="form-select" id="type" name="type" required>
+                            <option value="">-- Sélectionner --</option>
+                            <option>Plantation</option>
+                            <option>Arrosage</option>
+                            <option>Traitement</option>
+                            <option>Désherbage</option>
+                            <option>Récolte</option>
+                            <option>Maintenance</option>
+                            <option>Autre</option>
+                        </select>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="parcelle" class="form-label">Parcelle *</label>
+                        <select class="form-select" id="parcelle" name="parcelle" required>
+                            <option value="">-- Sélectionner --</option>
+                            <option>A1</option>
+                            <option>A2</option>
+                            <option>B1</option>
+                        </select>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="date" class="form-label">Date *</label>
+                            <input type="date" class="form-control" id="date" name="date" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="time" class="form-label">Heure</label>
+                            <input type="time" class="form-control" id="time" name="time">
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="description" class="form-label">Description *</label>
+                        <textarea class="form-control" id="description" name="description" rows="4" required></textarea>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="responsible" class="form-label">Responsable *</label>
+                        <select class="form-select" id="responsible" name="responsible" required>
+                            <option value="">-- Sélectionner --</option>
+                            <option>Jean Dupont</option>
+                            <option>Marie Martin</option>
+                        </select>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="notes" class="form-label">Notes additionnelles</label>
+                        <textarea class="form-control" id="notes" name="notes" rows="2"></textarea>
+                    </div>
+                    
+                    <hr class="my-4">
+                    
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-success">
+                            <i class="bi bi-check-circle"></i> Ajouter l'activité
+                        </button>
+                        <a href="#" class="btn btn-outline-secondary">Annuler</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

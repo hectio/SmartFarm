@@ -1,0 +1,51 @@
+<!-- Footer - Pied de page -->
+<!-- Affiche les informations légales, liens utiles et droits d'auteur -->
+
+<footer class="bg-light border-top py-4 mt-5">
+    <div class="container-fluid">
+        <div class="row">
+            <!-- À propos -->
+            <div class="col-md-4 mb-3">
+                <h6 class="fw-bold">
+                    <i class="bi bi-leaf-fill text-success"></i> SmartFarm
+                </h6>
+                <p class="text-muted small">
+                    Plateforme intelligente de gestion des exploitations maraîchères.
+                </p>
+            </div>
+            
+            <!-- Liens utiles -->
+            <div class="col-md-4 mb-3">
+                <h6 class="fw-bold">Liens utiles</h6>
+                <ul class="list-unstyled small">
+                    <li><a href="#" class="text-decoration-none text-muted">Documentation</a></li>
+                    <li><a href="#" class="text-decoration-none text-muted">Aide & Support</a></li>
+                    <li><a href="#" class="text-decoration-none text-muted">Contact</a></li>
+                </ul>
+            </div>
+            
+            <!-- Légal -->
+            <div class="col-md-4 mb-3">
+                <h6 class="fw-bold">Légal</h6>
+                <ul class="list-unstyled small">
+                    <li><a href="#" class="text-decoration-none text-muted">Confidentialité</a></li>
+                    <li><a href="#" class="text-decoration-none text-muted">Conditions d'utilisation</a></li>
+                    <li><a href="#" class="text-decoration-none text-muted">Mentions légales</a></li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- Ligne de séparation -->
+        <hr class="my-3">
+        
+        <!-- Copyright -->
+        <div class="row">
+            <div class="col-md-6 text-muted small">
+                &copy; {% now "Y" %} SmartFarm. Tous droits réservés.
+            </div>
+            <div class="col-md-6 text-md-end text-muted small">
+                Version 1.0.0 | Dernière mise à jour : {% now "SHORT_DATE_FORMAT" %}
+            </div>
+        </div>
+    </div>
+</footer>

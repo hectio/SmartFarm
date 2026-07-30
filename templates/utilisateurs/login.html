@@ -1,0 +1,132 @@
+{% extends 'base.html' %}
+{% load static %}
+
+<!-- Template: Utilisateurs - Login -->
+<!-- Page de connexion à l'application -->
+
+{% block title %}Connexion - SmartFarm{% endblock %}
+
+{% block extra_css %}
+<style>
+    body {
+        background: radial-gradient(circle at top, #eaf6ea 0%, #f6faf5 100%);
+    }
+
+    .login-page {
+        min-height: calc(100vh - 110px);
+    }
+
+    .login-card {
+        max-width: 420px;
+        margin: 0 auto;
+        border-radius: 1.4rem;
+        border: none;
+        overflow: hidden;
+        box-shadow: 0 20px 45px rgba(0, 0, 0, 0.12);
+    }
+
+    .login-card .card-body {
+        padding: 2.1rem 1.9rem;
+    }
+
+    .login-header {
+        background: linear-gradient(135deg, #1d5f26 0%, #327b38 100%);
+        color: #fff;
+        padding: 1.8rem 1.5rem;
+        text-align: center;
+    }
+
+    .login-header .bi-leaf-fill {
+        font-size: 3.2rem;
+        opacity: 0.95;
+    }
+
+    .login-header h3 {
+        margin-top: 1rem;
+        margin-bottom: 0.35rem;
+        font-weight: 700;
+        letter-spacing: 0.03em;
+    }
+
+    .login-header p {
+        color: rgba(255, 255, 255, 0.85);
+        margin-bottom: 0;
+    }
+
+    .login-card .form-control {
+        border-radius: 0.9rem;
+        padding: 0.95rem 1rem;
+    }
+
+    .login-card .form-check-input {
+        accent-color: #1d5f26;
+    }
+
+    .btn-login {
+        background-color: #1d5f26;
+        border-color: #1d5f26;
+        border-radius: 0.9rem;
+        padding: 0.85rem 1.2rem;
+        font-weight: 600;
+    }
+
+    .btn-login:hover {
+        background-color: #174a1d;
+        border-color: #174a1d;
+    }
+
+    .login-links a {
+        color: #1d5f26;
+    }
+
+    .login-links a:hover {
+        color: #133d15;
+        text-decoration: none;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center align-items-start login-page pt-4">
+    <div class="col-md-6 col-lg-5">
+        <div class="card login-card">
+            <div class="login-header">
+                <i class="bi bi-leaf-fill"></i>
+                <h3>SmartFarm</h3>
+                <p>Plateforme de gestion agricole</p>
+            </div>
+            <div class="card-body">
+                <form method="POST" action="">
+                    {% csrf_token %}
+
+                    <div class="mb-3">
+                        <label for="username" class="form-label">Nom d'utilisateur ou Email</label>
+                        <input type="text" class="form-control" id="username" name="username" required autofocus>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Mot de passe</label>
+                        <input type="password" class="form-control" id="password" name="password" required>
+                    </div>
+
+                    <div class="mb-4 form-check">
+                        <input type="checkbox" class="form-check-input" id="remember" name="remember">
+                        <label class="form-check-label" for="remember">
+                            Se souvenir de moi
+                        </label>
+                    </div>
+
+                    <button type="submit" class="btn btn-login w-100 mb-3">
+                        <i class="bi bi-box-arrow-in-right"></i> Se connecter
+                    </button>
+                </form>
+
+                <div class="text-center login-links">
+                    <p class="mb-2">Pas de compte ? <a href="#">S'inscrire</a></p>
+                    <p class="mb-0"><a href="#">Mot de passe oublié ?</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

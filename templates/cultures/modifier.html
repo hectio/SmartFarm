@@ -1,0 +1,103 @@
+{% extends 'base.html' %}
+{% load static %}
+
+<!-- Template: Cultures - Modifier -->
+{% block title %}Modifier Culture - SmartFarm{% endblock %}
+
+{% block breadcrumbs %}
+    <li class="breadcrumb-item"><a href="{% url 'dashboard:accueil' %}">Tableau de Bord</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'cultures:liste' %}">Cultures</a></li>
+    <li class="breadcrumb-item active">Modifier</li>
+{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-md-12">
+        <h1 class="h3 mb-0">
+            <i class="bi bi-pencil-square text-success"></i> Modifier Culture
+        </h1>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-body">
+                <form method="POST" action="">
+                    {% csrf_token %}
+                    {% if form.non_field_errors %}
+                        <div class="alert alert-danger">
+                            {{ form.non_field_errors }}
+                        </div>
+                    {% endif %}
+
+                    <h5 class="mb-3">Informations de la Culture</h5>
+
+                    <div class="mb-3">
+                        {{ form.nom.label_tag }}
+                        {{ form.nom }}
+                        {% if form.nom.errors %}<div class="invalid-feedback d-block">{{ form.nom.errors }}</div>{% endif %}
+                    </div>
+
+                    <div class="mb-3">
+                        {{ form.variete.label_tag }}
+                        {{ form.variete }}
+                        {% if form.variete.errors %}<div class="invalid-feedback d-block">{{ form.variete.errors }}</div>{% endif %}
+                    </div>
+
+                    <div class="mb-3">
+                        {{ form.parcelle.label_tag }}
+                        {{ form.parcelle }}
+                        {% if form.parcelle.errors %}<div class="invalid-feedback d-block">{{ form.parcelle.errors }}</div>{% endif %}
+                    </div>
+
+                    <hr class="my-4">
+
+                    <h5 class="mb-3">Calendrier de Culture</h5>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            {{ form.date_semis.label_tag }}
+                            {{ form.date_semis }}
+                            {% if form.date_semis.errors %}<div class="invalid-feedback d-block">{{ form.date_semis.errors }}</div>{% endif %}
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            {{ form.date_prevision_recolte.label_tag }}
+                            {{ form.date_prevision_recolte }}
+                            {% if form.date_prevision_recolte.errors %}<div class="invalid-feedback d-block">{{ form.date_prevision_recolte.errors }}</div>{% endif %}
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        {{ form.rendement_attendu.label_tag }}
+                        {{ form.rendement_attendu }}
+                        {% if form.rendement_attendu.errors %}<div class="invalid-feedback d-block">{{ form.rendement_attendu.errors }}</div>{% endif %}
+                    </div>
+
+                    <div class="mb-3">
+                        {{ form.statut.label_tag }}
+                        {{ form.statut }}
+                        {% if form.statut.errors %}<div class="invalid-feedback d-block">{{ form.statut.errors }}</div>{% endif %}
+                    </div>
+
+                    <div class="mb-3">
+                        {{ form.notes.label_tag }}
+                        {{ form.notes }}
+                        {% if form.notes.errors %}<div class="invalid-feedback d-block">{{ form.notes.errors }}</div>{% endif %}
+                    </div>
+
+                    <hr class="my-4">
+
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-success">
+                            <i class="bi bi-check-circle"></i> Enregistrer les modifications
+                        </button>
+                        <a href="{% url 'cultures:detail' object.id %}" class="btn btn-outline-secondary">Annuler</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,110 @@
+{% extends 'base.html' %}
+{% load static %}
+
+<!-- Template: Commandes - Détail -->
+{% block title %}Détail Commande - SmartFarm{% endblock %}
+
+{% block breadcrumbs %}
+    <li class="breadcrumb-item"><a href="{% url 'dashboard:accueil' %}">Tableau de Bord</a></li>
+    <li class="breadcrumb-item"><a href="#">Commandes</a></li>
+    <li class="breadcrumb-item active">Détail</li>
+{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-md-8">
+        <h1 class="h3 mb-0">
+            <i class="bi bi-cart-check text-success"></i> Commande CMD-001
+        </h1>
+        <p class="text-muted">15 juillet 2026</p>
+    </div>
+    <div class="col-md-4 text-md-end">
+        <a href="#" class="btn btn-primary btn-sm">
+            <i class="bi bi-file-pdf"></i> Télécharger PDF
+        </a>
+    </div>
+</div>
+
+<!-- Informations Commande -->
+<div class="row mb-4">
+    <div class="col-md-6 mb-4">
+        <div class="card">
+            <div class="card-header bg-light border-bottom">
+                <h6 class="mb-0">Informations Commande</h6>
+            </div>
+            <div class="card-body">
+                <p><strong>N° Commande :</strong> CMD-001</p>
+                <p><strong>Date :</strong> 15/07/2026</p>
+                <p><strong>Client :</strong> Restaurant La Maison</p>
+                <p class="mb-0"><strong>Statut :</strong> <span class="badge bg-info">En préparation</span></p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-6 mb-4">
+        <div class="card">
+            <div class="card-header bg-light border-bottom">
+                <h6 class="mb-0">Adresse Livraison</h6>
+            </div>
+            <div class="card-body">
+                <p>45 Grand Rue<br>67000 Strasbourg<br>France</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Produits Commandés -->
+<div class="row mb-4">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header bg-light border-bottom">
+                <h6 class="mb-0">Produits Commandés</h6>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-hover mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Produit</th>
+                            <th>Quantité</th>
+                            <th>Prix Unitaire</th>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Tomates</strong></td>
+                            <td>50 kg</td>
+                            <td>1.50 €</td>
+                            <td>75 €</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Totaux -->
+<div class="row">
+    <div class="col-md-6 offset-md-6">
+        <div class="card bg-light">
+            <div class="card-body">
+                <p class="mb-2">
+                    <strong>Sous-total :</strong>
+                    <span class="float-end">75 €</span>
+                </p>
+                <p class="mb-2">
+                    <strong>TVA (5,5%) :</strong>
+                    <span class="float-end">4.13 €</span>
+                </p>
+                <hr>
+                <p class="mb-0">
+                    <strong>Total TTC :</strong>
+                    <span class="float-end h5 text-success">79.13 €</span>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

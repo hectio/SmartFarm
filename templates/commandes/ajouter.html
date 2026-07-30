@@ -1,0 +1,120 @@
+{% extends 'base.html' %}
+{% load static %}
+
+<!-- Template: Commandes - Ajouter -->
+{% block title %}Nouvelle Commande - SmartFarm{% endblock %}
+
+{% block breadcrumbs %}
+    <li class="breadcrumb-item"><a href="{% url 'dashboard:accueil' %}">Tableau de Bord</a></li>
+    <li class="breadcrumb-item"><a href="#">Commandes</a></li>
+    <li class="breadcrumb-item active">Ajouter</li>
+{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-md-12">
+        <h1 class="h3 mb-0">
+            <i class="bi bi-plus-circle text-success"></i> Créer une Commande
+        </h1>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-10">
+        <div class="card">
+            <div class="card-body">
+                <form method="POST" action="">
+                    {% csrf_token %}
+                    
+                    <h5 class="mb-3">Informations Commande</h5>
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="client" class="form-label">Client *</label>
+                            <select class="form-select" id="client" name="client" required>
+                                <option value="">-- Sélectionner --</option>
+                                <option>Restaurant La Maison</option>
+                                <option>Marché Bio Lyon</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="date" class="form-label">Date de commande *</label>
+                            <input type="date" class="form-control" id="date" name="date" required>
+                        </div>
+                    </div>
+                    
+                    <hr class="my-4">
+                    
+                    <h5 class="mb-3">Produits</h5>
+                    
+                    <div class="table-responsive mb-3">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Produit</th>
+                                    <th>Quantité</th>
+                                    <th>Prix Unitaire</th>
+                                    <th>Total</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <select class="form-select form-select-sm">
+                                            <option>Tomates</option>
+                                            <option>Salades</option>
+                                        </select>
+                                    </td>
+                                    <td><input type="number" class="form-control form-control-sm" value="50" step="0.1"></td>
+                                    <td><input type="number" class="form-control form-control-sm" value="1.50" step="0.01"></td>
+                                    <td><strong>75 €</strong></td>
+                                    <td><button class="btn btn-sm btn-danger">Supprimer</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <button type="button" class="btn btn-outline-success btn-sm mb-3">
+                        <i class="bi bi-plus"></i> Ajouter un produit
+                    </button>
+                    
+                    <hr class="my-4">
+                    
+                    <div class="row justify-content-end">
+                        <div class="col-md-4">
+                            <div class="card bg-light">
+                                <div class="card-body">
+                                    <p class="mb-2">
+                                        <strong>Sous-total :</strong>
+                                        <span class="float-end">75 €</span>
+                                    </p>
+                                    <p class="mb-2">
+                                        <strong>TVA (5,5%) :</strong>
+                                        <span class="float-end">4.13 €</span>
+                                    </p>
+                                    <hr>
+                                    <p class="mb-0">
+                                        <strong>Total :</strong>
+                                        <span class="float-end h5 text-success">79.13 €</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <hr class="my-4">
+                    
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-success">
+                            <i class="bi bi-check-circle"></i> Créer la commande
+                        </button>
+                        <a href="#" class="btn btn-outline-secondary">Annuler</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

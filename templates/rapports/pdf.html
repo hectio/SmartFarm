@@ -1,0 +1,98 @@
+{% extends 'base.html' %}
+{% load static %}
+
+<!-- Template: Rapports - PDF -->
+<!-- Génération de rapports en PDF -->
+
+{% block title %}Générer Rapport PDF - SmartFarm{% endblock %}
+
+{% block breadcrumbs %}
+    <li class="breadcrumb-item"><a href="{% url 'dashboard:accueil' %}">Tableau de Bord</a></li>
+    <li class="breadcrumb-item active">Rapports</li>
+{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-md-12">
+        <h1 class="h3 mb-0">
+            <i class="bi bi-file-pdf text-success"></i> Générer Rapports PDF
+        </h1>
+    </div>
+</div>
+
+<!-- Formulaire Génération Rapports -->
+<div class="row">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-body">
+                <form method="POST" action="">
+                    {% csrf_token %}
+                    
+                    <h5 class="mb-3">Sélectionnez le Type de Rapport</h5>
+                    
+                    <div class="mb-3">
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="report_type" value="production" id="report_production" checked>
+                            <label class="form-check-label" for="report_production">
+                                Rapport de Production
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="report_type" value="financial" id="report_financial">
+                            <label class="form-check-label" for="report_financial">
+                                Rapport Financier
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="report_type" value="activity" id="report_activity">
+                            <label class="form-check-label" for="report_activity">
+                                Rapport d'Activités
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="report_type" value="comprehensive" id="report_comprehensive">
+                            <label class="form-check-label" for="report_comprehensive">
+                                Rapport Complet
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <hr class="my-4">
+                    
+                    <h5 class="mb-3">Période</h5>
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="date_from" class="form-label">Du *</label>
+                            <input type="date" class="form-control" id="date_from" name="date_from" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="date_to" class="form-label">Au *</label>
+                            <input type="date" class="form-control" id="date_to" name="date_to" required>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="exploitation" class="form-label">Exploitation (optionnel)</label>
+                        <select class="form-select" id="exploitation" name="exploitation">
+                            <option value="">Toutes les exploitations</option>
+                            <option>Ferme A</option>
+                            <option>Ferme B</option>
+                        </select>
+                    </div>
+                    
+                    <hr class="my-4">
+                    
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-success">
+                            <i class="bi bi-file-pdf"></i> Générer le PDF
+                        </button>
+                        <a href="#" class="btn btn-outline-secondary">Annuler</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

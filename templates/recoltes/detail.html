@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+{% load static %}
+
+<!-- Template: Récoltes - Détail -->
+{% block title %}Détail Récolte - SmartFarm{% endblock %}
+
+{% block breadcrumbs %}
+    <li class="breadcrumb-item"><a href="{% url 'dashboard:accueil' %}">Tableau de Bord</a></li>
+    <li class="breadcrumb-item"><a href="#">Récoltes</a></li>
+    <li class="breadcrumb-item active">Détail</li>
+{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-md-12">
+        <h1 class="h3 mb-0">
+            <i class="bi bi-bag-check text-success"></i> Récolte Tomates - Parcelle A1
+        </h1>
+        <p class="text-muted">15 juillet 2026</p>
+    </div>
+</div>
+
+<!-- Informations de la Récolte -->
+<div class="row mb-4">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-3 mb-3">
+                        <p class="text-muted small mb-1">Culture</p>
+                        <p class="mb-0"><strong>Tomates</strong></p>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <p class="text-muted small mb-1">Parcelle</p>
+                        <p class="mb-0"><strong>A1</strong></p>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <p class="text-muted small mb-1">Quantité</p>
+                        <p class="mb-0"><strong>450 kg</strong></p>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <p class="text-muted small mb-1">Qualité</p>
+                        <p class="mb-0"><strong><span class="badge bg-success">Excellente</span></strong></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Statistiques -->
+<div class="row mb-4">
+    <div class="col-md-4 mb-3">
+        <div class="card">
+            <div class="card-body">
+                <p class="text-muted small">Rendement</p>
+                <p class="h5">3.0 kg/m²</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 mb-3">
+        <div class="card">
+            <div class="card-body">
+                <p class="text-muted small">Destination</p>
+                <p class="h5">Vente directe</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 mb-3">
+        <div class="card">
+            <div class="card-body">
+                <p class="text-muted small">Valeur estimée</p>
+                <p class="h5">675 €</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% load static %}
+
+<!-- Template: Stock - Liste Intrants -->
+<!-- Affichage et gestion de la liste des intrants en stock -->
+
+{% block title %}Stock - SmartFarm{% endblock %}
+
+{% block breadcrumbs %}
+    <li class="breadcrumb-item"><a href="{% url 'dashboard:accueil' %}">Tableau de Bord</a></li>
+    <li class="breadcrumb-item active">Stock</li>
+{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-md-8">
+        <h1 class="h3 mb-0">
+            <i class="bi bi-box2-fill text-success"></i> Stock d'Intrants
+        </h1>
+    </div>
+    <div class="col-md-4 text-md-end">
+        <a href="#" class="btn btn-success">
+            <i class="bi bi-plus-circle"></i> Ajouter un intrant
+        </a>
+    </div>
+</div>
+
+<!-- Tableau des Intrants -->
+<div class="row mb-4">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="table-responsive">
+                <table class="table table-hover mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Intrant</th>
+                            <th>Type</th>
+                            <th>Quantité</th>
+                            <th>Unité</th>
+                            <th>Stock Min.</th>
+                            <th>Statut</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Engrais NPK</strong></td>
+                            <td>Engrais</td>
+                            <td>250</td>
+                            <td>kg</td>
+                            <td>100</td>
+                            <td><span class="badge bg-success">OK</span></td>
+                            <td>
+                                <a href="#" class="btn btn-sm btn-outline-primary"><i class="bi bi-pencil"></i></a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>Fongicide</strong></td>
+                            <td>Produit chimique</td>
+                            <td>5</td>
+                            <td>L</td>
+                            <td>10</td>
+                            <td><span class="badge bg-danger">Stock bas</span></td>
+                            <td>
+                                <a href="#" class="btn btn-sm btn-outline-primary"><i class="bi bi-pencil"></i></a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

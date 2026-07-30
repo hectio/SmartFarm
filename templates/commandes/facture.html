@@ -1,0 +1,120 @@
+{% extends 'base.html' %}
+{% load static %}
+
+<!-- Template: Commandes - Facture -->
+{% block title %}Facture Commande - SmartFarm{% endblock %}
+
+{% block breadcrumbs %}
+    <li class="breadcrumb-item"><a href="{% url 'dashboard:accueil' %}">Tableau de Bord</a></li>
+    <li class="breadcrumb-item"><a href="#">Commandes</a></li>
+    <li class="breadcrumb-item active">Facture</li>
+{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-md-12">
+        <button onclick="window.print()" class="btn btn-primary">
+            <i class="bi bi-printer"></i> Imprimer
+        </button>
+        <a href="#" class="btn btn-secondary">
+            <i class="bi bi-download"></i> Télécharger PDF
+        </a>
+    </div>
+</div>
+
+<!-- Facture -->
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body" style="background: white; padding: 40px;">
+                <!-- En-tête -->
+                <div class="row mb-4">
+                    <div class="col-md-6">
+                        <h2 class="mb-1">SmartFarm</h2>
+                        <p class="text-muted">123 Route de la Ferme<br>67000 Strasbourg<br>Téléphone: 03 88 00 00 00</p>
+                    </div>
+                    <div class="col-md-6 text-end">
+                        <h3 class="text-success">FACTURE</h3>
+                        <p><strong>N° Facture :</strong> FAC-CMD-001</p>
+                        <p><strong>Date :</strong> 15/07/2026</p>
+                    </div>
+                </div>
+                
+                <hr class="my-4">
+                
+                <!-- Adresses -->
+                <div class="row mb-4">
+                    <div class="col-md-6">
+                        <h6 class="text-muted">Facturé à:</h6>
+                        <p>
+                            <strong>Restaurant La Maison</strong><br>
+                            45 Grand Rue<br>
+                            67000 Strasbourg<br>
+                            France
+                        </p>
+                    </div>
+                    <div class="col-md-6">
+                        <h6 class="text-muted">Livré à:</h6>
+                        <p>
+                            <strong>Restaurant La Maison</strong><br>
+                            45 Grand Rue<br>
+                            67000 Strasbourg<br>
+                            France
+                        </p>
+                    </div>
+                </div>
+                
+                <!-- Tableau Articles -->
+                <div class="table-responsive my-4">
+                    <table class="table">
+                        <thead style="background-color: #f8f9fa;">
+                            <tr>
+                                <th>Description</th>
+                                <th class="text-end" style="width: 80px;">Quantité</th>
+                                <th class="text-end" style="width: 120px;">Prix Unitaire</th>
+                                <th class="text-end" style="width: 120px;">Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Tomates fraîches - Roma VF</strong><br><small class="text-muted">Livraison immédiate</small></td>
+                                <td class="text-end">50 kg</td>
+                                <td class="text-end">1.50 €</td>
+                                <td class="text-end"><strong>75.00 €</strong></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <!-- Totaux -->
+                <div class="row justify-content-end mb-4">
+                    <div class="col-md-4">
+                        <table class="table table-borderless">
+                            <tr>
+                                <td><strong>Sous-total :</strong></td>
+                                <td class="text-end">75.00 €</td>
+                            </tr>
+                            <tr>
+                                <td><strong>TVA (5,5%) :</strong></td>
+                                <td class="text-end">4.13 €</td>
+                            </tr>
+                            <tr style="border-top: 2px solid #2d7d3a;">
+                                <td><strong class="text-success">Total TTC :</strong></td>
+                                <td class="text-end"><strong class="text-success" style="font-size: 1.2rem;">79.13 €</strong></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                
+                <hr class="my-4">
+                
+                <!-- Notes -->
+                <p class="text-muted text-center small">
+                    Merci pour votre commande! Pour toute question, contactez-nous à contact@smartfarm.fr
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+{% load static %}
+
+<!-- Template: Ventes - Détail -->
+{% block title %}Détail Vente - SmartFarm{% endblock %}
+
+{% block breadcrumbs %}
+    <li class="breadcrumb-item"><a href="{% url 'dashboard:accueil' %}">Tableau de Bord</a></li>
+    <li class="breadcrumb-item"><a href="#">Ventes</a></li>
+    <li class="breadcrumb-item active">Détail</li>
+{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-md-8">
+        <h1 class="h3 mb-0">
+            <i class="bi bi-cash-coin text-success"></i> Facture FAC-001
+        </h1>
+        <p class="text-muted">15 juillet 2026</p>
+    </div>
+    <div class="col-md-4 text-md-end">
+        <a href="#" class="btn btn-primary btn-sm">
+            <i class="bi bi-file-pdf"></i> Télécharger PDF
+        </a>
+    </div>
+</div>
+
+<!-- Résumé Vente -->
+<div class="row mb-4">
+    <div class="col-md-3 mb-3">
+        <div class="card">
+            <div class="card-body">
+                <p class="text-muted small">Montant Total</p>
+                <p class="h4 text-success">450 €</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 mb-3">
+        <div class="card">
+            <div class="card-body">
+                <p class="text-muted small">Paiement</p>
+                <p class="h5"><span class="badge bg-success">Payé</span></p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 mb-3">
+        <div class="card">
+            <div class="card-body">
+                <p class="text-muted small">Client</p>
+                <p class="h6">Restaurant La Maison</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 mb-3">
+        <div class="card">
+            <div class="card-body">
+                <p class="text-muted small">Méthode</p>
+                <p class="h6">Virement</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Détails Produits -->
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header bg-light border-bottom">
+                <h6 class="mb-0">Produits Vendus</h6>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-hover mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Produit</th>
+                            <th>Quantité</th>
+                            <th>Prix Unitaire</th>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Tomates fraîches</strong></td>
+                            <td>50 kg</td>
+                            <td>1.50 €</td>
+                            <td>75 €</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

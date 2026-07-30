@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% load static %}
+
+<!-- Template: Parcelles - Supprimer -->
+<!-- Page de confirmation de suppression d'une parcelle -->
+
+{% block title %}Supprimer Parcelle - SmartFarm{% endblock %}
+
+{% block breadcrumbs %}
+    <li class="breadcrumb-item"><a href="{% url 'dashboard:accueil' %}">Tableau de Bord</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'parcelles:parcelle_list' %}">Parcelles</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'parcelles:parcelle_detail' object.id %}">{{ object.nom }}</a></li>
+    <li class="breadcrumb-item active">Supprimer</li>
+{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-6 offset-md-3">
+        <div class="card border-danger">
+            <div class="card-body">
+                <div class="text-center mb-4">
+                    <i class="bi bi-exclamation-triangle" style="font-size: 3rem; color: #dc3545;"></i>
+                </div>
+                
+                <h3 class="text-center text-danger mb-3">Supprimer une Parcelle</h3>
+                
+                <div class="alert alert-info">
+                    <strong>Parcelle à supprimer :</strong><br>
+                    <strong>Nom :</strong> {{ object.nom }}<br>
+                    <strong>Code :</strong> {{ object.code }}<br>
+                    <strong>Exploitation :</strong> {{ object.exploitation.nom }}
+                </div>
+                
+                <p class="text-center mb-4">
+                    Êtes-vous <strong>certain</strong> de vouloir supprimer cette parcelle ?
+                </p>
+                
+                <div class="alert alert-warning" role="alert">
+                    <i class="bi bi-exclamation-circle"></i>
+                    <strong>Attention :</strong> Cette action est <strong>irréversible</strong> et supprimera les données associées à cette parcelle.
+                </div>
+                
+                <div class="d-grid gap-2">
+                    <form method="POST" action="">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger" onclick="return confirm('Voulez-vous vraiment supprimer cette parcelle ? Cette action est irréversible.')">
+                            <i class="bi bi-trash"></i> Confirmer la suppression
+                        </button>
+                    </form>
+                    <a href="{% url 'parcelles:parcelle_detail' object.id %}" class="btn btn-outline-secondary">Annuler</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="{% static 'parcelles/js/parcelles.js' %}"></script>
+
+{% endblock %}

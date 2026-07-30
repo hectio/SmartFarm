@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+{% load static %}
+
+<!-- Template: Récoltes - Statistiques -->
+{% block title %}Statistiques Récoltes - SmartFarm{% endblock %}
+
+{% block breadcrumbs %}
+    <li class="breadcrumb-item"><a href="{% url 'dashboard:accueil' %}">Tableau de Bord</a></li>
+    <li class="breadcrumb-item"><a href="#">Récoltes</a></li>
+    <li class="breadcrumb-item active">Statistiques</li>
+{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-md-12">
+        <h1 class="h3 mb-0">
+            <i class="bi bi-graph-up text-success"></i> Statistiques des Récoltes
+        </h1>
+    </div>
+</div>
+
+<!-- KPI Cards -->
+<div class="row mb-4">
+    <div class="col-md-3 mb-3">
+        <div class="card">
+            <div class="card-body">
+                <p class="text-muted small">Total Récolté</p>
+                <p class="h4 text-success">2,450 kg</p>
+                <small class="text-muted">Depuis le début de la saison</small>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 mb-3">
+        <div class="card">
+            <div class="card-body">
+                <p class="text-muted small">Rendement Moyen</p>
+                <p class="h4 text-info">2.8 kg/m²</p>
+                <small class="text-muted">Par rapport au prévisionnel</small>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 mb-3">
+        <div class="card">
+            <div class="card-body">
+                <p class="text-muted small">Nombre de récoltes</p>
+                <p class="h4 text-warning">18</p>
+                <small class="text-muted">Cette année</small>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 mb-3">
+        <div class="card">
+            <div class="card-body">
+                <p class="text-muted small">Valeur Estimée</p>
+                <p class="h4 text-success">6,125 €</p>
+                <small class="text-muted">Au prix de marché</small>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Graphiques (Placeholders) -->
+<div class="row">
+    <div class="col-md-6 mb-4">
+        <div class="card">
+            <div class="card-header bg-light">
+                <h6 class="mb-0">Récolte par Culture</h6>
+            </div>
+            <div class="card-body" style="height: 250px; display: flex; align-items: center; justify-content: center;">
+                <p class="text-muted">Graphique à intégrer</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 mb-4">
+        <div class="card">
+            <div class="card-header bg-light">
+                <h6 class="mb-0">Tendance Mensuelle</h6>
+            </div>
+            <div class="card-body" style="height: 250px; display: flex; align-items: center; justify-content: center;">
+                <p class="text-muted">Graphique à intégrer</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
