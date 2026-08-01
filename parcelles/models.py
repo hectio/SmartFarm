@@ -45,6 +45,10 @@ class Parcelle(models.Model):
         default='mixte',
         help_text="Type de sol de la parcelle"
     )
+    irrigation = models.BooleanField(
+    default=False,
+    help_text="Indique si la parcelle dispose d'un système d'irrigation"
+    )
     latitude = models.DecimalField(
         max_digits=9,
         decimal_places=6,
@@ -74,6 +78,12 @@ class Parcelle(models.Model):
         on_delete=models.CASCADE,
         related_name='parcelles',
         help_text="Exploitation à laquelle appartient cette parcelle"
+    )
+    photo = models.ImageField(
+    upload_to='parcelles/',
+    blank=True,
+    null=True,
+    help_text="Photo de la parcelle"
     )
     date_creation = models.DateTimeField(
         auto_now_add=True,

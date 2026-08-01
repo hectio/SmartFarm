@@ -42,28 +42,23 @@
                         </tr>
                     </thead>
                     <tbody>
+                        {% for vente in ventes %}
                         <tr>
-                            <td>15/07/2026</td>
-                            <td><strong>FAC-001</strong></td>
-                            <td>Restaurant La Maison</td>
-                            <td>450 €</td>
-                            <td><span class="badge bg-success">Payé</span></td>
+                            <td>{{ vente.date_commande|date:'d/m/Y' }}</td>
+                            <td><strong>{{ vente.id }}</strong></td>
+                            <td>{{ vente.client }}</td>
+                            <td>{{ vente.total }} €</td>
+                            <td><span class="badge {% if vente.statut == 'livree' %}bg-success{% elif vente.statut == 'confirmee' %}bg-warning{% else %}bg-secondary{% endif %}">{{ vente.get_statut_display }}</span></td>
                             <td>
-                                <a href="#" class="btn btn-sm btn-outline-primary"><i class="bi bi-eye"></i></a>
-                                <a href="#" class="btn btn-sm btn-outline-primary"><i class="bi bi-file-pdf"></i></a>
+                                <a href="{% url 'ventes:detail' vente.pk %}" class="btn btn-sm btn-outline-primary"><i class="bi bi-eye"></i></a>
+                                <a href="{% url 'ventes:facture' vente.pk %}" class="btn btn-sm btn-outline-primary"><i class="bi bi-file-pdf"></i></a>
                             </td>
                         </tr>
+                        {% empty %}
                         <tr>
-                            <td>10/07/2026</td>
-                            <td><strong>FAC-002</strong></td>
-                            <td>Marché Bio Lyon</td>
-                            <td>320 €</td>
-                            <td><span class="badge bg-warning">En attente</span></td>
-                            <td>
-                                <a href="#" class="btn btn-sm btn-outline-primary"><i class="bi bi-eye"></i></a>
-                                <a href="#" class="btn btn-sm btn-outline-primary"><i class="bi bi-file-pdf"></i></a>
-                            </td>
+                            <td colspan="6" class="text-center text-muted">Aucune vente trouvée.</td>
                         </tr>
+                        {% endfor %}
                     </tbody>
                 </table>
             </div>

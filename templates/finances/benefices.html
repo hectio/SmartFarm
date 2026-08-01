@@ -27,8 +27,8 @@
         <div class="card">
             <div class="card-body">
                 <p class="text-muted small">Recettes (Mois)</p>
-                <p class="h4 text-success">2,450 €</p>
-                <small class="text-success"><i class="bi bi-arrow-up"></i> +15% vs mois dernier</small>
+                <p class="h4 text-success">{{ total_recettes|floatformat:2 }} €</p>
+                <small class="text-success"><i class="bi bi-arrow-up"></i> {{ revenue_trend|floatformat:0 }}% vs mois dernier</small>
             </div>
         </div>
     </div>
@@ -36,8 +36,8 @@
         <div class="card">
             <div class="card-body">
                 <p class="text-muted small">Dépenses (Mois)</p>
-                <p class="h4 text-danger">850 €</p>
-                <small class="text-danger"><i class="bi bi-arrow-up"></i> +8% vs mois dernier</small>
+                <p class="h4 text-danger">{{ total_depenses|floatformat:2 }} €</p>
+                <small class="text-danger"><i class="bi bi-arrow-up"></i> {{ expense_trend|floatformat:0 }}% vs mois dernier</small>
             </div>
         </div>
     </div>
@@ -45,8 +45,8 @@
         <div class="card">
             <div class="card-body">
                 <p class="text-muted small">Bénéfice (Mois)</p>
-                <p class="h4 text-success">1,600 €</p>
-                <small class="text-success"><i class="bi bi-arrow-up"></i> +20% vs mois dernier</small>
+                <p class="h4 text-success">{{ net_profit|floatformat:2 }} €</p>
+                <small class="text-success"><i class="bi bi-arrow-up"></i> {{ benefice_trend|floatformat:0 }}% vs mois dernier</small>
             </div>
         </div>
     </div>
@@ -54,7 +54,7 @@
         <div class="card">
             <div class="card-body">
                 <p class="text-muted small">Marge Nette</p>
-                <p class="h4 text-success">65.3%</p>
+                <p class="h4 text-success">{{ marge_nette|floatformat:1 }}%</p>
                 <small class="text-muted">Ratio bénéfice/recettes</small>
             </div>
         </div>

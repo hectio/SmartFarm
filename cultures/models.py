@@ -73,3 +73,65 @@ class Culture(models.Model):
 
     def duree_croissance(self):
         return (self.date_prevision_recolte - self.date_semis).days
+
+
+class Recolte(models.Model):
+    UNITE_CHOICES = [
+        ('kg', 'kg'),
+        ('l', 'L'),
+        ('unite', 'Unité'),
+        ('panier', 'Panier'),
+    ]
+
+    QUALITE_CHOICES = [
+        ('excellente', 'Excellente'),
+        ('bonne', 'Bonne'),
+        ('acceptable', 'Acceptable'),
+        ('mauvaise', 'Mauvaise'),
+    ]
+
+    date = models.DateField(help_text="Date de récolte")
+    culture = models.ForeignKey(
+        Culture,
+        on_delete=models.PROTECT,
+        related_name='recoltes',
+        help_text="Culture récoltée"
+    )
+    parcelle = models.ForeignKey(
+        Parcelle,
+        on_delete=models.PROTECT,
+        related_name='recoltes',
+        help_text="Parcelle de la récolte"
+    )
+    quantite = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        help_text="Quantité récoltée"
+    )
+    unite = models.CharField(
+        max_length=20,
+        choices=UNITE_CHOICES,
+        default='kg',
+        help_text="Unité de mesure"
+    )
+    qualite = models.CharField(
+        max_length=20,
+        choices=QUALITE_CHOICES,
+        default='bonne',
+        help_text="Qualité de la récolte"
+    )
+    notes = models.TextField(blank=True, help_text="Notes supplémentaires")
+    date_creation = models.DateTimeField(auto_now_add=True, help_text="Date de création")
+    date_modification = models.DateTimeField(auto_now=True, help_text="Date de dernière modification")
+
+    class Meta:
+        ordering = ['-date']
+        verbose_name = 'Récolte'
+        verbose_name_plural = 'Récoltes'
+
+    def __str__(self):
+        return f"Récolte {self.culture} - {self.date}"
+
+    def get_absolute_url(self):
+        from django.urls import reverse
+        return reverse('recoltes:recoltes_detail', kwargs={'pk': self.pk})

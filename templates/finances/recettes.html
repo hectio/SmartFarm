@@ -36,21 +36,20 @@
                             <th>Statut</th>
                         </tr>
                     </thead>
-                    <tbody>
+                                        <tbody>
+                        {% for transaction in transactions %}
                         <tr>
-                            <td>15/07/2026</td>
-                            <td><strong>FAC-001</strong></td>
-                            <td>Restaurant La Maison</td>
-                            <td>450 €</td>
-                            <td><span class="badge bg-success">Payé</span></td>
+                            <td>{{ transaction.date_operation|date:'d/m/Y' }}</td>
+                            <td>{{ transaction.titre }}</td>
+                            <td>{{ transaction.categorie }}</td>
+                            <td>{{ transaction.montant }} €</td>
+                            <td>{{ transaction.get_type_transaction_display }}</td>
                         </tr>
+                        {% empty %}
                         <tr>
-                            <td>10/07/2026</td>
-                            <td><strong>FAC-002</strong></td>
-                            <td>Marché Bio Lyon</td>
-                            <td>320 €</td>
-                            <td><span class="badge bg-warning">En attente</span></td>
+                            <td colspan="5" class="text-center text-muted">Aucune transaction trouvée.</td>
                         </tr>
+                        {% endfor %}
                     </tbody>
                 </table>
             </div>

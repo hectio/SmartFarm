@@ -20,7 +20,7 @@
         </h1>
     </div>
     <div class="col-md-4 text-md-end">
-        <a href="#" class="btn btn-primary btn-sm">
+        <a href="?start_date={{ start_date }}&end_date={{ end_date }}" class="btn btn-primary btn-sm">
             <i class="bi bi-file-pdf"></i> Télécharger PDF
         </a>
     </div>
@@ -31,20 +31,30 @@
     <div class="col-md-12">
         <div class="card bg-light">
             <div class="card-body">
-                <div class="row">
+                <form method="get" action="" class="row g-3">
                     <div class="col-md-4">
                         <label class="form-label">De</label>
-                        <input type="date" class="form-control" value="2026-07-01">
+                        <input type="date" name="start_date" class="form-control" value="{{ start_date }}">
                     </div>
                     <div class="col-md-4">
                         <label class="form-label">À</label>
-                        <input type="date" class="form-control" value="2026-07-31">
+                        <input type="date" name="end_date" class="form-control" value="{{ end_date }}">
                     </div>
                     <div class="col-md-4">
-                        <label class="form-label">&nbsp;</label>
-                        <button class="btn btn-success w-100">Générer Rapport</button>
+                        <label class="form-label">Catégorie</label>
+                        <select name="categorie" class="form-select">
+                            <option value="">Toutes les catégories</option>
+                            {% for code, label in categories %}
+                                <option value="{{ code }}" {% if selected_categorie == code %}selected{% endif %}>{{ label }}</option>
+                            {% endfor %}
+                        </select>
                     </div>
-                </div>
+                    <div class="col-md-12 text-end">
+                        <button type="submit" class="btn btn-success">
+                            <i class="bi bi-funnel"></i> Filtrer
+                        </button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
@@ -55,19 +65,19 @@
     <div class="col-md-12">
         <div class="card">
             <div class="card-header bg-light border-bottom">
-                <h6 class="mb-0">Résumé Financier - Juillet 2026</h6>
+                <h6 class="mb-0">Résumé Financier</h6>
             </div>
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-6">
-                        <p><strong>Recettes totales :</strong> 2,450 €</p>
-                        <p><strong>Dépenses totales :</strong> 850 €</p>
-                        <p><strong>Bénéfice net :</strong> <span class="text-success"><strong>1,600 €</strong></span></p>
+                        <p><strong>Recettes totales :</strong> {{ total_recettes|floatformat:2 }} €</p>
+                        <p><strong>Dépenses totales :</strong> {{ total_depenses|floatformat:2 }} €</p>
+                        <p><strong>Bénéfice net :</strong> <span class="text-success"><strong>{{ net_profit|floatformat:2 }} €</strong></span></p>
                     </div>
                     <div class="col-md-6">
-                        <p><strong>Marge nette :</strong> 65.3%</p>
-                        <p><strong>Nombre de ventes :</strong> 12</p>
-                        <p><strong>Ticket moyen :</strong> 204.17 €</p>
+                        <p><strong>Marge nette :</strong> {{ marge_nette|floatformat:1 }}%</p>
+                        <p><strong>Période :</strong> {{ start_date|date:'d/m/Y' }} - {{ end_date|date:'d/m/Y' }}</p>
+                        <p><strong>Transactions trouvées :</strong> {{ transactions|length }}</p>
                     </div>
                 </div>
             </div>
@@ -92,21 +102,17 @@
                         </tr>
                     </thead>
                     <tbody>
+                        {% for item in category_breakdown %}
                         <tr>
-                            <td><strong>Intrants</strong></td>
-                            <td>450 €</td>
-                            <td>52.9%</td>
+                            <td><strong>{{ item.categorie }}</strong></td>
+                            <td>{{ item.total|floatformat:2 }} €</td>
+                            <td>{{ item.percent|floatformat:1 }}%</td>
                         </tr>
+                        {% empty %}
                         <tr>
-                            <td><strong>Maintenance</strong></td>
-                            <td>200 €</td>
-                            <td>23.5%</td>
+                            <td colspan="3" class="text-center text-muted">Aucune dépense dans cette période.</td>
                         </tr>
-                        <tr>
-                            <td><strong>Personnel</strong></td>
-                            <td>200 €</td>
-                            <td>23.5%</td>
-                        </tr>
+                        {% endfor %}
                     </tbody>
                 </table>
             </div>

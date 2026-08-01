@@ -22,24 +22,60 @@
 </div>
 
 <!-- Graphiques (Placeholders) -->
+<div class="row mb-4">
+    <div class="col-md-4 mb-3">
+        <div class="card">
+            <div class="card-body">
+                <p class="text-muted small">Recettes annuelles</p>
+                <p class="h4 text-success">{{ annual_recettes|floatformat:2 }} €</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 mb-3">
+        <div class="card">
+            <div class="card-body">
+                <p class="text-muted small">Dépenses annuelles</p>
+                <p class="h4 text-danger">{{ annual_depenses|floatformat:2 }} €</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 mb-3">
+        <div class="card">
+            <div class="card-body">
+                <p class="text-muted small">Bénéfice annuel</p>
+                <p class="h4 text-success">{{ annual_profit|floatformat:2 }} €</p>
+            </div>
+        </div>
+    </div>
+</div>
 <div class="row">
     <div class="col-md-6 mb-4">
         <div class="card">
             <div class="card-header bg-light">
-                <h6 class="mb-0">Chiffre d'Affaires Annuel</h6>
+                <h6 class="mb-0">Transactions annuelles</h6>
             </div>
-            <div class="card-body" style="height: 300px; display: flex; align-items: center; justify-content: center;">
-                <p class="text-muted">Graphique à intégrer</p>
+            <div class="card-body">
+                <p><strong>Nombre de transactions :</strong> {{ annual_transactions_count }}</p>
+                <p><strong>Ticket moyen :</strong> {{ average_ticket|floatformat:2 }} €</p>
             </div>
         </div>
     </div>
     <div class="col-md-6 mb-4">
         <div class="card">
             <div class="card-header bg-light">
-                <h6 class="mb-0">Profitabilité par Produit</h6>
+                <h6 class="mb-0">Top catégories</h6>
             </div>
-            <div class="card-body" style="height: 300px; display: flex; align-items: center; justify-content: center;">
-                <p class="text-muted">Graphique à intégrer</p>
+            <div class="card-body">
+                <ul class="list-group list-group-flush">
+                    {% for item in top_categories %}
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        {{ item.categorie }}
+                        <span>{{ item.total|floatformat:2 }} €</span>
+                    </li>
+                    {% empty %}
+                    <li class="list-group-item text-muted">Aucune catégorie disponible.</li>
+                    {% endfor %}
+                </ul>
             </div>
         </div>
     </div>

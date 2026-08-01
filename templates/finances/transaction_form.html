@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Nouvelle Transaction - SmartFarm{% endblock %}
+
+{% block breadcrumbs %}
+    <li class="breadcrumb-item"><a href="{% url 'dashboard:accueil' %}">Tableau de Bord</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'finances:recettes' %}">Finances</a></li>
+    <li class="breadcrumb-item active">Transaction</li>
+{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-md-12">
+        <h1 class="h3 mb-0">
+            <i class="bi bi-credit-card text-success"></i> {% if form.instance.pk %}Modifier Transaction{% else %}Nouvelle Transaction{% endif %}
+        </h1>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-body">
+                <form method="POST" action="">
+                    {% csrf_token %}
+                    {{ form.non_field_errors }}
+
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label">Type</label>
+                            {{ form.type_transaction }}
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Catégorie</label>
+                            {{ form.categorie }}
+                        </div>
+                        <div class="col-md-12">
+                            <label class="form-label">Titre</label>
+                            {{ form.titre }}
+                        </div>
+                        <div class="col-md-12">
+                            <label class="form-label">Description</label>
+                            {{ form.description }}
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Montant</label>
+                            {{ form.montant }}
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Date</label>
+                            {{ form.date_operation }}
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Responsable</label>
+                            {{ form.responsable }}
+                        </div>
+                    </div>
+
+                    <div class="mt-4 d-flex gap-2">
+                        <button type="submit" class="btn btn-success">
+                            <i class="bi bi-check-circle"></i> Enregistrer
+                        </button>
+                        <a href="{% url 'finances:recettes' %}" class="btn btn-outline-secondary">Annuler</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

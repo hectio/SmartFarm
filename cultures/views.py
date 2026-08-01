@@ -6,8 +6,8 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 from django.db import models
 
-from .models import Culture
-from .forms import CultureForm
+from .models import Culture, Recolte
+from .forms import CultureForm, RecolteForm
 
 
 class CultureListView(LoginRequiredMixin, ListView):
@@ -84,6 +84,45 @@ class CultureDeleteView(LoginRequiredMixin, DeleteView):
         response = super().delete(request, *args, **kwargs)
         messages.success(request, f'Culture "{nom}" supprimée avec succès.')
         return response
+
+
+class RecolteListView(LoginRequiredMixin, ListView):
+    model = Recolte
+    template_name = 'recoltes/liste.html'
+    context_object_name = 'recoltes'
+    paginate_by = 20
+
+    def get_queryset(self):
+        queryset = Recolte.objects.select_related('culture', 'parcelle').all()
+        recherche = self.request.GET.get('q')
+        statut = self.request.GET.get('qualite')
+
+        if statut:
+            queryset = queryset.filter(qualite=statut)
+        if recherche:
+            queryset = queryset.filter(
+                models.Q(culture__nom__icontains=recherche)
+                | models.Q(parcelle__nom__icontains=recherche)
+            )
+
+        return queryset.order_by('-date')
+
+
+class RecolteCreateView(LoginRequiredMixin, CreateView):
+    model = Recolte
+    form_class = RecolteForm
+    template_name = 'recoltes/ajouter.html'
+    success_url = reverse_lazy('recoltes:recoltes_liste')
+
+    def form_valid(self, form):
+        messages.success(self.request, 'Récolte enregistrée avec succès.')
+        return super().form_valid(form)
+
+
+class RecolteDetailView(LoginRequiredMixin, DetailView):
+    model = Recolte
+    template_name = 'recoltes/detail.html'
+    context_object_name = 'recolte'
 
 
 @login_required

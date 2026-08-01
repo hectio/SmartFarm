@@ -16,6 +16,8 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -24,13 +26,21 @@ urlpatterns = [
     path('parcelles/', include(('parcelles.urls', 'parcelles'), namespace='parcelles')),
     path('exploitation/', include(('exploitation.urls', 'exploitation'), namespace='exploitation')),
     path('cultures/', include(('cultures.urls', 'cultures'), namespace='cultures')),
+    path('recoltes/', include(('cultures.urls', 'cultures'), namespace='recoltes')),
     path('activites/', include(('activites.urls', 'activites'), namespace='activites')),
     path('stock/', include(('stock.urls', 'stock'), namespace='stock')),
     path('ventes/', include(('ventes.urls', 'ventes'), namespace='ventes')),
     path('finances/', include(('finances.urls', 'finances'), namespace='finances')),
-
+    
     path(
         '',
         include(('utilisateurs.urls', 'utilisateurs'), namespace='utilisateurs')
     ),
+    
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(
+        settings.MEDIA_URL,
+        document_root=settings.MEDIA_ROOT
+    )

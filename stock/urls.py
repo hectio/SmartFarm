@@ -4,10 +4,10 @@ from . import views
 app_name = 'stock'
 
 urlpatterns = [
-    path('', views.liste_intrants, name='liste_intrants'),
-    path('ajouter/', views.ajouter_intrant, name='ajouter_intrant'),
-    path('entree/', views.entree_stock, name='entree_stock'),
-    path('sortie/', views.sortie_stock, name='sortie_stock'),
-    path('mouvements/', views.mouvements, name='mouvements'),
-    path('alertes/', views.alertes, name='alertes'),
+    path('', views.IntrantListView.as_view(), name='liste_intrants'),
+    path('ajouter/', views.IntrantCreateView.as_view(), name='ajouter_intrant'),
+    path('<int:pk>/modifier/', views.IntrantUpdateView.as_view(), name='modifier_intrant'),
+    path('mouvements/', views.MouvementStockListView.as_view(), name='mouvements'),
+    path('mouvements/ajouter/', views.MouvementStockCreateView.as_view(), name='ajouter_mouvement'),
+    path('alertes/', views.AlerteStockView.as_view(), name='alertes'),
 ]

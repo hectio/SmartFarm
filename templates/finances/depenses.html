@@ -35,21 +35,20 @@
                             <th>Fournisseur</th>
                         </tr>
                     </thead>
-                    <tbody>
+                                        <tbody>
+                        {% for transaction in transactions %}
                         <tr>
-                            <td>15/07/2026</td>
-                            <td><span class="badge bg-warning">Intrants</span></td>
-                            <td>Achat d'engrais NPK</td>
-                            <td>250 €</td>
-                            <td>Agro Solutions</td>
+                            <td>{{ transaction.date_operation|date:'d/m/Y' }}</td>
+                            <td><span class="badge {% if transaction.type_transaction == 'depense' %}bg-danger{% else %}bg-success{% endif %}">{{ transaction.get_categorie_display }}</span></td>
+                            <td>{{ transaction.titre }}</td>
+                            <td>{{ transaction.montant }} €</td>
+                            <td>{{ transaction.responsable }}</td>
                         </tr>
+                        {% empty %}
                         <tr>
-                            <td>14/07/2026</td>
-                            <td><span class="badge bg-info">Maintenance</span></td>
-                            <td>Réparation système irrigation</td>
-                            <td>150 €</td>
-                            <td>Tech Agro</td>
+                            <td colspan="5" class="text-center text-muted">Aucune dépense trouvée.</td>
                         </tr>
+                        {% endfor %}
                     </tbody>
                 </table>
             </div>

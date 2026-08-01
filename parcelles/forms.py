@@ -9,7 +9,19 @@ class ParcelleForm(forms.ModelForm):
     
     class Meta:
         model = Parcelle
-        fields = ['nom', 'code', 'superficie', 'type_sol', 'latitude', 'longitude', 'description', 'statut', 'exploitation']
+        fields =fields = [
+    'nom',
+    'code',
+    'superficie',
+    'type_sol',
+    'irrigation',      # <-- Nouveau
+    'latitude',
+    'longitude',
+    'description',
+    'photo',           # <-- Nouveau
+    'statut',
+    'exploitation'
+]
         widgets = {
             'nom': forms.TextInput(attrs={
                 'class': 'form-control',
@@ -19,6 +31,9 @@ class ParcelleForm(forms.ModelForm):
                 'class': 'form-control',
                 'placeholder': 'Code unique'
             }),
+            'irrigation': forms.CheckboxInput(attrs={
+                'class': 'form-check-input'
+            }),
             'superficie': forms.NumberInput(attrs={
                 'class': 'form-control',
                 'placeholder': 'Superficie en m² ou ha',
@@ -27,6 +42,7 @@ class ParcelleForm(forms.ModelForm):
             'type_sol': forms.Select(attrs={
                 'class': 'form-select'
             }),
+
             'latitude': forms.NumberInput(attrs={
                 'class': 'form-control',
                 'placeholder': 'Latitude',
@@ -42,6 +58,9 @@ class ParcelleForm(forms.ModelForm):
                 'placeholder': 'Description de la parcelle',
                 'rows': 4
             }),
+            'photo': forms.ClearableFileInput(attrs={
+                'class': 'form-control'
+        }),
             'statut': forms.Select(attrs={
                 'class': 'form-select'
             }),
