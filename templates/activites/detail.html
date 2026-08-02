@@ -2,80 +2,98 @@
 {% load static %}
 
 <!-- Template: Activités - Détail -->
-{% block title %}Détail Activité - SmartFarm{% endblock %}
+{% block title %}{{ activite.titre }} - SmartFarm{% endblock %}
 
 {% block breadcrumbs %}
     <li class="breadcrumb-item"><a href="{% url 'dashboard:accueil' %}">Tableau de Bord</a></li>
-    <li class="breadcrumb-item"><a href="#">Activités</a></li>
-    <li class="breadcrumb-item active">Détail</li>
+    <li class="breadcrumb-item"><a href="{% url 'activites:liste' %}">Activités</a></li>
+    <li class="breadcrumb-item active">{{ activite.titre }}</li>
 {% endblock %}
 
 {% block content %}
-<div class="row mb-4">
+<div class="row align-items-center mb-4">
     <div class="col-md-8">
         <h1 class="h3 mb-0">
-            <i class="bi bi-calendar-check text-success"></i> Arrosage - Parcelle A1
+            <i class="bi bi-calendar-check text-success"></i> {{ activite.titre }}
         </h1>
-        <p class="text-muted">15 juillet 2026</p>
+        <p class="text-muted mb-0">{{ activite.type_activite|capfirst }}{% if activite.parcelle %} · Parcelle {{ activite.parcelle.nom }}{% endif %}</p>
     </div>
     <div class="col-md-4 text-md-end">
-        <a href="#" class="btn btn-primary btn-sm">
+        <a href="{% url 'activites:modifier' activite.id %}" class="btn btn-primary btn-sm">
             <i class="bi bi-pencil"></i> Modifier
+        </a>
+        <a href="{% url 'activites:liste' %}" class="btn btn-outline-secondary btn-sm">
+            <i class="bi bi-arrow-left"></i> Retour
         </a>
     </div>
 </div>
 
-<!-- Informations de l'Activité -->
-<div class="row mb-4">
-    <div class="col-md-12">
-        <div class="card">
+<div class="row g-4 mb-4">
+    <div class="col-lg-7">
+        <div class="card shadow-sm">
+            <div class="card-header bg-light border-bottom d-flex justify-content-between align-items-center">
+                <h5 class="mb-0"><i class="bi bi-info-circle"></i> Détails de l'activité</h5>
+                <span class="badge text-uppercase {% if activite.statut == 'terminee' %}bg-success{% elif activite.statut == 'en_cours' %}bg-info{% elif activite.statut == 'planifie' %}bg-warning{% elif activite.statut == 'annulee' %}bg-danger{% else %}bg-secondary{% endif %}">{{ activite.get_statut_display }}</span>
+            </div>
             <div class="card-body">
-                <div class="row">
-                    <div class="col-md-3 mb-3">
-                        <p class="text-muted small mb-1">Type</p>
-                        <p class="mb-0"><strong><span class="badge bg-info">Arrosage</span></strong></p>
+                <div class="row gy-3">
+                    <div class="col-sm-6">
+                        <p class="text-muted small mb-1">Type d'activité</p>
+                        <p class="mb-0"><strong>{{ activite.get_type_activite_display }}</strong></p>
                     </div>
-                    <div class="col-md-3 mb-3">
+                    <div class="col-sm-6">
                         <p class="text-muted small mb-1">Parcelle</p>
-                        <p class="mb-0"><strong>A1</strong></p>
+                        <p class="mb-0"><strong>{% if activite.parcelle %}{{ activite.parcelle.nom }}{% else %}Non définie{% endif %}</strong></p>
                     </div>
-                    <div class="col-md-3 mb-3">
-                        <p class="text-muted small mb-1">Date & Heure</p>
-                        <p class="mb-0"><strong>15/07/2026 à 10:30</strong></p>
+                    <div class="col-sm-6">
+                        <p class="text-muted small mb-1">Culture</p>
+                        <p class="mb-0"><strong>{% if activite.culture %}{{ activite.culture.nom }}{% else %}Non définie{% endif %}</strong></p>
                     </div>
-                    <div class="col-md-3 mb-3">
+                    <div class="col-sm-6">
                         <p class="text-muted small mb-1">Responsable</p>
-                        <p class="mb-0"><strong>Jean Dupont</strong></p>
+                        <p class="mb-0"><strong>{% if activite.responsable %}{{ activite.responsable.get_full_name|default:activite.responsable.username }}{% else %}Non renseigné{% endif %}</strong></p>
+                    </div>
+                    <div class="col-sm-6">
+                        <p class="text-muted small mb-1">Date de début</p>
+                        <p class="mb-0"><strong>{{ activite.date_debut|date:'d/m/Y' }}</strong></p>
+                    </div>
+                    <div class="col-sm-6">
+                        <p class="text-muted small mb-1">Date de fin</p>
+                        <p class="mb-0"><strong>{% if activite.date_fin %}{{ activite.date_fin|date:'d/m/Y' }}{% else %}Non définie{% endif %}</strong></p>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-
-<!-- Description et Notes -->
-<div class="row">
-    <div class="col-md-12 mb-4">
-        <div class="card">
+    <div class="col-lg-5">
+        <div class="card shadow-sm h-100">
             <div class="card-header bg-light border-bottom">
-                <h6 class="mb-0">Description</h6>
+                <h5 class="mb-0"><i class="bi bi-clock"></i> Historique</h5>
             </div>
             <div class="card-body">
-                <p>Arrosage complet de la parcelle A1 en fin d'après-midi. Durée: 2 heures. Quantité d'eau: 500 litres.</p>
+                <p class="text-muted small mb-1">Créé le</p>
+                <p class="mb-3"><strong>{{ activite.date_creation|date:'d/m/Y H:i' }}</strong></p>
+                <p class="text-muted small mb-1">Dernière mise à jour</p>
+                <p class="mb-0"><strong>{{ activite.date_modification|date:'d/m/Y H:i' }}</strong></p>
             </div>
         </div>
     </div>
-    
+</div>
+
+<div class="row g-4">
     <div class="col-md-12">
-        <div class="card">
+        <div class="card shadow-sm">
             <div class="card-header bg-light border-bottom">
-                <h6 class="mb-0">Notes Additionnelles</h6>
+                <h5 class="mb-0"><i class="bi bi-chat-left-text"></i> Description</h5>
             </div>
             <div class="card-body">
-                <p>Arrosage réalisé sans problème. Conditions météo favorables. Plants en bon état.</p>
+                {% if activite.description %}
+                    <p>{{ activite.description|linebreaks }}</p>
+                {% else %}
+                    <p class="text-muted mb-0">Aucune description disponible pour cette activité.</p>
+                {% endif %}
             </div>
         </div>
     </div>
 </div>
-
 {% endblock %}

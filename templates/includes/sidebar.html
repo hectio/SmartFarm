@@ -1,94 +1,53 @@
 <!-- Sidebar - Menu de navigation latéral -->
 <!-- Navigation principale vers les différents modules de l'application -->
 
-<aside class="col-md-3 col-lg-2 d-md-block bg-light sidebar">
-    <div class="position-sticky pt-3">
-        <!-- Menu Principal -->
-        <nav class="nav flex-column">
-            <!-- Dashboard -->
-            <a class="nav-link {% if request.resolver_match.app_name == 'dashboard' %}active text-success fw-bold{% endif %}" 
-               href="{% url 'dashboard:accueil' %}">
-                <i class="bi bi-speedometer2"></i> Tableau de Bord
+<aside class="col-md-3 col-lg-2 d-none d-md-block bg-white sidebar py-4">
+    <div class="position-sticky top-0 px-3">
+        <div class="mb-4 px-3">
+            <span class="badge bg-success text-white rounded-pill px-3 py-2">Navigation</span>
+        </div>
+        <nav class="nav nav-pills flex-column gap-1">
+            <a class="nav-link rounded {% if request.resolver_match.app_name == 'dashboard' %}active{% else %}text-secondary{% endif %}" href="{% url 'dashboard:accueil' %}">
+                <i class="bi bi-speedometer2 me-2"></i> Tableau de Bord
             </a>
-            
-            <!-- Exploitations -->
-            <a class="nav-link {% if request.resolver_match.app_name == 'exploitation' %}active text-success fw-bold{% endif %}" 
-               href="{% url 'exploitation:liste' %}">
-                <i class="bi bi-building"></i> Exploitations
+            <a class="nav-link rounded {% if request.resolver_match.app_name == 'exploitation' %}active{% else %}text-secondary{% endif %}" href="{% url 'exploitation:liste' %}">
+                <i class="bi bi-building me-2"></i> Exploitations
             </a>
-            
-            <!-- Parcelles -->
-            <a class="nav-link {% if request.resolver_match.app_name == 'parcelles' %}active text-success fw-bold{% endif %}" 
-               href="{% url 'parcelles:parcelle_list' %}">
-                <i class="bi bi-grid-3x2"></i> Parcelles
+            <a class="nav-link rounded {% if request.resolver_match.app_name == 'parcelles' %}active{% else %}text-secondary{% endif %}" href="{% url 'parcelles:parcelle_list' %}">
+                <i class="bi bi-grid-3x2 me-2"></i> Parcelles
             </a>
-            
-            <!-- Cultures -->
-            <a class="nav-link {% if request.resolver_match.app_name == 'cultures' %}active text-success fw-bold{% endif %}" 
-               href="{% url 'cultures:liste' %}">
-                <i class="bi bi-flower1"></i> Cultures
+            <a class="nav-link rounded {% if request.resolver_match.app_name == 'cultures' %}active{% else %}text-secondary{% endif %}" href="{% url 'cultures:liste' %}">
+                <i class="bi bi-flower1 me-2"></i> Cultures
             </a>
-            
-            <!-- Activités -->
-            <a class="nav-link {% if request.resolver_match.app_name == 'activites' %}active text-success fw-bold{% endif %}" 
-               href="{% url 'activites:liste' %}">
-                <i class="bi bi-calendar-check"></i> Activités
+            <a class="nav-link rounded {% if request.resolver_match.app_name == 'activites' %}active{% else %}text-secondary{% endif %}" href="{% url 'activites:liste' %}">
+                <i class="bi bi-calendar-check me-2"></i> Activités
             </a>
-            
-            <!-- Stock -->
-            <a class="nav-link {% if request.resolver_match.app_name == 'stock' %}active text-success fw-bold{% endif %}" 
-               href="{% url 'stock:liste_intrants' %}">
-                <i class="bi bi-box2-fill"></i> Stock
+            <a class="nav-link rounded {% if request.resolver_match.app_name == 'stock' %}active{% else %}text-secondary{% endif %}" href="{% url 'stock:liste_intrants' %}">
+                <i class="bi bi-box2-fill me-2"></i> Stock
             </a>
-            
-            <!-- Récoltes -->
-            <a class="nav-link {% if request.resolver_match.app_name == 'recoltes' %}active text-success fw-bold{% endif %}" href="{% url 'recoltes:recoltes_liste' %}">
-                <i class="bi bi-bag-check"></i> Récoltes
+            <a class="nav-link rounded {% if request.resolver_match.app_name == 'recoltes' %}active{% else %}text-secondary{% endif %}" href="{% url 'recoltes:recoltes_liste' %}">
+                <i class="bi bi-bag-check me-2"></i> Récoltes
             </a>
-            
-            <!-- Clients -->
-            <a class="nav-link {% if request.resolver_match.app_name == 'ventes' and request.path|slice:':15' == '/ventes/clients' %}active text-success fw-bold{% endif %}" href="{% url 'ventes:clients_liste' %}">
-                <i class="bi bi-people"></i> Clients
+            <a class="nav-link rounded {% if request.resolver_match.app_name == 'ventes' %}active{% else %}text-secondary{% endif %}" href="{% url 'ventes:liste' %}">
+                <i class="bi bi-cash-coin me-2"></i> Ventes
             </a>
-            
-            <!-- Commandes -->
-            <a class="nav-link {% if request.resolver_match.app_name == 'ventes' and request.path|slice:':17' == '/ventes/commandes' %}active text-success fw-bold{% endif %}" href="{% url 'ventes:commandes_liste' %}">
-                <i class="bi bi-cart-check"></i> Commandes
-            </a>
-            
-            <!-- Ventes -->
-            <a class="nav-link {% if request.resolver_match.app_name == 'ventes' %}active text-success fw-bold{% endif %}" 
-               href="{% url 'ventes:liste' %}">
-                <i class="bi bi-cash-coin"></i> Ventes
-            </a>
-            
-            <!-- Finances -->
-            <a class="nav-link {% if request.resolver_match.app_name == 'finances' %}active text-success fw-bold{% endif %}" 
-               href="{% url 'finances:recettes' %}">
-                <i class="bi bi-graph-up"></i> Finances
-            </a>
-            
-            <!-- Rapports -->
-            <a class="nav-link text-muted" href="#">
-                <i class="bi bi-file-pdf"></i> Rapports
+            <a class="nav-link rounded {% if request.resolver_match.app_name == 'finances' %}active{% else %}text-secondary{% endif %}" href="{% url 'finances:recettes' %}">
+                <i class="bi bi-graph-up me-2"></i> Finances
             </a>
         </nav>
-        
-        <!-- Séparateur -->
-        <hr class="my-3">
-        
-        <!-- Section Utilisateurs (Admin) -->
+
+        <hr class="my-4">
+
         {% if user.is_staff %}
-        <nav class="nav flex-column">
-            <h6 class="px-3 text-muted text-uppercase fw-bold" style="font-size: 0.85rem;">Administration</h6>
-            <a class="nav-link {% if request.resolver_match.app_name == 'utilisateurs' %}active text-success fw-bold{% endif %}" 
-               href="#">
-                <i class="bi bi-person-badge"></i> Utilisateurs
-            </a>
-            <a class="nav-link" href="/admin/">
-                <i class="bi bi-lock"></i> Admin Django
-            </a>
-        </nav>
+            <h6 class="text-uppercase text-muted small px-3">Administration</h6>
+            <nav class="nav nav-pills flex-column gap-1 px-1">
+                <a class="nav-link rounded {% if request.resolver_match.app_name == 'utilisateurs' %}active{% else %}text-secondary{% endif %}" href="{% url 'utilisateurs:liste' %}">
+                    <i class="bi bi-person-badge me-2"></i> Utilisateurs
+                </a>
+                <a class="nav-link rounded text-secondary" href="/admin/">
+                    <i class="bi bi-lock me-2"></i> Admin Django
+                </a>
+            </nav>
         {% endif %}
     </div>
 </aside>

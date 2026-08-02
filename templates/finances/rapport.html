@@ -13,30 +13,30 @@
 {% endblock %}
 
 {% block content %}
-<div class="row mb-4">
+<div class="row mb-4 align-items-center">
     <div class="col-md-8">
         <h1 class="h3 mb-0">
             <i class="bi bi-file-earmark-text text-success"></i> Rapport Financier
         </h1>
+        <p class="text-muted">Analyse détaillée des recettes, dépenses et performances par période.</p>
     </div>
     <div class="col-md-4 text-md-end">
-        <a href="?start_date={{ start_date }}&end_date={{ end_date }}" class="btn btn-primary btn-sm">
-            <i class="bi bi-file-pdf"></i> Télécharger PDF
+        <a href="?start_date={{ start_date }}&end_date={{ end_date }}" class="btn btn-outline-primary btn-sm">
+            <i class="bi bi-file-earmark-pdf"></i> Télécharger PDF
         </a>
     </div>
 </div>
 
-<!-- Filtres -->
 <div class="row mb-4">
     <div class="col-md-12">
-        <div class="card bg-light">
+        <div class="card shadow-sm">
             <div class="card-body">
-                <form method="get" action="" class="row g-3">
-                    <div class="col-md-4">
+                <form method="get" action="" class="row g-3 align-items-end">
+                    <div class="col-md-3">
                         <label class="form-label">De</label>
                         <input type="date" name="start_date" class="form-control" value="{{ start_date }}">
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <label class="form-label">À</label>
                         <input type="date" name="end_date" class="form-control" value="{{ end_date }}">
                     </div>
@@ -49,8 +49,8 @@
                             {% endfor %}
                         </select>
                     </div>
-                    <div class="col-md-12 text-end">
-                        <button type="submit" class="btn btn-success">
+                    <div class="col-md-2 text-end">
+                        <button type="submit" class="btn btn-success w-100">
                             <i class="bi bi-funnel"></i> Filtrer
                         </button>
                     </div>
@@ -60,24 +60,66 @@
     </div>
 </div>
 
-<!-- Résumé Financier -->
+<div class="row mb-4">
+    <div class="col-md-3 mb-3">
+        <div class="card shadow-sm h-100">
+            <div class="card-body">
+                <p class="text-muted small mb-1">Recettes totales</p>
+                <h4 class="mb-1 text-success">{{ total_recettes|floatformat:2 }} €</h4>
+                <span class="badge bg-success">Performance</span>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 mb-3">
+        <div class="card shadow-sm h-100">
+            <div class="card-body">
+                <p class="text-muted small mb-1">Dépenses totales</p>
+                <h4 class="mb-1 text-danger">{{ total_depenses|floatformat:2 }} €</h4>
+                <span class="badge bg-danger">Coûts</span>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 mb-3">
+        <div class="card shadow-sm h-100">
+            <div class="card-body">
+                <p class="text-muted small mb-1">Bénéfice net</p>
+                <h4 class="mb-1 text-success">{{ net_profit|floatformat:2 }} €</h4>
+                <span class="badge bg-success">Rentabilité</span>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 mb-3">
+        <div class="card shadow-sm h-100">
+            <div class="card-body">
+                <p class="text-muted small mb-1">Marge nette</p>
+                <h4 class="mb-1 text-success">{{ marge_nette|floatformat:1 }}%</h4>
+                <span class="badge bg-info">Synthèse</span>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="row mb-4">
     <div class="col-md-12">
-        <div class="card">
-            <div class="card-header bg-light border-bottom">
-                <h6 class="mb-0">Résumé Financier</h6>
+        <div class="card shadow-sm">
+            <div class="card-header bg-white border-bottom d-flex justify-content-between align-items-center">
+                <div>
+                    <h5 class="mb-0">Résumé Financier</h5>
+                    <small class="text-muted">Période : {{ start_date|date:'d/m/Y' }} - {{ end_date|date:'d/m/Y' }}</small>
+                </div>
+                <span class="badge bg-secondary">{{ transactions|length }} transactions</span>
             </div>
             <div class="card-body">
-                <div class="row">
+                <div class="row gy-3">
                     <div class="col-md-6">
-                        <p><strong>Recettes totales :</strong> {{ total_recettes|floatformat:2 }} €</p>
-                        <p><strong>Dépenses totales :</strong> {{ total_depenses|floatformat:2 }} €</p>
-                        <p><strong>Bénéfice net :</strong> <span class="text-success"><strong>{{ net_profit|floatformat:2 }} €</strong></span></p>
+                        <p class="mb-2"><strong>Recettes totales :</strong> {{ total_recettes|floatformat:2 }} €</p>
+                        <p class="mb-2"><strong>Dépenses totales :</strong> {{ total_depenses|floatformat:2 }} €</p>
+                        <p class="mb-0"><strong>Bénéfice net :</strong> <span class="text-success">{{ net_profit|floatformat:2 }} €</span></p>
                     </div>
                     <div class="col-md-6">
-                        <p><strong>Marge nette :</strong> {{ marge_nette|floatformat:1 }}%</p>
-                        <p><strong>Période :</strong> {{ start_date|date:'d/m/Y' }} - {{ end_date|date:'d/m/Y' }}</p>
-                        <p><strong>Transactions trouvées :</strong> {{ transactions|length }}</p>
+                        <p class="mb-2"><strong>Marge nette :</strong> {{ marge_nette|floatformat:1 }}%</p>
+                        <p class="mb-2"><strong>Transactions :</strong> {{ transactions|length }}</p>
+                        <p class="mb-0"><strong>Période :</strong> {{ start_date|date:'d/m/Y' }} - {{ end_date|date:'d/m/Y' }}</p>
                     </div>
                 </div>
             </div>
@@ -85,12 +127,11 @@
     </div>
 </div>
 
-<!-- Détail par Catégorie -->
 <div class="row">
     <div class="col-md-12">
-        <div class="card">
-            <div class="card-header bg-light border-bottom">
-                <h6 class="mb-0">Dépenses par Catégorie</h6>
+        <div class="card shadow-sm">
+            <div class="card-header bg-white border-bottom">
+                <h5 class="mb-0">Dépenses par catégorie</h5>
             </div>
             <div class="table-responsive">
                 <table class="table table-hover mb-0">
@@ -98,7 +139,7 @@
                         <tr>
                             <th>Catégorie</th>
                             <th>Montant</th>
-                            <th>% du Total</th>
+                            <th>% du total</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -110,7 +151,7 @@
                         </tr>
                         {% empty %}
                         <tr>
-                            <td colspan="3" class="text-center text-muted">Aucune dépense dans cette période.</td>
+                            <td colspan="3" class="text-center text-muted py-4">Aucune dépense dans cette période.</td>
                         </tr>
                         {% endfor %}
                     </tbody>

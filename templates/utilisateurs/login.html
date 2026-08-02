@@ -98,15 +98,21 @@
             <div class="card-body">
                 <form method="POST" action="">
                     {% csrf_token %}
-
+                    {% if form.non_field_errors %}
+                        <div class="alert alert-danger">
+                            {{ form.non_field_errors }}
+                        </div>
+                    {% endif %}
                     <div class="mb-3">
-                        <label for="username" class="form-label">Nom d'utilisateur ou Email</label>
-                        <input type="text" class="form-control" id="username" name="username" required autofocus>
+                        {{ form.username.label_tag }}
+                        {{ form.username }}
+                        {{ form.username.errors }}
                     </div>
 
                     <div class="mb-3">
-                        <label for="password" class="form-label">Mot de passe</label>
-                        <input type="password" class="form-control" id="password" name="password" required>
+                        {{ form.password.label_tag }}
+                        {{ form.password }}
+                        {{ form.password.errors }}
                     </div>
 
                     <div class="mb-4 form-check">
@@ -122,7 +128,7 @@
                 </form>
 
                 <div class="text-center login-links">
-                    <p class="mb-2">Pas de compte ? <a href="#">S'inscrire</a></p>
+                    <p class="mb-2">Pas de compte ? <a href="{% url 'utilisateurs:register' %}">S'inscrire</a></p>
                     <p class="mb-0"><a href="#">Mot de passe oublié ?</a></p>
                 </div>
             </div>

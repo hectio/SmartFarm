@@ -2,124 +2,123 @@
 {% load static %}
 
 <!-- Template: Parcelles - Détail -->
-<!-- Affichage détaillé d'une parcelle -->
-
-{% block title %}{{ object.nom }} - Parcelle - SmartFarm{% endblock %}
+{% block title %}{{ parcelle.nom }} - Parcelle - SmartFarm{% endblock %}
 
 {% block breadcrumbs %}
     <li class="breadcrumb-item"><a href="{% url 'dashboard:accueil' %}">Tableau de Bord</a></li>
     <li class="breadcrumb-item"><a href="{% url 'parcelles:parcelle_list' %}">Parcelles</a></li>
-    <li class="breadcrumb-item active">{{ object.nom }}</li>
+    <li class="breadcrumb-item active">{{ parcelle.nom }}</li>
 {% endblock %}
 
 {% block content %}
-<div class="row mb-4">
+<div class="row align-items-center mb-4">
     <div class="col-md-8">
         <h1 class="h3 mb-0">
-            <i class="bi bi-grid-3x2 text-success"></i> {{ object.nom }}
+            <i class="bi bi-grid-3x2 text-success"></i> {{ parcelle.nom }}
         </h1>
-        <p class="text-muted">Code: <strong>{{ object.code }}</strong> | Exploitation: <strong>{{ object.exploitation.nom }}</strong></p>
+        <p class="text-muted mb-0">Code : <strong>{{ parcelle.code }}</strong> · Exploitation : <strong>{{ parcelle.exploitation.nom }}</strong></p>
     </div>
     <div class="col-md-4 text-md-end">
-        <a href="{% url 'parcelles:parcelle_update' object.id %}" class="btn btn-primary btn-sm">
+        <a href="{% url 'parcelles:parcelle_update' parcelle.id %}" class="btn btn-primary btn-sm me-2">
             <i class="bi bi-pencil"></i> Modifier
         </a>
-        <a href="{% url 'parcelles:parcelle_delete' object.id %}" class="btn btn-danger btn-sm" onclick="return parcellesApp.confirmDelete('{{ object.nom }}')">
+        <a href="{% url 'parcelles:parcelle_delete' parcelle.id %}" class="btn btn-danger btn-sm" onclick="return parcellesApp.confirmDelete('{{ parcelle.nom }}')">
             <i class="bi bi-trash"></i> Supprimer
         </a>
     </div>
 </div>
 
-<!-- Informations Principales -->
-<div class="row mb-4">
-    <div class="col-md-6 mb-4">
-        <div class="card">
-            <div class="card-header bg-light border-bottom">
-                <h6 class="mb-0">Informations Générales</h6>
-            </div>
+<div class="row g-4 mb-4">
+    <div class="col-lg-4">
+        <div class="card shadow-sm">
+            {% if parcelle.photo %}
+            <img src="{{ parcelle.photo.url }}" class="card-img-top rounded-top" alt="Photo de la parcelle {{ parcelle.nom }}">
+            {% endif %}
             <div class="card-body">
-                <p><strong>Code :</strong> {{ object.code }}</p>
-                <p><strong>Nom :</strong> {{ object.nom }}</p>
-                <p><strong>Exploitation :</strong> {{ object.exploitation.nom }}</p>
-                <p><strong>Superficie :</strong> {{ object.superficie|floatformat:2 }} m²</p>
-                <p class="mb-0">
-                    <strong>Statut :</strong> 
-                    {% if object.statut == 'actif' %}
-                        <span class="badge bg-success">{{ object.get_statut_display }}</span>
-                    {% elif object.statut == 'en_preparation' %}
-                        <span class="badge bg-warning">{{ object.get_statut_display }}</span>
-                    {% elif object.statut == 'reposante' %}
-                        <span class="badge bg-secondary">{{ object.get_statut_display }}</span>
-                    {% else %}
-                        <span class="badge bg-danger">{{ object.get_statut_display }}</span>
-                    {% endif %}
-                </p>
+                <h5 class="card-title">Résumé</h5>
+                <p class="mb-2"><strong>Superficie :</strong> {{ parcelle.superficie|floatformat:2 }} m²</p>
+                <p class="mb-2"><strong>Type de sol :</strong> {{ parcelle.get_type_sol_display }}</p>
+                <p class="mb-0"><strong>Irrigation :</strong> {% if parcelle.irrigation %}<span class="badge bg-success">Activée</span>{% else %}<span class="badge bg-secondary">Non</span>{% endif %}</p>
             </div>
         </div>
     </div>
-    
-    <div class="col-md-6 mb-4">
-        <div class="card">
-            <div class="card-header bg-light border-bottom">
-                <h6 class="mb-0">Caractéristiques du Sol</h6>
+    <div class="col-lg-8">
+        <div class="card shadow-sm">
+            <div class="card-header bg-light border-bottom d-flex justify-content-between align-items-center">
+                <h5 class="mb-0"><i class="bi bi-info-circle"></i> Informations détaillées</h5>
+                <span class="badge {% if parcelle.statut == 'actif' %}bg-success{% elif parcelle.statut == 'en_preparation' %}bg-warning{% elif parcelle.statut == 'reposante' %}bg-secondary{% else %}bg-danger{% endif %}">{{ parcelle.get_statut_display }}</span>
             </div>
             <div class="card-body">
-                <p><strong>Type de sol :</strong> {{ object.get_type_sol_display }}</p>
-                {% if object.description %}
-                <p><strong>Description :</strong></p>
-                <p>{{ object.description|linebreaks }}</p>
+                <div class="row gy-3">
+                    <div class="col-md-6">
+                        <p class="text-muted small mb-1">Nom</p>
+                        <p class="mb-0"><strong>{{ parcelle.nom }}</strong></p>
+                    </div>
+                    <div class="col-md-6">
+                        <p class="text-muted small mb-1">Code</p>
+                        <p class="mb-0"><strong>{{ parcelle.code }}</strong></p>
+                    </div>
+                    <div class="col-md-6">
+                        <p class="text-muted small mb-1">Exploitation</p>
+                        <p class="mb-0"><strong>{{ parcelle.exploitation.nom }}</strong></p>
+                    </div>
+                    <div class="col-md-6">
+                        <p class="text-muted small mb-1">Type de sol</p>
+                        <p class="mb-0"><strong>{{ parcelle.get_type_sol_display }}</strong></p>
+                    </div>
+                    <div class="col-md-6">
+                        <p class="text-muted small mb-1">Latitude</p>
+                        <p class="mb-0"><strong>{% if parcelle.latitude %}{{ parcelle.latitude }}°{% else %}—{% endif %}</strong></p>
+                    </div>
+                    <div class="col-md-6">
+                        <p class="text-muted small mb-1">Longitude</p>
+                        <p class="mb-0"><strong>{% if parcelle.longitude %}{{ parcelle.longitude }}°{% else %}—{% endif %}</strong></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row g-4 mb-4">
+    <div class="col-md-12">
+        <div class="card shadow-sm">
+            <div class="card-header bg-light border-bottom">
+                <h5 class="mb-0"><i class="bi bi-card-text"></i> Description</h5>
+            </div>
+            <div class="card-body">
+                {% if parcelle.description %}
+                    <p>{{ parcelle.description|linebreaks }}</p>
                 {% else %}
-                <p class="text-muted">Aucune description disponible</p>
+                    <p class="text-muted mb-0">Aucune description disponible pour cette parcelle.</p>
                 {% endif %}
             </div>
         </div>
     </div>
 </div>
 
-<!-- Localisation -->
-<div class="row mb-4">
-    <div class="col-md-12 mb-4">
-        <div class="card">
-            <div class="card-header bg-light border-bottom">
-                <h6 class="mb-0">Localisation GPS</h6>
-            </div>
-            <div class="card-body">
-                {% if object.latitude and object.longitude %}
-                <p><strong>Latitude :</strong> {{ object.latitude }}°</p>
-                <p><strong>Longitude :</strong> {{ object.longitude }}°</p>
-                <p class="text-muted small">Les coordonnées GPS peuvent être utilisées pour localiser précisément la parcelle sur une carte.</p>
-                {% else %}
-                <p class="text-muted">Aucunes coordonnées GPS enregistrées pour cette parcelle.</p>
-                {% endif %}
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Informations de Gestion -->
-<div class="row">
-    <div class="col-md-6 mb-4">
-        <div class="card">
+<div class="row g-4">
+    <div class="col-md-6">
+        <div class="card shadow-sm">
             <div class="card-header bg-light border-bottom">
                 <h6 class="mb-0">Dates</h6>
             </div>
             <div class="card-body">
-                <p><strong>Créée le :</strong> {{ object.date_creation|date:"d/m/Y à H:i" }}</p>
-                <p class="mb-0"><strong>Modifiée le :</strong> {{ object.date_modification|date:"d/m/Y à H:i" }}</p>
+                <p class="mb-2"><strong>Créée le :</strong> {{ parcelle.date_creation|date:'d/m/Y à H:i' }}</p>
+                <p class="mb-0"><strong>Modifiée le :</strong> {{ parcelle.date_modification|date:'d/m/Y à H:i' }}</p>
             </div>
         </div>
     </div>
-    
-    <div class="col-md-6 mb-4">
-        <div class="card">
+    <div class="col-md-6">
+        <div class="card shadow-sm">
             <div class="card-header bg-light border-bottom">
-                <h6 class="mb-0">Actions Rapides</h6>
+                <h6 class="mb-0">Actions rapides</h6>
             </div>
-            <div class="card-body">
-                <a href="{% url 'parcelles:parcelle_list' %}" class="btn btn-sm btn-outline-primary">
+            <div class="card-body d-flex flex-wrap gap-2">
+                <a href="{% url 'parcelles:parcelle_list' %}" class="btn btn-outline-primary btn-sm">
                     <i class="bi bi-arrow-left"></i> Retour à la liste
                 </a>
-                <a href="{% url 'parcelles:parcelle_update' object.id %}" class="btn btn-sm btn-outline-primary">
+                <a href="{% url 'parcelles:parcelle_update' parcelle.id %}" class="btn btn-outline-success btn-sm">
                     <i class="bi bi-pencil"></i> Modifier
                 </a>
             </div>

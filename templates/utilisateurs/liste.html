@@ -19,48 +19,25 @@
         </h1>
     </div>
     <div class="col-md-4 text-md-end">
-        <a href="#" class="btn btn-success">
+        <a href="{% url 'utilisateurs:ajouter' %}" class="btn btn-success">
             <i class="bi bi-person-plus"></i> Ajouter un utilisateur
         </a>
-    </div>
-</div>
-
-<!-- Filtres -->
-<div class="row mb-4">
-    <div class="col-md-12">
-        <div class="card bg-light">
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-md-4">
-                        <input type="text" class="form-control form-control-sm" placeholder="Rechercher...">
-                    </div>
-                    <div class="col-md-4">
-                        <select class="form-select form-select-sm">
-                            <option>Tous les rôles</option>
-                            <option>Administrateur</option>
-                            <option>Agriculteur</option>
-                            <option>Gestionnaire</option>
-                        </select>
-                    </div>
-                    <div class="col-md-4">
-                        <select class="form-select form-select-sm">
-                            <option>Tous les statuts</option>
-                            <option>Actif</option>
-                            <option>Inactif</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
 </div>
 
 <!-- Tableau des Utilisateurs -->
 <div class="row">
     <div class="col-md-12">
-        <div class="card">
+        <div class="card shadow-sm">
+            <div class="card-header bg-white border-bottom d-flex justify-content-between align-items-center">
+                <div>
+                    <h5 class="mb-0">Utilisateurs</h5>
+                    <small class="text-muted">Gestion des comptes et des profils du personnel.</small>
+                </div>
+                <span class="badge bg-success">{{ users|length }} utilisateurs</span>
+            </div>
             <div class="table-responsive">
-                <table class="table table-hover mb-0">
+                <table class="table table-hover align-middle mb-0">
                     <thead class="table-light">
                         <tr>
                             <th>Utilisateur</th>
@@ -72,69 +49,40 @@
                         </tr>
                     </thead>
                     <tbody>
+                        {% for user in users %}
                         <tr>
-                            <td><strong>Jean Dupont</strong></td>
-                            <td>jean.dupont@example.com</td>
-                            <td><span class="badge bg-primary">Administrateur</span></td>
-                            <td>Ferme A</td>
-                            <td><span class="badge bg-success">Actif</span></td>
+                            <td><strong>{{ user.get_full_name|default:user.username }}</strong></td>
+                            <td>{{ user.email }}</td>
+                            <td><span class="badge bg-primary">{{ user.profil.get_role_display }}</span></td>
+                            <td>{{ user.profil.exploitation }}</td>
                             <td>
-                                <a href="#" class="btn btn-sm btn-outline-primary">
+                                {% if user.is_active %}
+                                    <span class="badge bg-success">Actif</span>
+                                {% else %}
+                                    <span class="badge bg-secondary">Inactif</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                <a href="{% url 'utilisateurs:modifier' user.pk %}" class="btn btn-sm btn-outline-primary" title="Modifier">
                                     <i class="bi bi-pencil"></i>
                                 </a>
-                                <a href="#" class="btn btn-sm btn-outline-danger">
+                                <a href="{% url 'utilisateurs:supprimer' user.pk %}" class="btn btn-sm btn-outline-danger" title="Supprimer">
                                     <i class="bi bi-trash"></i>
                                 </a>
                             </td>
                         </tr>
+                        {% empty %}
                         <tr>
-                            <td><strong>Marie Martin</strong></td>
-                            <td>marie.martin@example.com</td>
-                            <td><span class="badge bg-success">Agriculteur</span></td>
-                            <td>Ferme A</td>
-                            <td><span class="badge bg-success">Actif</span></td>
-                            <td>
-                                <a href="#" class="btn btn-sm btn-outline-primary">
-                                    <i class="bi bi-pencil"></i>
-                                </a>
-                                <a href="#" class="btn btn-sm btn-outline-danger">
-                                    <i class="bi bi-trash"></i>
-                                </a>
+                            <td colspan="6" class="text-center py-4">
+                                <p class="text-muted mb-2">Aucun utilisateur trouvé.</p>
+                                <a href="{% url 'utilisateurs:ajouter' %}" class="btn btn-sm btn-success">Ajouter un utilisateur</a>
                             </td>
                         </tr>
-                        <tr>
-                            <td><strong>Pierre Bernard</strong></td>
-                            <td>pierre.bernard@example.com</td>
-                            <td><span class="badge bg-info">Gestionnaire</span></td>
-                            <td>Ferme B</td>
-                            <td><span class="badge bg-secondary">Inactif</span></td>
-                            <td>
-                                <a href="#" class="btn btn-sm btn-outline-primary">
-                                    <i class="bi bi-pencil"></i>
-                                </a>
-                                <a href="#" class="btn btn-sm btn-outline-danger">
-                                    <i class="bi bi-trash"></i>
-                                </a>
-                            </td>
-                        </tr>
+                        {% endfor %}
                     </tbody>
                 </table>
             </div>
         </div>
-    </div>
-</div>
-
-<!-- Pagination -->
-<div class="row mt-4">
-    <div class="col-md-12">
-        <nav aria-label="Page navigation">
-            <ul class="pagination justify-content-center">
-                <li class="page-item disabled"><a class="page-link" href="#">Précédent</a></li>
-                <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                <li class="page-item"><a class="page-link" href="#">Suivant</a></li>
-            </ul>
-        </nav>
     </div>
 </div>
 

@@ -19,57 +19,97 @@
                 </div>
                 
                 <!-- Formulaire d'Inscription -->
-                <form method="POST" action="">
+                <form method="POST" action="" enctype="multipart/form-data">
                     {% csrf_token %}
-                    
+                    {% if user_form.non_field_errors or profile_form.non_field_errors %}
+                        <div class="alert alert-danger">
+                            {{ user_form.non_field_errors }}
+                            {{ profile_form.non_field_errors }}
+                        </div>
+                    {% endif %}
+
                     <div class="row">
                         <div class="col-md-6 mb-3">
-                            <label for="first_name" class="form-label">Prénom</label>
-                            <input type="text" class="form-control" id="first_name" name="first_name" required>
+                            {{ user_form.first_name.label_tag }}
+                            {{ user_form.first_name }}
+                            {{ user_form.first_name.errors }}
                         </div>
-                        
                         <div class="col-md-6 mb-3">
-                            <label for="last_name" class="form-label">Nom</label>
-                            <input type="text" class="form-control" id="last_name" name="last_name" required>
+                            {{ user_form.last_name.label_tag }}
+                            {{ user_form.last_name }}
+                            {{ user_form.last_name.errors }}
                         </div>
                     </div>
-                    
+
                     <div class="mb-3">
-                        <label for="email" class="form-label">Email</label>
-                        <input type="email" class="form-control" id="email" name="email" required>
+                        {{ user_form.email.label_tag }}
+                        {{ user_form.email }}
+                        {{ user_form.email.errors }}
                     </div>
-                    
+
                     <div class="mb-3">
-                        <label for="username" class="form-label">Nom d'utilisateur</label>
-                        <input type="text" class="form-control" id="username" name="username" required>
+                        {{ user_form.username.label_tag }}
+                        {{ user_form.username }}
+                        {{ user_form.username.errors }}
                     </div>
-                    
+
                     <div class="mb-3">
-                        <label for="password1" class="form-label">Mot de passe</label>
-                        <input type="password" class="form-control" id="password1" name="password1" required>
-                        <small class="text-muted">Au minimum 8 caractères</small>
+                        {{ user_form.password1.label_tag }}
+                        {{ user_form.password1 }}
+                        {{ user_form.password1.errors }}
                     </div>
-                    
+
                     <div class="mb-3">
-                        <label for="password2" class="form-label">Confirmer le mot de passe</label>
-                        <input type="password" class="form-control" id="password2" name="password2" required>
+                        {{ user_form.password2.label_tag }}
+                        {{ user_form.password2 }}
+                        {{ user_form.password2.errors }}
                     </div>
-                    
+
+                    <hr class="my-4">
+
+                    <h5 class="mb-3">Informations complémentaires</h5>
+
+                    <div class="mb-3">
+                        {{ profile_form.telephone.label_tag }}
+                        {{ profile_form.telephone }}
+                        {{ profile_form.telephone.errors }}
+                    </div>
+                    <div class="mb-3">
+                        {{ profile_form.adresse.label_tag }}
+                        {{ profile_form.adresse }}
+                        {{ profile_form.adresse.errors }}
+                    </div>
+                    <div class="mb-3">
+                        {{ profile_form.role.label_tag }}
+                        {{ profile_form.role }}
+                        {{ profile_form.role.errors }}
+                    </div>
+                    <div class="mb-3">
+                        {{ profile_form.exploitation.label_tag }}
+                        {{ profile_form.exploitation }}
+                        {{ profile_form.exploitation.errors }}
+                    </div>
+                    <div class="mb-3">
+                        {{ profile_form.photo.label_tag }}
+                        {{ profile_form.photo }}
+                        {{ profile_form.photo.errors }}
+                    </div>
+
                     <div class="mb-3 form-check">
                         <input type="checkbox" class="form-check-input" id="terms" name="terms" required>
                         <label class="form-check-label" for="terms">
                             J'accepte les conditions d'utilisation
                         </label>
                     </div>
-                    
+
                     <button type="submit" class="btn btn-success w-100 mb-2">
                         <i class="bi bi-check-circle"></i> S'inscrire
                     </button>
                 </form>
-                
+
                 <hr class="my-3">
                 <p class="text-center small">
-                    Déjà inscrit ? <a href="#">Se connecter</a>
+                    Déjà inscrit ? <a href="{% url 'utilisateurs:login' %}">Se connecter</a>
                 </p>
             </div>
         </div>

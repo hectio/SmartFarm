@@ -1,47 +1,42 @@
 <!-- Navbar - Barre de navigation supérieure -->
 <!-- Affiche le logo, le titre, et les actions utilisateur -->
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+<nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom sticky-top shadow-sm">
     <div class="container-fluid">
         <!-- Logo et Titre -->
-        <a class="navbar-brand" href="{% url 'dashboard:accueil' %}">
-            <i class="bi bi-leaf-fill"></i> SmartFarm
+        <a class="navbar-brand d-flex align-items-center gap-2" href="{% url 'dashboard:accueil' %}">
+            <span class="badge bg-success rounded-pill py-2 px-3 text-white"><i class="bi bi-leaf-fill"></i></span>
+            <span class="fs-5 fw-bold">SmartFarm</span>
         </a>
-        
+
         <!-- Bouton Toggle pour mobiles -->
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
             <span class="navbar-toggler-icon"></span>
         </button>
-        
+
         <!-- Contenu de la navbar -->
         <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ms-auto">
+            <ul class="navbar-nav ms-auto align-items-center">
+                <!-- Notifications -->
+                <li class="nav-item me-2 d-none d-lg-block">
+                    <a class="nav-link position-relative text-dark" href="#">
+                        <i class="bi bi-bell-fill fs-5"></i>
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">3</span>
+                    </a>
+                </li>
+
                 <!-- Profil Utilisateur -->
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown">
-                        <i class="bi bi-person-circle"></i>
-                        {% if user.is_authenticated %}
-                            {{ user.first_name|default:user.username }}
-                        {% else %}
-                            Utilisateur
-                        {% endif %}
+                    <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown">
+                        <i class="bi bi-person-circle fs-5"></i>
+                        <span class="ms-2">{% if user.is_authenticated %}{{ user.first_name|default:user.username }}{% else %}Invité{% endif %}</span>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-                        <li><a class="dropdown-item" href="{% url 'utilisateurs:profil' %}"><i class="bi bi-person"></i> Mon Profil</a></li>
-                        <li><a class="dropdown-item" href="#"><i class="bi bi-gear"></i> Paramètres</a></li>
+                        <li><a class="dropdown-item" href="{% url 'utilisateurs:profil' %}"><i class="bi bi-person me-2"></i> Mon Profil</a></li>
+                        <li><a class="dropdown-item" href="#"><i class="bi bi-gear me-2"></i> Paramètres</a></li>
                         <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="{% url 'utilisateurs:login' %}"><i class="bi bi-box-arrow-right"></i> Déconnexion</a></li>
+                        <li><a class="dropdown-item" href="{% url 'utilisateurs:logout' %}"><i class="bi bi-box-arrow-right me-2"></i> Déconnexion</a></li>
                     </ul>
-                </li>
-                
-                <!-- Notifications -->
-                <li class="nav-item">
-                    <a class="nav-link position-relative" href="#">
-                        <i class="bi bi-bell"></i>
-                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size: 0.7rem;">
-                            3
-                        </span>
-                    </a>
                 </li>
             </ul>
         </div>

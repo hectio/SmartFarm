@@ -5,103 +5,54 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    
+
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    
+
     <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
-    
+
     <!-- Custom CSS -->
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
-    
+
     {% block extra_css %}{% endblock %}
-    
+
     <title>{% block title %}SmartFarm - Gestion des Exploitations Maraîchères{% endblock %}</title>
-    
+
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="{% static 'images/favicon.ico' %}">
-    
-    <!-- Custom Theme Colors pour SmartFarm (Vert Agricole) -->
-    <style>
-        :root {
-            --smartfarm-primary: #2d7d3a;
-            --smartfarm-secondary: #4caf50;
-            --smartfarm-light: #a5d6a7;
-            --smartfarm-success: #43a047;
-        }
-        
-        body {
-            background-color: #f8f9fa;
-            color: #333;
-        }
-        
-        .navbar {
-            background-color: var(--smartfarm-primary) !important;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-        
-        .btn-primary {
-            background-color: var(--smartfarm-secondary);
-            border-color: var(--smartfarm-secondary);
-        }
-        
-        .btn-primary:hover {
-            background-color: var(--smartfarm-primary);
-            border-color: var(--smartfarm-primary);
-        }
-        
-        .sidebar {
-            background-color: #fff;
-            border-right: 1px solid #dee2e6;
-        }
-        
-        .card {
-            border-left: 4px solid var(--smartfarm-secondary);
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-        }
-        
-        .badge-success {
-            background-color: var(--smartfarm-secondary) !important;
-        }
-    </style>
 </head>
-<body>
+<body class="bg-body-tertiary text-body">
     <!-- Navbar -->
     {% include 'includes/navbar.html' %}
-    
+
     <div class="container-fluid">
         <div class="row">
             <!-- Sidebar -->
             {% include 'includes/sidebar.html' %}
-            
+
             <!-- Main Content -->
             <main class="col-md-9 col-lg-10 px-md-4 py-4">
                 <!-- Messages -->
                 {% include 'includes/messages.html' %}
-                
+
                 <!-- Breadcrumbs -->
                 {% include 'includes/breadcrumbs.html' %}
-                
+
                 <!-- Page Content -->
                 <section class="content-section">
-                    {% block content %}
-                        <!-- Le contenu spécifique à chaque page va ici -->
-                    {% endblock %}
+                    {% block content %}{% endblock %}
                 </section>
             </main>
         </div>
     </div>
-    
+
     <!-- Footer -->
     {% include 'includes/footer.html' %}
-    
+
     <!-- Bootstrap 5 JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    
-    <!-- jQuery (optionnel) -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    
+
     {% block extra_js %}{% endblock %}
 </body>
 </html>
