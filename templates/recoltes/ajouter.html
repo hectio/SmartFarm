@@ -1,12 +1,11 @@
 {% extends 'base.html' %}
 {% load static %}
 
-<!-- Template: Récoltes - Ajouter -->
-{% block title %}Enregistrer Récolte - SmartFarm{% endblock %}
+{% block title %}Enregistrer une récolte - SmartFarm{% endblock %}
 
 {% block breadcrumbs %}
     <li class="breadcrumb-item"><a href="{% url 'dashboard:accueil' %}">Tableau de Bord</a></li>
-    <li class="breadcrumb-item"><a href="#">Récoltes</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'recoltes:recoltes_liste' %}">Récoltes</a></li>
     <li class="breadcrumb-item active">Ajouter</li>
 {% endblock %}
 
@@ -14,7 +13,7 @@
 <div class="row mb-4">
     <div class="col-md-12">
         <h1 class="h3 mb-0">
-            <i class="bi bi-plus-circle text-success"></i> Enregistrer une Récolte
+            <i class="bi bi-plus-circle text-success"></i> Enregistrer une récolte
         </h1>
     </div>
 </div>
@@ -23,83 +22,32 @@
     <div class="col-md-8">
         <div class="card">
             <div class="card-body">
-                <form method="POST" action="">
+                <form method="post" action="{% url 'recoltes:recoltes_ajouter' %}">
                     {% csrf_token %}
-                    
-                    <h5 class="mb-3">Informations de la Récolte</h5>
-                    
+                    <h5 class="mb-3">Informations de la récolte</h5>
+
                     <div class="row">
+                        {% for field in form %}
                         <div class="col-md-6 mb-3">
-                            <label for="date" class="form-label">Date de récolte *</label>
-                            <input type="date" class="form-control" id="date" name="date" required>
+                            <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
+                            {{ field }}
+                            {% if field.errors %}
+                                <div class="text-danger small mt-1">{{ field.errors }}</div>
+                            {% endif %}
                         </div>
-                        <div class="col-md-6 mb-3">
-                            <label for="culture" class="form-label">Culture *</label>
-                            <select class="form-select" id="culture" name="culture" required>
-                                <option value="">-- Sélectionner --</option>
-                                <option>Tomates</option>
-                                <option>Salades</option>
-                                <option>Poivrons</option>
-                            </select>
-                        </div>
+                        {% endfor %}
                     </div>
-                    
-                    <div class="row">
-                        <div class="col-md-6 mb-3">
-                            <label for="parcelle" class="form-label">Parcelle *</label>
-                            <select class="form-select" id="parcelle" name="parcelle" required>
-                                <option value="">-- Sélectionner --</option>
-                                <option>A1</option>
-                                <option>A2</option>
-                                <option>B1</option>
-                            </select>
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <label for="quantity" class="form-label">Quantité récoltée *</label>
-                            <input type="number" class="form-control" id="quantity" name="quantity" step="0.1" required>
-                        </div>
-                    </div>
-                    
-                    <div class="row">
-                        <div class="col-md-6 mb-3">
-                            <label for="unit" class="form-label">Unité *</label>
-                            <select class="form-select" id="unit" name="unit" required>
-                                <option value="">-- Sélectionner --</option>
-                                <option>kg</option>
-                                <option>L</option>
-                                <option>Unité</option>
-                                <option>Panier</option>
-                            </select>
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <label for="quality" class="form-label">Qualité *</label>
-                            <select class="form-select" id="quality" name="quality" required>
-                                <option value="">-- Sélectionner --</option>
-                                <option>Excellente</option>
-                                <option>Bonne</option>
-                                <option>Acceptable</option>
-                                <option>Mauvaise</option>
-                            </select>
-                        </div>
-                    </div>
-                    
-                    <div class="mb-3">
-                        <label for="notes" class="form-label">Notes</label>
-                        <textarea class="form-control" id="notes" name="notes" rows="3"></textarea>
-                    </div>
-                    
+
                     <hr class="my-4">
-                    
                     <div class="d-flex gap-2">
                         <button type="submit" class="btn btn-success">
                             <i class="bi bi-check-circle"></i> Enregistrer la récolte
                         </button>
-                        <a href="#" class="btn btn-outline-secondary">Annuler</a>
+                        <a href="{% url 'recoltes:recoltes_liste' %}" class="btn btn-outline-secondary">Annuler</a>
                     </div>
                 </form>
             </div>
         </div>
     </div>
 </div>
-
 {% endblock %}

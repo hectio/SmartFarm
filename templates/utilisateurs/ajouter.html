@@ -25,7 +25,7 @@
     <div class="col-md-8">
         <div class="card">
             <div class="card-body">
-                <form method="POST" action="">
+                <form method="POST" action="" enctype="multipart/form-data">
                     {% csrf_token %}
                     
                     <!-- Informations Personnelles -->
@@ -97,6 +97,12 @@
                             <option value="2">Ferme B</option>
                             <option value="3">Ferme C</option>
                         </select>
+                    </div>
+
+                    <div class="mb-3">
+                        {{ profile_form.photo.label_tag }}
+                        {{ profile_form.photo }}
+                        {{ profile_form.photo.errors }}
                     </div>
                     
                     <div class="mb-3 form-check">

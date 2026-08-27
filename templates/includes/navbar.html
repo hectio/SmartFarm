@@ -19,7 +19,7 @@
             <ul class="navbar-nav ms-auto align-items-center">
                 <!-- Notifications -->
                 <li class="nav-item me-2 d-none d-lg-block">
-                    <a class="nav-link position-relative text-dark" href="#">
+                    <a class="nav-link position-relative text-dark" href="{% url 'dashboard:accueil' %}">
                         <i class="bi bi-bell-fill fs-5"></i>
                         <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">3</span>
                     </a>
@@ -28,12 +28,16 @@
                 <!-- Profil Utilisateur -->
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown">
-                        <i class="bi bi-person-circle fs-5"></i>
+                        {% if user.is_authenticated and user.profil.photo %}
+                            <img src="{{ user.profil.photo.url }}" alt="Photo de profil" class="rounded-circle" style="width: 32px; height: 32px; object-fit: cover;">
+                        {% else %}
+                            <i class="bi bi-person-circle fs-5"></i>
+                        {% endif %}
                         <span class="ms-2">{% if user.is_authenticated %}{{ user.first_name|default:user.username }}{% else %}Invité{% endif %}</span>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
                         <li><a class="dropdown-item" href="{% url 'utilisateurs:profil' %}"><i class="bi bi-person me-2"></i> Mon Profil</a></li>
-                        <li><a class="dropdown-item" href="#"><i class="bi bi-gear me-2"></i> Paramètres</a></li>
+                        <li><a class="dropdown-item" href="{% url 'dashboard:accueil' %}"><i class="bi bi-gear me-2"></i> Paramètres</a></li>
                         <li><hr class="dropdown-divider"></li>
                         <li><a class="dropdown-item" href="{% url 'utilisateurs:logout' %}"><i class="bi bi-box-arrow-right me-2"></i> Déconnexion</a></li>
                     </ul>

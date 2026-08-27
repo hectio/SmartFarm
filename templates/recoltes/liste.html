@@ -1,9 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
 
-<!-- Template: Récoltes - Liste -->
-<!-- Affichage et gestion de la liste des récoltes -->
-
 {% block title %}Récoltes - SmartFarm{% endblock %}
 
 {% block breadcrumbs %}
@@ -19,18 +16,17 @@
         </h1>
     </div>
     <div class="col-md-4 text-md-end">
-        <a href="#" class="btn btn-success">
+        <a href="{% url 'recoltes:recoltes_ajouter' %}" class="btn btn-success">
             <i class="bi bi-plus-circle"></i> Enregistrer une récolte
         </a>
     </div>
 </div>
 
-<!-- Tableau des Récoltes -->
 <div class="row">
     <div class="col-md-12">
-        <div class="card">
+        <div class="card shadow-sm">
             <div class="table-responsive">
-                <table class="table table-hover mb-0">
+                <table class="table table-hover align-middle mb-0">
                     <thead class="table-light">
                         <tr>
                             <th>Date</th>
@@ -43,28 +39,29 @@
                         </tr>
                     </thead>
                     <tbody>
+                        {% for recolte in recoltes %}
                         <tr>
-                            <td>15/07/2026</td>
-                            <td><strong>Tomates</strong></td>
-                            <td>A1</td>
-                            <td>450</td>
-                            <td>kg</td>
-                            <td><span class="badge bg-success">Excellente</span></td>
+                            <td>{{ recolte.date|date:'d/m/Y' }}</td>
+                            <td><strong>{{ recolte.culture.nom }}</strong></td>
+                            <td>{{ recolte.parcelle.nom }}</td>
+                            <td>{{ recolte.quantite }}</td>
+                            <td>{{ recolte.get_unite_display }}</td>
                             <td>
-                                <a href="#" class="btn btn-sm btn-outline-primary"><i class="bi bi-eye"></i></a>
+                                <span class="badge {% if recolte.qualite == 'excellente' %}bg-success{% elif recolte.qualite == 'bonne' %}bg-warning{% elif recolte.qualite == 'acceptable' %}bg-info{% else %}bg-secondary{% endif %}">
+                                    {{ recolte.get_qualite_display }}
+                                </span>
+                            </td>
+                            <td>
+                                <a href="{% url 'recoltes:recoltes_detail' recolte.pk %}" class="btn btn-sm btn-outline-primary"><i class="bi bi-eye"></i></a>
                             </td>
                         </tr>
+                        {% empty %}
                         <tr>
-                            <td>10/07/2026</td>
-                            <td><strong>Salades</strong></td>
-                            <td>A2</td>
-                            <td>320</td>
-                            <td>kg</td>
-                            <td><span class="badge bg-warning">Bonne</span></td>
-                            <td>
-                                <a href="#" class="btn btn-sm btn-outline-primary"><i class="bi bi-eye"></i></a>
+                            <td colspan="7" class="text-center py-4 text-muted">
+                                Aucune récolte enregistrée pour le moment.
                             </td>
                         </tr>
+                        {% endfor %}
                     </tbody>
                 </table>
             </div>

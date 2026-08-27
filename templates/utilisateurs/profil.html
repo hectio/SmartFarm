@@ -51,6 +51,14 @@
                     </div>
 
                     <div class="mb-3">
+                        {{ user_form.username.label_tag }}
+                        {{ user_form.username }}
+                        {{ user_form.username.errors }}
+                    </div>
+
+                    <input type="hidden" name="is_active" value="on">
+
+                    <div class="mb-3">
                         {{ user_form.email.label_tag }}
                         {{ user_form.email }}
                         {{ user_form.email.errors }}
@@ -104,7 +112,9 @@
                 {% if request.user.profil.photo %}
                     <img src="{{ request.user.profil.photo.url }}" alt="Avatar" class="rounded-circle mb-3" style="width: 150px; height: 150px; object-fit: cover;">
                 {% else %}
-                    <img src="https://via.placeholder.com/150" alt="Avatar" class="rounded-circle mb-3" style="width: 150px; height: 150px;">
+                    <div class="rounded-circle bg-light text-secondary d-inline-flex align-items-center justify-content-center mb-3" role="img" aria-label="Aucune photo de profil" style="width: 150px; height: 150px;">
+                        <i class="bi bi-person-circle" style="font-size: 5rem;"></i>
+                    </div>
                 {% endif %}
                 <p class="small text-muted mb-3">{{ request.user.username }}</p>
                 <p class="text-muted">Mettez à jour votre photo depuis le formulaire ci-contre.</p>

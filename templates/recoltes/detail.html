@@ -1,12 +1,11 @@
 {% extends 'base.html' %}
 {% load static %}
 
-<!-- Template: Récoltes - Détail -->
 {% block title %}Détail Récolte - SmartFarm{% endblock %}
 
 {% block breadcrumbs %}
     <li class="breadcrumb-item"><a href="{% url 'dashboard:accueil' %}">Tableau de Bord</a></li>
-    <li class="breadcrumb-item"><a href="#">Récoltes</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'recoltes:recoltes_liste' %}">Récoltes</a></li>
     <li class="breadcrumb-item active">Détail</li>
 {% endblock %}
 
@@ -14,13 +13,12 @@
 <div class="row mb-4">
     <div class="col-md-12">
         <h1 class="h3 mb-0">
-            <i class="bi bi-bag-check text-success"></i> Récolte Tomates - Parcelle A1
+            <i class="bi bi-bag-check text-success"></i> {{ recolte.culture.nom }} - {{ recolte.parcelle.nom }}
         </h1>
-        <p class="text-muted">15 juillet 2026</p>
+        <p class="text-muted">{{ recolte.date|date:'d F Y' }}</p>
     </div>
 </div>
 
-<!-- Informations de la Récolte -->
 <div class="row mb-4">
     <div class="col-md-12">
         <div class="card">
@@ -28,49 +26,33 @@
                 <div class="row">
                     <div class="col-md-3 mb-3">
                         <p class="text-muted small mb-1">Culture</p>
-                        <p class="mb-0"><strong>Tomates</strong></p>
+                        <p class="mb-0"><strong>{{ recolte.culture.nom }}</strong></p>
                     </div>
                     <div class="col-md-3 mb-3">
                         <p class="text-muted small mb-1">Parcelle</p>
-                        <p class="mb-0"><strong>A1</strong></p>
+                        <p class="mb-0"><strong>{{ recolte.parcelle.nom }}</strong></p>
                     </div>
                     <div class="col-md-3 mb-3">
                         <p class="text-muted small mb-1">Quantité</p>
-                        <p class="mb-0"><strong>450 kg</strong></p>
+                        <p class="mb-0"><strong>{{ recolte.quantite }} {{ recolte.get_unite_display }}</strong></p>
                     </div>
                     <div class="col-md-3 mb-3">
                         <p class="text-muted small mb-1">Qualité</p>
-                        <p class="mb-0"><strong><span class="badge bg-success">Excellente</span></strong></p>
+                        <p class="mb-0">
+                            <span class="badge {% if recolte.qualite == 'excellente' %}bg-success{% elif recolte.qualite == 'bonne' %}bg-warning{% elif recolte.qualite == 'acceptable' %}bg-info{% else %}bg-secondary{% endif %}">
+                                {{ recolte.get_qualite_display }}
+                            </span>
+                        </p>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Statistiques -->
-<div class="row mb-4">
-    <div class="col-md-4 mb-3">
-        <div class="card">
-            <div class="card-body">
-                <p class="text-muted small">Rendement</p>
-                <p class="h5">3.0 kg/m²</p>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-4 mb-3">
-        <div class="card">
-            <div class="card-body">
-                <p class="text-muted small">Destination</p>
-                <p class="h5">Vente directe</p>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-4 mb-3">
-        <div class="card">
-            <div class="card-body">
-                <p class="text-muted small">Valeur estimée</p>
-                <p class="h5">675 €</p>
+                {% if recolte.notes %}
+                <div class="row mt-2">
+                    <div class="col-md-12">
+                        <p class="text-muted small mb-1">Notes</p>
+                        <p class="mb-0">{{ recolte.notes }}</p>
+                    </div>
+                </div>
+                {% endif %}
             </div>
         </div>
     </div>
