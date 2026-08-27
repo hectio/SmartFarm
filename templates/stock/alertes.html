@@ -8,7 +8,7 @@
 
 {% block breadcrumbs %}
     <li class="breadcrumb-item"><a href="{% url 'dashboard:accueil' %}">Tableau de Bord</a></li>
-    <li class="breadcrumb-item"><a href="#">Stock</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'stock:liste_intrants' %}">Stock</a></li>
     <li class="breadcrumb-item active">Alertes</li>
 {% endblock %}
 
@@ -44,7 +44,7 @@
                             <td>10 L</td>
                             <td>-5 L</td>
                             <td>
-                                <a href="#" class="btn btn-sm btn-outline-danger">
+                                <a href="{% url 'ventes:commandes_ajouter' %}" class="btn btn-sm btn-outline-danger">
                                     <i class="bi bi-plus"></i> Commander
                                 </a>
                             </td>
@@ -79,7 +79,7 @@
                             <td>20 Unités</td>
                             <td>-5 Unités</td>
                             <td>
-                                <a href="#" class="btn btn-sm btn-outline-warning">
+                                <a href="{% url 'ventes:commandes_ajouter' %}" class="btn btn-sm btn-outline-warning">
                                     <i class="bi bi-plus"></i> Commander
                                 </a>
                             </td>

@@ -8,7 +8,7 @@
 
 {% block breadcrumbs %}
     <li class="breadcrumb-item"><a href="{% url 'dashboard:accueil' %}">Tableau de Bord</a></li>
-    <li class="breadcrumb-item"><a href="#">Stock</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'stock:liste_intrants' %}">Stock</a></li>
     <li class="breadcrumb-item active">Mouvements</li>
 {% endblock %}
 

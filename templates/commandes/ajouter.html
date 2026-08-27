@@ -6,7 +6,7 @@
 
 {% block breadcrumbs %}
     <li class="breadcrumb-item"><a href="{% url 'dashboard:accueil' %}">Tableau de Bord</a></li>
-    <li class="breadcrumb-item"><a href="#">Commandes</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'ventes:commandes_liste' %}">Commandes</a></li>
     <li class="breadcrumb-item active">Ajouter</li>
 {% endblock %}
 
@@ -109,7 +109,7 @@
                         <button type="submit" class="btn btn-success">
                             <i class="bi bi-check-circle"></i> Créer la commande
                         </button>
-                        <a href="#" class="btn btn-outline-secondary">Annuler</a>
+                        <a href="{% url 'ventes:commandes_liste' %}" class="btn btn-outline-secondary">Annuler</a>
                     </div>
                 </form>
             </div>

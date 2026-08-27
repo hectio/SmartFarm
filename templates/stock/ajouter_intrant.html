@@ -6,7 +6,7 @@
 
 {% block breadcrumbs %}
     <li class="breadcrumb-item"><a href="{% url 'dashboard:accueil' %}">Tableau de Bord</a></li>
-    <li class="breadcrumb-item"><a href="#">Stock</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'stock:liste_intrants' %}">Stock</a></li>
     <li class="breadcrumb-item active">Ajouter Intrant</li>
 {% endblock %}
 
@@ -78,7 +78,7 @@
                         <button type="submit" class="btn btn-success">
                             <i class="bi bi-check-circle"></i> Ajouter l'intrant
                         </button>
-                        <a href="#" class="btn btn-outline-secondary">Annuler</a>
+                        <a href="{% url 'stock:liste_intrants' %}" class="btn btn-outline-secondary">Annuler</a>
                     </div>
                 </form>
             </div>

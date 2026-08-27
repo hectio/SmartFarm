@@ -6,7 +6,7 @@
 
 {% block breadcrumbs %}
     <li class="breadcrumb-item"><a href="{% url 'dashboard:accueil' %}">Tableau de Bord</a></li>
-    <li class="breadcrumb-item"><a href="#">Récoltes</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'recoltes:recoltes_liste' %}">Récoltes</a></li>
     <li class="breadcrumb-item active">Statistiques</li>
 {% endblock %}
 

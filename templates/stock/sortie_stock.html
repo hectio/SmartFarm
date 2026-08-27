@@ -8,7 +8,7 @@
 
 {% block breadcrumbs %}
     <li class="breadcrumb-item"><a href="{% url 'dashboard:accueil' %}">Tableau de Bord</a></li>
-    <li class="breadcrumb-item"><a href="#">Stock</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'stock:liste_intrants' %}">Stock</a></li>
     <li class="breadcrumb-item active">Sortie</li>
 {% endblock %}
 
@@ -85,7 +85,7 @@
                         <button type="submit" class="btn btn-danger">
                             <i class="bi bi-check-circle"></i> Enregistrer la sortie
                         </button>
-                        <a href="#" class="btn btn-outline-secondary">Annuler</a>
+                        <a href="{% url 'stock:liste_intrants' %}" class="btn btn-outline-secondary">Annuler</a>
                     </div>
                 </form>
             </div>

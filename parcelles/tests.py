@@ -87,6 +87,25 @@ class ParcelleViewsTestCase(TestCase):
         self.assertEqual(response.status_code, 302)
         self.assertIn('/login/', response.url)
 
+    def test_parcelle_list_filters_by_search_and_status(self):
+        """Vérifier que la liste applique les filtres de recherche et de statut."""
+        Parcelle.objects.create(
+            nom='Parcelle Repos',
+            code='REPOS001',
+            superficie=800,
+            statut='reposante',
+            exploitation=self.exploitation,
+        )
+        self.client.login(username='testuser', password='testpass123')
+
+        response = self.client.get(reverse('parcelles:parcelle_list'), {
+            'q': 'REPOS001',
+            'statut': 'reposante',
+        })
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(list(response.context['parcelles']), [Parcelle.objects.get(code='REPOS001')])
+
     def test_parcelle_create_view(self):
         """Tester la création d'une nouvelle parcelle via la vue."""
         self.client.login(username='testuser', password='testpass123')

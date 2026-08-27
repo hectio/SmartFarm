@@ -6,7 +6,7 @@
 
 {% block breadcrumbs %}
     <li class="breadcrumb-item"><a href="{% url 'dashboard:accueil' %}">Tableau de Bord</a></li>
-    <li class="breadcrumb-item"><a href="#">Commandes</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'ventes:commandes_liste' %}">Commandes</a></li>
     <li class="breadcrumb-item active">Facture</li>
 {% endblock %}
 
@@ -16,7 +16,7 @@
         <button onclick="window.print()" class="btn btn-primary">
             <i class="bi bi-printer"></i> Imprimer
         </button>
-        <a href="#" class="btn btn-secondary">
+        <a href="{% url 'ventes:commandes_liste' %}" class="btn btn-secondary">
             <i class="bi bi-download"></i> Télécharger PDF
         </a>
     </div>

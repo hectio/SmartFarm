@@ -6,7 +6,7 @@
 
 {% block breadcrumbs %}
     <li class="breadcrumb-item"><a href="{% url 'dashboard:accueil' %}">Tableau de Bord</a></li>
-    <li class="breadcrumb-item"><a href="#">Clients</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'ventes:clients_liste' %}">Clients</a></li>
     <li class="breadcrumb-item active">Détail</li>
 {% endblock %}
 
@@ -19,7 +19,7 @@
         <p class="text-muted">Client depuis 2024</p>
     </div>
     <div class="col-md-4 text-md-end">
-        <a href="#" class="btn btn-primary btn-sm">
+        <a href="{% url 'ventes:clients_modifier' client.pk %}" class="btn btn-primary btn-sm">
             <i class="bi bi-pencil"></i> Modifier
         </a>
     </div>
