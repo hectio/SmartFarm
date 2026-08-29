@@ -101,7 +101,7 @@ class ClientCreateView(LoginRequiredMixin, CreateView):
     model = Client
     form_class = ClientForm
     template_name = 'clients/ajouter.html'
-    success_url = reverse_lazy('clients:liste')
+    success_url = reverse_lazy('ventes:clients_liste')
 
     def form_valid(self, form):
         messages.success(self.request, 'Client ajouté avec succès.')
@@ -112,7 +112,7 @@ class ClientUpdateView(LoginRequiredMixin, UpdateView):
     model = Client
     form_class = ClientForm
     template_name = 'clients/modifier.html'
-    success_url = reverse_lazy('clients:liste')
+    success_url = reverse_lazy('ventes:clients_liste')
 
     def form_valid(self, form):
         messages.success(self.request, 'Client mis à jour avec succès.')
@@ -151,7 +151,7 @@ class CommandeCreateView(LoginRequiredMixin, CreateView):
     model = VENTE
     form_class = VenteForm
     template_name = 'commandes/ajouter.html'
-    success_url = reverse_lazy('commandes:liste')
+    success_url = reverse_lazy('ventes:commandes_liste')
 
     def form_valid(self, form):
         messages.success(self.request, 'Commande enregistrée avec succès.')
@@ -162,7 +162,7 @@ class CommandeUpdateView(LoginRequiredMixin, UpdateView):
     model = VENTE
     form_class = VenteForm
     template_name = 'commandes/ajouter.html'
-    success_url = reverse_lazy('commandes:liste')
+    success_url = reverse_lazy('ventes:commandes_liste')
 
     def form_valid(self, form):
         messages.success(self.request, 'Commande mise à jour avec succès.')

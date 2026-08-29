@@ -27,53 +27,55 @@
             <div class="card-body">
                 <form method="POST" action="">
                     {% csrf_token %}
+                    {{ form.non_field_errors }}
                     
-                    <h5 class="mb-3">Informations de l'Entrée</h5>
+                    <h5 class="mb-3">Informations du Mouvement</h5>
                     
                     <div class="row">
                         <div class="col-md-6 mb-3">
-                            <label for="date" class="form-label">Date *</label>
-                            <input type="date" class="form-control" id="date" name="date" required>
+                            {{ form.intrant.label_tag }}
+                            {{ form.intrant }}
+                            {{ form.intrant.errors }}
                         </div>
                         <div class="col-md-6 mb-3">
-                            <label for="intrant" class="form-label">Intrant *</label>
-                            <select class="form-select" id="intrant" name="intrant" required>
-                                <option value="">-- Sélectionner --</option>
-                                <option>Engrais NPK</option>
-                                <option>Fongicide</option>
-                                <option>Semences</option>
-                            </select>
+                            {{ form.type_mouvement.label_tag }}
+                            {{ form.type_mouvement }}
+                            {{ form.type_mouvement.errors }}
                         </div>
                     </div>
                     
                     <div class="row">
                         <div class="col-md-6 mb-3">
-                            <label for="quantity" class="form-label">Quantité *</label>
-                            <input type="number" class="form-control" id="quantity" name="quantity" step="0.01" required>
+                            {{ form.quantite.label_tag }}
+                            {{ form.quantite }}
+                            {{ form.quantite.errors }}
                         </div>
                         <div class="col-md-6 mb-3">
-                            <label for="price" class="form-label">Prix d'achat (€)</label>
-                            <input type="number" class="form-control" id="price" name="price" step="0.01">
+                            {{ form.date_mouvement.label_tag }}
+                            {{ form.date_mouvement }}
+                            {{ form.date_mouvement.errors }}
                         </div>
                     </div>
                     
                     <div class="mb-3">
-                        <label for="supplier" class="form-label">Fournisseur</label>
-                        <input type="text" class="form-control" id="supplier" name="supplier">
+                        {{ form.responsable.label_tag }}
+                        {{ form.responsable }}
+                        {{ form.responsable.errors }}
                     </div>
                     
                     <div class="mb-3">
-                        <label for="notes" class="form-label">Notes</label>
-                        <textarea class="form-control" id="notes" name="notes" rows="3"></textarea>
+                        {{ form.commentaire.label_tag }}
+                        {{ form.commentaire }}
+                        {{ form.commentaire.errors }}
                     </div>
                     
                     <hr class="my-4">
                     
                     <div class="d-flex gap-2">
                         <button type="submit" class="btn btn-success">
-                            <i class="bi bi-check-circle"></i> Enregistrer l'entrée
+                            <i class="bi bi-check-circle"></i> Enregistrer le mouvement
                         </button>
-                        <a href="{% url 'stock:liste_intrants' %}" class="btn btn-outline-secondary">Annuler</a>
+                        <a href="{% url 'stock:mouvements' %}" class="btn btn-outline-secondary">Annuler</a>
                     </div>
                 </form>
             </div>

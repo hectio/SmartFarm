@@ -34,37 +34,38 @@
                     <thead class="table-light">
                         <tr>
                             <th>Intrant</th>
-                            <th>Type</th>
+                            <th>Description</th>
                             <th>Quantité</th>
                             <th>Unité</th>
-                            <th>Stock Min.</th>
+                            <th>Seuil d'alerte</th>
                             <th>Statut</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
+                        {% for intrant in intrants %}
                         <tr>
-                            <td><strong>Engrais NPK</strong></td>
-                            <td>Engrais</td>
-                            <td>250</td>
-                            <td>kg</td>
-                            <td>100</td>
-                            <td><span class="badge bg-success">OK</span></td>
+                            <td><strong>{{ intrant.nom }}</strong></td>
+                            <td>{{ intrant.description|truncatewords:10 }}</td>
+                            <td>{{ intrant.quantite }}</td>
+                            <td>{{ intrant.get_unite_display }}</td>
+                            <td>{{ intrant.seuil_alerte|default:"-" }}</td>
                             <td>
-                                <a href="#" class="btn btn-sm btn-outline-primary"><i class="bi bi-pencil"></i></a>
+                                {% if intrant.seuil_alerte and intrant.quantite <= intrant.seuil_alerte %}
+                                    <span class="badge bg-danger">Stock bas</span>
+                                {% else %}
+                                    <span class="badge bg-success">OK</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                <a href="{% url 'stock:modifier_intrant' intrant.pk %}" class="btn btn-sm btn-outline-primary"><i class="bi bi-pencil"></i></a>
                             </td>
                         </tr>
+                        {% empty %}
                         <tr>
-                            <td><strong>Fongicide</strong></td>
-                            <td>Produit chimique</td>
-                            <td>5</td>
-                            <td>L</td>
-                            <td>10</td>
-                            <td><span class="badge bg-danger">Stock bas</span></td>
-                            <td>
-                                <a href="#" class="btn btn-sm btn-outline-primary"><i class="bi bi-pencil"></i></a>
-                            </td>
+                            <td colspan="7" class="text-center text-muted py-4">Aucun intrant trouvé.</td>
                         </tr>
+                        {% endfor %}
                     </tbody>
                 </table>
             </div>

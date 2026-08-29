@@ -33,27 +33,31 @@
                             <th>Type</th>
                             <th>Intrant</th>
                             <th>Quantité</th>
-                            <th>Raison</th>
-                            <th>Utilisateur</th>
+                            <th>Commentaire</th>
+                            <th>Responsable</th>
                         </tr>
                     </thead>
                     <tbody>
+                        {% for mouvement in mouvements %}
                         <tr>
-                            <td>15/07/2026</td>
-                            <td><span class="badge bg-success">Entrée</span></td>
-                            <td>Engrais NPK</td>
-                            <td>+100 kg</td>
-                            <td>Achat</td>
-                            <td>Jean Dupont</td>
+                            <td>{{ mouvement.date_mouvement|date:'d/m/Y' }}</td>
+                            <td>
+                                {% if mouvement.type_mouvement == 'entree' %}
+                                    <span class="badge bg-success">Entrée</span>
+                                {% else %}
+                                    <span class="badge bg-danger">Sortie</span>
+                                {% endif %}
+                            </td>
+                            <td>{{ mouvement.intrant.nom }}</td>
+                            <td>{{ mouvement.quantite }} {{ mouvement.intrant.unite }}</td>
+                            <td>{{ mouvement.commentaire|truncatewords:10 }}</td>
+                            <td>{{ mouvement.responsable|default:"-" }}</td>
                         </tr>
+                        {% empty %}
                         <tr>
-                            <td>14/07/2026</td>
-                            <td><span class="badge bg-danger">Sortie</span></td>
-                            <td>Fongicide</td>
-                            <td>-2 L</td>
-                            <td>Traitement Parcelle A1</td>
-                            <td>Marie Martin</td>
+                            <td colspan="6" class="text-center text-muted py-4">Aucun mouvement trouvé.</td>
                         </tr>
+                        {% endfor %}
                     </tbody>
                 </table>
             </div>

@@ -30,31 +30,35 @@
     <div class="col-md-12">
         <div class="card bg-light">
             <div class="card-body">
-                <div class="row">
+                <form method="GET" class="row">
                     <div class="col-md-3">
-                        <input type="date" class="form-control form-control-sm">
-                    </div>
-                    <div class="col-md-3">
-                        <select class="form-select form-select-sm">
-                            <option>Tous les types</option>
-                            <option>Plantation</option>
-                            <option>Arrosage</option>
-                            <option>Traitement</option>
-                            <option>Récolte</option>
+                        <select class="form-select form-select-sm" name="type_activite">
+                            <option value="">Tous les types</option>
+                            {% for type, label in types %}
+                                <option value="{{ type }}" {% if request.GET.type_activite == type %}selected{% endif %}>{{ label }}</option>
+                            {% endfor %}
                         </select>
                     </div>
                     <div class="col-md-3">
-                        <select class="form-select form-select-sm">
-                            <option>Toutes les parcelles</option>
-                            <option>A1</option>
-                            <option>A2</option>
-                            <option>B1</option>
+                        <select class="form-select form-select-sm" name="parcelle">
+                            <option value="">Toutes les parcelles</option>
+                            {% for parcelle in parcelles %}
+                                <option value="{{ parcelle.id }}" {% if request.GET.parcelle == parcelle.id|stringformat:"s" %}selected{% endif %}>{{ parcelle.nom }}</option>
+                            {% endfor %}
                         </select>
                     </div>
                     <div class="col-md-3">
-                        <input type="text" class="form-control form-control-sm" placeholder="Rechercher...">
+                        <select class="form-select form-select-sm" name="statut">
+                            <option value="">Tous les statuts</option>
+                            {% for statut, label in statuts %}
+                                <option value="{{ statut }}" {% if request.GET.statut == statut %}selected{% endif %}>{{ label }}</option>
+                            {% endfor %}
+                        </select>
                     </div>
-                </div>
+                    <div class="col-md-3">
+                        <input type="text" class="form-control form-control-sm" name="q" placeholder="Rechercher..." value="{{ request.GET.q }}">
+                    </div>
+                </form>
             </div>
         </div>
     </div>
@@ -69,7 +73,7 @@
                     <h5 class="mb-0">Activités</h5>
                     <small class="text-muted">Planification et suivi des opérations sur les parcelles.</small>
                 </div>
-                <span class="badge bg-success">2 activités</span>
+                <span class="badge bg-success">{{ activites|length }} activités</span>
             </div>
             <div class="table-responsive">
                 <table class="table table-hover align-middle mb-0">
@@ -78,37 +82,41 @@
                             <th>Date</th>
                             <th>Type</th>
                             <th>Parcelle</th>
-                            <th>Description</th>
+                            <th>Culture</th>
                             <th>Responsable</th>
                             <th>Statut</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
+                        {% for activite in activites %}
                         <tr>
-                            <td>15/07/2026</td>
-                            <td><span class="badge bg-info">Arrosage</span></td>
-                            <td>A1</td>
-                            <td>Arrosage de la parcelle</td>
-                            <td>Jean Dupont</td>
-                            <td><span class="badge bg-success">Complété</span></td>
+                            <td>{{ activite.date_debut|date:'d/m/Y' }}</td>
+                            <td><span class="badge bg-info">{{ activite.get_type_activite_display }}</span></td>
+                            <td>{{ activite.parcelle|default:"-" }}</td>
+                            <td>{{ activite.culture|default:"-" }}</td>
+                            <td>{{ activite.responsable|default:"-" }}</td>
                             <td>
-                                <a href="#" class="btn btn-sm btn-outline-primary"><i class="bi bi-eye"></i></a>
-                                <a href="#" class="btn btn-sm btn-outline-primary"><i class="bi bi-pencil"></i></a>
+                                {% if activite.statut == 'terminee' %}
+                                    <span class="badge bg-success">{{ activite.get_statut_display }}</span>
+                                {% elif activite.statut == 'en_cours' %}
+                                    <span class="badge bg-warning">{{ activite.get_statut_display }}</span>
+                                {% elif activite.statut == 'planifie' %}
+                                    <span class="badge bg-info">{{ activite.get_statut_display }}</span>
+                                {% else %}
+                                    <span class="badge bg-secondary">{{ activite.get_statut_display }}</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                <a href="{% url 'activites:detail' activite.pk %}" class="btn btn-sm btn-outline-primary"><i class="bi bi-eye"></i></a>
+                                <a href="{% url 'activites:modifier' activite.pk %}" class="btn btn-sm btn-outline-primary"><i class="bi bi-pencil"></i></a>
                             </td>
                         </tr>
+                        {% empty %}
                         <tr>
-                            <td>14/07/2026</td>
-                            <td><span class="badge bg-warning">Traitement</span></td>
-                            <td>A1</td>
-                            <td>Traitement anti-parasitaire</td>
-                            <td>Marie Martin</td>
-                            <td><span class="badge bg-success">Complété</span></td>
-                            <td>
-                                <a href="#" class="btn btn-sm btn-outline-primary"><i class="bi bi-eye"></i></a>
-                                <a href="#" class="btn btn-sm btn-outline-primary"><i class="bi bi-pencil"></i></a>
-                            </td>
+                            <td colspan="7" class="text-center text-muted py-4">Aucune activité trouvée.</td>
                         </tr>
+                        {% endfor %}
                     </tbody>
                 </table>
             </div>

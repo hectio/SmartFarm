@@ -9,19 +9,19 @@ class ParcelleForm(forms.ModelForm):
     
     class Meta:
         model = Parcelle
-        fields =fields = [
-    'nom',
-    'code',
-    'superficie',
-    'type_sol',
-    'irrigation',      # <-- Nouveau
-    'latitude',
-    'longitude',
-    'description',
-    'photo',           # <-- Nouveau
-    'statut',
-    'exploitation'
-]
+        fields = [
+            'nom',
+            'code',
+            'superficie',
+            'type_sol',
+            'irrigation',
+            'latitude',
+            'longitude',
+            'description',
+            'photo',
+            'statut',
+            'exploitation'
+        ]
         widgets = {
             'nom': forms.TextInput(attrs={
                 'class': 'form-control',

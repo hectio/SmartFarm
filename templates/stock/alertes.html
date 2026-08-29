@@ -21,10 +21,10 @@
     </div>
 </div>
 
-<!-- Alertes en Danger -->
-<div class="row mb-4">
+<!-- Alertes de Stock -->
+<div class="row">
     <div class="col-md-12">
-        <h5 class="mb-3">Stock Critique (Minimum atteint)</h5>
+        <h5 class="mb-3">Intrants en dessous du seuil d'alerte</h5>
         <div class="card border-danger">
             <div class="table-responsive">
                 <table class="table table-hover mb-0">
@@ -32,58 +32,29 @@
                         <tr>
                             <th>Intrant</th>
                             <th>Stock Actuel</th>
-                            <th>Minimum</th>
+                            <th>Seuil d'alerte</th>
                             <th>Écart</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr class="table-danger">
-                            <td><strong>Fongicide</strong></td>
-                            <td>5 L</td>
-                            <td>10 L</td>
-                            <td>-5 L</td>
+                        {% for intrant in intrants %}
+                        <tr class="{% if intrant.quantite <= intrant.seuil_alerte %}table-danger{% endif %}">
+                            <td><strong>{{ intrant.nom }}</strong></td>
+                            <td>{{ intrant.quantite }} {{ intrant.unite }}</td>
+                            <td>{{ intrant.seuil_alerte }} {{ intrant.unite }}</td>
+                            <td>{{ intrant.quantite|add:intrant.seuil_alerte|default:0 }} {{ intrant.unite }}</td>
                             <td>
-                                <a href="{% url 'ventes:commandes_ajouter' %}" class="btn btn-sm btn-outline-danger">
-                                    <i class="bi bi-plus"></i> Commander
+                                <a href="{% url 'stock:ajouter_mouvement' %}" class="btn btn-sm btn-outline-danger">
+                                    <i class="bi bi-plus"></i> Réapprovisionner
                                 </a>
                             </td>
                         </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Alertes en Avertissement -->
-<div class="row">
-    <div class="col-md-12">
-        <h5 class="mb-3">Stock Faible (Approche du minimum)</h5>
-        <div class="card border-warning">
-            <div class="table-responsive">
-                <table class="table table-hover mb-0">
-                    <thead class="table-light">
+                        {% empty %}
                         <tr>
-                            <th>Intrant</th>
-                            <th>Stock Actuel</th>
-                            <th>Minimum</th>
-                            <th>Écart</th>
-                            <th>Actions</th>
+                            <td colspan="5" class="text-center text-muted py-4">Aucune alerte de stock.</td>
                         </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><strong>Semences Tomates</strong></td>
-                            <td>15 Unités</td>
-                            <td>20 Unités</td>
-                            <td>-5 Unités</td>
-                            <td>
-                                <a href="{% url 'ventes:commandes_ajouter' %}" class="btn btn-sm btn-outline-warning">
-                                    <i class="bi bi-plus"></i> Commander
-                                </a>
-                            </td>
-                        </tr>
+                        {% endfor %}
                     </tbody>
                 </table>
             </div>
