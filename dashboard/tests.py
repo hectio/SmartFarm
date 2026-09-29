@@ -7,6 +7,9 @@ from django.contrib.auth.models import User
 from exploitation.models import Exploitation
 from parcelles.models import Parcelle
 from cultures.models import Culture
+from cultures.models import Recolte
+from finances.models import Transaction
+from ventes.models import Client, VENTE
 
 
 class DashboardViewTestCase(TestCase):
@@ -42,3 +45,46 @@ class DashboardViewTestCase(TestCase):
         self.assertEqual(response.context['total_cultures'], 1)
         self.assertEqual(response.context['total_recoltes_prevues'], 1)
         self.assertEqual(len(response.context['recent_cultures']), 1)
+
+    def test_dashboard_statistics_route_requires_login(self):
+        response = self.client.get(reverse('dashboard:statistiques'))
+
+        self.assertRedirects(
+            response,
+            f'/login/?next={reverse("dashboard:statistiques")}',
+        )
+
+    def test_dashboard_statistics_route_renders_for_authenticated_user(self):
+        self.client.force_login(self.user)
+
+        response = self.client.get(reverse('dashboard:statistiques'))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'Statistiques')
+
+    def test_dashboard_statistics_uses_real_togo_data(self):
+        Recolte.objects.create(
+            date=date.today(),
+            culture=self.culture,
+            parcelle=self.parcelle,
+            quantite='120',
+            unite='kg',
+        )
+        VENTE.objects.create(
+            client=Client.objects.create(nom='Client Togo'),
+            date_commande=date.today(),
+            total='150000',
+        )
+        Transaction.objects.create(
+            type_transaction='depense',
+            titre='Semences locales',
+            montant='25000',
+            date_operation=date.today(),
+        )
+        self.client.force_login(self.user)
+
+        response = self.client.get(reverse('dashboard:statistiques'))
+
+        self.assertEqual(response.context['total_production'], 120)
+        self.assertEqual(response.context['chiffre_affaires'], 150000)
+        self.assertEqual(response.context['cout_production'], 25000)

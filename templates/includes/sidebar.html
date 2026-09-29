@@ -51,3 +51,26 @@
         {% endif %}
     </div>
 </aside>
+
+<div class="offcanvas offcanvas-start d-md-none" tabindex="-1" id="mobileSidebar" aria-labelledby="mobileSidebarLabel">
+    <div class="offcanvas-header border-bottom">
+        <h5 class="offcanvas-title" id="mobileSidebarLabel">
+            <i class="bi bi-leaf-fill text-success me-2"></i>SmartFarm
+        </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Fermer"></button>
+    </div>
+    <div class="offcanvas-body">
+        <p class="text-uppercase text-muted small fw-semibold mb-2">Navigation</p>
+        <nav class="nav nav-pills flex-column gap-1">
+            <a class="nav-link {% if request.resolver_match.app_name == 'dashboard' %}active{% endif %}" href="{% url 'dashboard:accueil' %}"><i class="bi bi-speedometer2 me-2"></i>Tableau de bord</a>
+            <a class="nav-link {% if request.resolver_match.app_name == 'exploitation' %}active{% endif %}" href="{% url 'exploitation:liste' %}"><i class="bi bi-building me-2"></i>Exploitations</a>
+            <a class="nav-link {% if request.resolver_match.app_name == 'parcelles' %}active{% endif %}" href="{% url 'parcelles:parcelle_list' %}"><i class="bi bi-grid-3x2 me-2"></i>Parcelles</a>
+            <a class="nav-link {% if request.resolver_match.app_name == 'cultures' %}active{% endif %}" href="{% url 'cultures:liste' %}"><i class="bi bi-flower1 me-2"></i>Cultures</a>
+            <a class="nav-link {% if request.resolver_match.app_name == 'activites' %}active{% endif %}" href="{% url 'activites:liste' %}"><i class="bi bi-calendar-check me-2"></i>Activités</a>
+            <a class="nav-link {% if request.resolver_match.app_name == 'stock' %}active{% endif %}" href="{% url 'stock:liste_intrants' %}"><i class="bi bi-box2-fill me-2"></i>Stock</a>
+            <a class="nav-link {% if request.resolver_match.app_name == 'recoltes' %}active{% endif %}" href="{% url 'recoltes:recoltes_liste' %}"><i class="bi bi-bag-check me-2"></i>Récoltes</a>
+            <a class="nav-link {% if request.resolver_match.app_name == 'ventes' %}active{% endif %}" href="{% url 'ventes:liste' %}"><i class="bi bi-cash-coin me-2"></i>Ventes</a>
+            <a class="nav-link {% if request.resolver_match.app_name == 'finances' %}active{% endif %}" href="{% url 'finances:recettes' %}"><i class="bi bi-graph-up me-2"></i>Finances</a>
+        </nav>
+    </div>
+</div>

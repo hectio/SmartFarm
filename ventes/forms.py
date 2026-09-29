@@ -36,7 +36,6 @@ class VenteForm(forms.ModelForm):
             'client',
             'description',
             'statut',
-            'total',
             'date_commande',
             'responsable',
         ]
@@ -44,7 +43,6 @@ class VenteForm(forms.ModelForm):
             'client': forms.Select(attrs={'class': 'form-select'}),
             'description': forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
             'statut': forms.Select(attrs={'class': 'form-select'}),
-            'total': forms.NumberInput(attrs={'class': 'form-control', 'step': '0.01'}),
             'date_commande': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
             'responsable': forms.Select(attrs={'class': 'form-select'}),
         }
@@ -58,14 +56,12 @@ class VenteArticleForm(forms.ModelForm):
     class Meta:
         model = VenteArticle
         fields = [
-            'vente',
             'culture',
             'parcelle',
             'quantite',
             'prix_unitaire',
         ]
         widgets = {
-            'vente': forms.Select(attrs={'class': 'form-select'}),
             'culture': forms.Select(attrs={'class': 'form-select'}),
             'parcelle': forms.Select(attrs={'class': 'form-select'}),
             'quantite': forms.NumberInput(attrs={'class': 'form-control', 'step': '0.01'}),

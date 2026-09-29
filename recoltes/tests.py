@@ -66,3 +66,31 @@ class RecolteFlowTests(TestCase):
 
         self.assertEqual(response.status_code, 200)
         self.assertTrue(Recolte.objects.filter(notes='Première récolte de test').exists())
+
+    def test_recolte_statistics_route_requires_login(self):
+        response = self.client.get(reverse('recoltes:statistiques'))
+
+        self.assertEqual(response.status_code, 302)
+
+    def test_authenticated_user_can_view_recolte_statistics(self):
+        self.client.login(username='agri_test', password='secret123')
+
+        response = self.client.get(reverse('recoltes:statistiques'))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'Statistiques des Récoltes')
+
+    def test_recolte_statistics_uses_real_quantities_and_sales(self):
+        self.client.login(username='agri_test', password='secret123')
+        Recolte.objects.create(
+            date=timezone.now().date(),
+            culture=self.culture,
+            parcelle=self.parcelle,
+            quantite='75',
+            unite='kg',
+        )
+
+        response = self.client.get(reverse('recoltes:statistiques'))
+
+        self.assertEqual(response.context['total_recolte'], 75)
+        self.assertEqual(response.context['nombre_recoltes'], 1)

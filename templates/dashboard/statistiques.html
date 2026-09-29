@@ -17,7 +17,7 @@
         <h1 class="h3 mb-0">
             <i class="bi bi-graph-up text-success"></i> Statistiques
         </h1>
-        <p class="text-muted">Analyse détaillée de votre exploitation</p>
+        <p class="text-muted">Analyse détaillée de votre exploitation au Togo pour {{ annee_statistiques }}.</p>
     </div>
 </div>
 
@@ -62,8 +62,8 @@
         <div class="card">
             <div class="card-body">
                 <p class="text-muted mb-1">Production Totale</p>
-                <h5 class="text-success">1,250 kg</h5>
-                <small class="text-success"><i class="bi bi-arrow-up"></i> +12% vs dernier mois</small>
+                        <h5 class="text-success">{{ total_production|floatformat:2 }} kg</h5>
+                        <small class="text-muted">Récoltes enregistrées</small>
             </div>
         </div>
     </div>
@@ -72,8 +72,8 @@
         <div class="card">
             <div class="card-body">
                 <p class="text-muted mb-1">Rendement Moyen</p>
-                <h5 class="text-info">54.3 kg/m²</h5>
-                <small class="text-danger"><i class="bi bi-arrow-down"></i> -3% vs dernier mois</small>
+                        <h5 class="text-info">{{ rendement_moyen|floatformat:2 }} kg/m²</h5>
+                        <small class="text-muted">Production / superficie récoltée</small>
             </div>
         </div>
     </div>
@@ -82,8 +82,8 @@
         <div class="card">
             <div class="card-body">
                 <p class="text-muted mb-1">Chiffre d'Affaires</p>
-                <h5 class="text-success">24,500 €</h5>
-                <small class="text-success"><i class="bi bi-arrow-up"></i> +18% vs dernier mois</small>
+                        <h5 class="text-success">{{ chiffre_affaires|floatformat:0 }} FCFA</h5>
+                        <small class="text-muted">Ventes enregistrées</small>
             </div>
         </div>
     </div>
@@ -92,22 +92,25 @@
         <div class="card">
             <div class="card-body">
                 <p class="text-muted mb-1">Coût de Production</p>
-                <h5 class="text-warning">8,350 €</h5>
-                <small class="text-warning"><i class="bi bi-arrow-up"></i> +5% vs dernier mois</small>
+                        <h5 class="text-warning">{{ cout_production|floatformat:0 }} FCFA</h5>
+                        <small class="text-muted">Dépenses enregistrées</small>
             </div>
         </div>
     </div>
 </div>
 
-<!-- Graphiques (Placeholders) -->
+{{ production_labels|json_script:"dashboard-production-labels" }}
+{{ production_values|json_script:"dashboard-production-values" }}
+{{ monthly_labels|json_script:"dashboard-monthly-labels" }}
+{{ monthly_sales_values|json_script:"dashboard-monthly-sales" }}
 <div class="row">
     <div class="col-md-6 mb-4">
         <div class="card">
             <div class="card-header bg-light border-bottom">
                 <h6 class="mb-0">Production par Culture</h6>
             </div>
-            <div class="card-body" style="height: 250px; display: flex; align-items: center; justify-content: center;">
-                <p class="text-muted">Graphique à remplir (Chart.js)</p>
+            <div class="card-body chart-container">
+                <canvas id="productionByCultureChart" aria-label="Production par culture"></canvas>
             </div>
         </div>
     </div>
@@ -117,8 +120,8 @@
             <div class="card-header bg-light border-bottom">
                 <h6 class="mb-0">Ventes par Mois</h6>
             </div>
-            <div class="card-body" style="height: 250px; display: flex; align-items: center; justify-content: center;">
-                <p class="text-muted">Graphique à remplir (Chart.js)</p>
+            <div class="card-body chart-container">
+                <canvas id="monthlySalesChart" aria-label="Ventes mensuelles en FCFA"></canvas>
             </div>
         </div>
     </div>
@@ -144,30 +147,18 @@
                         </tr>
                     </thead>
                     <tbody>
+                        {% for culture in detail_parcelles %}
                         <tr>
-                            <td><strong>Parcelle A1</strong></td>
-                            <td>Tomates</td>
-                            <td>150</td>
-                            <td>450</td>
-                            <td>3.0</td>
-                            <td><span class="badge bg-success">Actif</span></td>
+                            <td><strong>{{ culture.culture.parcelle.nom }}</strong></td>
+                            <td>{{ culture.culture.nom }}{% if culture.culture.variete %} ({{ culture.culture.variete }}){% endif %}</td>
+                            <td>{{ culture.culture.parcelle.superficie|floatformat:2 }}</td>
+                            <td>{{ culture.production|floatformat:2 }}</td>
+                            <td>{{ culture.rendement|floatformat:2 }}</td>
+                            <td><span class="badge bg-success">{{ culture.culture.get_statut_display }}</span></td>
                         </tr>
-                        <tr>
-                            <td><strong>Parcelle B2</strong></td>
-                            <td>Salades</td>
-                            <td>200</td>
-                            <td>320</td>
-                            <td>1.6</td>
-                            <td><span class="badge bg-success">Actif</span></td>
-                        </tr>
-                        <tr>
-                            <td><strong>Parcelle C1</strong></td>
-                            <td>Poivrons</td>
-                            <td>100</td>
-                            <td>250</td>
-                            <td>2.5</td>
-                            <td><span class="badge bg-warning">En préparation</span></td>
-                        </tr>
+                        {% empty %}
+                        <tr><td colspan="6" class="text-center text-muted">Aucune récolte en kilogrammes enregistrée cette année.</td></tr>
+                        {% endfor %}
                     </tbody>
                 </table>
             </div>
@@ -175,4 +166,25 @@
     </div>
 </div>
 
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+<script>
+    const productionLabels = JSON.parse(document.getElementById('dashboard-production-labels').textContent);
+    const productionValues = JSON.parse(document.getElementById('dashboard-production-values').textContent);
+    const monthlyLabels = JSON.parse(document.getElementById('dashboard-monthly-labels').textContent);
+    const monthlySales = JSON.parse(document.getElementById('dashboard-monthly-sales').textContent);
+
+    new Chart(document.getElementById('productionByCultureChart'), {
+        type: 'bar',
+        data: { labels: productionLabels, datasets: [{ label: 'Production (kg)', data: productionValues, backgroundColor: '#2d7d3a', borderRadius: 5 }] },
+        options: { responsive: true, maintainAspectRatio: false, scales: { y: { beginAtZero: true } } }
+    });
+    new Chart(document.getElementById('monthlySalesChart'), {
+        type: 'line',
+        data: { labels: monthlyLabels, datasets: [{ label: 'Ventes (FCFA)', data: monthlySales, borderColor: '#0d6efd', backgroundColor: 'rgba(13, 110, 253, .12)', fill: true, tension: .3 }] },
+        options: { responsive: true, maintainAspectRatio: false, scales: { y: { beginAtZero: true } } }
+    });
+</script>
 {% endblock %}

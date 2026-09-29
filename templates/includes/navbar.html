@@ -1,7 +1,7 @@
 <!-- Navbar - Barre de navigation supérieure -->
 <!-- Affiche le logo, le titre, et les actions utilisateur -->
 
-<nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom sticky-top shadow-sm">
+<nav class="navbar navbar-light bg-white border-bottom sticky-top shadow-sm app-navbar">
     <div class="container-fluid">
         <!-- Logo et Titre -->
         <a class="navbar-brand d-flex align-items-center gap-2" href="{% url 'dashboard:accueil' %}">
@@ -9,13 +9,13 @@
             <span class="fs-5 fw-bold">SmartFarm</span>
         </a>
 
-        <!-- Bouton Toggle pour mobiles -->
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-            <span class="navbar-toggler-icon"></span>
+        <!-- Bouton du menu mobile -->
+        <button class="btn btn-light border d-md-none me-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#mobileSidebar" aria-controls="mobileSidebar" aria-label="Ouvrir le menu">
+            <i class="bi bi-list fs-5"></i>
         </button>
 
         <!-- Contenu de la navbar -->
-        <div class="collapse navbar-collapse" id="navbarNav">
+        <div class="ms-auto" id="navbarNav">
             <ul class="navbar-nav ms-auto align-items-center">
                 <!-- Notifications -->
                 <li class="nav-item me-2 d-none d-lg-block">

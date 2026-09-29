@@ -12,11 +12,12 @@
 {% endblock %}
 
 {% block content %}
-<div class="row mb-4">
+<div class="row list-page-header mb-4 align-items-center">
     <div class="col-md-8">
         <h1 class="h3 mb-0">
             <i class="bi bi-people text-success"></i> Clients
         </h1>
+        <p class="text-muted mb-0 mt-1">Gérez vos clients et suivez leurs commandes.</p>
     </div>
     <div class="col-md-4 text-md-end">
         <a href="{% url 'ventes:clients_ajouter' %}" class="btn btn-success">
@@ -28,13 +29,13 @@
 <!-- Tableau des Clients -->
 <div class="row">
     <div class="col-md-12">
-        <div class="card shadow-sm">
+        <div class="card data-card shadow-sm">
             <div class="card-header bg-white border-bottom d-flex justify-content-between align-items-center">
                 <div>
                     <h5 class="mb-0">Clients</h5>
                     <small class="text-muted">Liste des clients et commandes associées.</small>
                 </div>
-                <span class="badge bg-success">2 clients actifs</span>
+                <span class="badge bg-success">{{ clients|length }} client{{ clients|length|pluralize }}</span>
             </div>
             <div class="table-responsive">
                 <table class="table table-hover align-middle mb-0">
@@ -49,28 +50,27 @@
                         </tr>
                     </thead>
                     <tbody>
+                        {% for client in clients %}
                         <tr>
-                            <td><strong>Restaurant La Maison</strong></td>
-                            <td>contact@lamaison.fr</td>
-                            <td>03 88 12 34 56</td>
-                            <td>Lyon</td>
-                            <td><span class="badge bg-primary">8</span></td>
+                            <td><strong>{{ client.nom }}</strong></td>
+                            <td>{{ client.email|default:"-" }}</td>
+                            <td>{{ client.telephone|default:"-" }}</td>
+                            <td>{{ client.ville|default:"-" }}</td>
+                            <td><span class="badge bg-primary">{{ client.ventes.count }}</span></td>
                             <td>
-                                <a href="#" class="btn btn-sm btn-outline-primary"><i class="bi bi-eye"></i></a>
-                                <a href="#" class="btn btn-sm btn-outline-primary"><i class="bi bi-pencil"></i></a>
+                                <a href="{% url 'ventes:clients_detail' client.pk %}" class="btn btn-sm btn-outline-primary" title="Voir le client"><i class="bi bi-eye"></i></a>
+                                <a href="{% url 'ventes:clients_modifier' client.pk %}" class="btn btn-sm btn-outline-primary" title="Modifier le client"><i class="bi bi-pencil"></i></a>
                             </td>
                         </tr>
+                        {% empty %}
                         <tr>
-                            <td><strong>Marché Bio Lyon</strong></td>
-                            <td>info@marchebioylu.fr</td>
-                            <td>04 72 56 78 90</td>
-                            <td>Strasbourg</td>
-                            <td><span class="badge bg-primary">5</span></td>
-                            <td>
-                                <a href="#" class="btn btn-sm btn-outline-primary"><i class="bi bi-eye"></i></a>
-                                <a href="#" class="btn btn-sm btn-outline-primary"><i class="bi bi-pencil"></i></a>
+                            <td colspan="6" class="text-center py-5">
+                                <div class="empty-state-icon"><i class="bi bi-people"></i></div>
+                                <p class="text-muted mb-3">Aucun client enregistré.</p>
+                                <a href="{% url 'ventes:clients_ajouter' %}" class="btn btn-sm btn-success"><i class="bi bi-plus-circle me-1"></i>Ajouter le premier client</a>
                             </td>
                         </tr>
+                        {% endfor %}
                     </tbody>
                 </table>
             </div>

@@ -32,10 +32,10 @@
         <div class="card shadow-sm h-100">
             <div class="card-body d-flex gap-3 align-items-center">
                 <span class="badge bg-success rounded-pill p-3"><i class="bi bi-cash-stack fs-5"></i></span>
-                <div>
-                    <p class="text-muted mb-1">Total des recettes</p>
-                    <h4 class="mb-0">{{ total_recettes|default:'0.00' }} €</h4>
-                </div>
+                    <div>
+                        <p class="text-muted mb-1">Total des recettes</p>
+                        <h4 class="mb-0">{{ total_recettes|default:'0.00' }} CFA</h4>
+                    </div>
             </div>
         </div>
     </div>
@@ -90,7 +90,7 @@
                             <td>{{ transaction.date_operation|date:'d/m/Y' }}</td>
                             <td>{{ transaction.titre }}</td>
                             <td>{{ transaction.categorie }}</td>
-                            <td class="text-end">{{ transaction.montant|floatformat:2 }} €</td>
+                            <td class="text-end">{{ transaction.montant|floatformat:0 }} CFA</td>
                             <td><span class="badge bg-success">{{ transaction.get_type_transaction_display }}</span></td>
                         </tr>
                         {% empty %}

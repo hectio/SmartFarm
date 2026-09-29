@@ -39,11 +39,11 @@
                     </thead>
                     <tbody>
                         {% for intrant in intrants %}
-                        <tr class="{% if intrant.quantite <= intrant.seuil_alerte %}table-danger{% endif %}">
+                        <tr class="table-danger">
                             <td><strong>{{ intrant.nom }}</strong></td>
                             <td>{{ intrant.quantite }} {{ intrant.unite }}</td>
                             <td>{{ intrant.seuil_alerte }} {{ intrant.unite }}</td>
-                            <td>{{ intrant.quantite|add:intrant.seuil_alerte|default:0 }} {{ intrant.unite }}</td>
+                            <td>{{ intrant.ecart|floatformat:2 }} {{ intrant.unite }}</td>
                             <td>
                                 <a href="{% url 'stock:ajouter_mouvement' %}" class="btn btn-sm btn-outline-danger">
                                     <i class="bi bi-plus"></i> Réapprovisionner

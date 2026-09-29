@@ -13,6 +13,11 @@
 {% endblock %}
 
 {% block content %}
+{{ category_chart_labels|json_script:"finance-category-labels" }}
+{{ category_chart_values|json_script:"finance-category-values" }}
+{{ finance_month_labels|json_script:"finance-month-labels" }}
+{{ finance_revenue_values|json_script:"finance-revenue-values" }}
+{{ finance_expense_values|json_script:"finance-expense-values" }}
 <div class="row mb-4 align-items-center">
     <div class="col-md-8">
         <h1 class="h3 mb-0">
@@ -27,7 +32,7 @@
         <div class="card shadow-sm h-100">
             <div class="card-body">
                 <p class="text-muted small mb-1">Recettes annuelles</p>
-                <h4 class="text-success mb-2">{{ annual_recettes|floatformat:2 }} €</h4>
+                <h4 class="text-success mb-2">{{ annual_recettes|floatformat:0 }} FCFA</h4>
                 <span class="badge bg-success">Croissance</span>
             </div>
         </div>
@@ -36,7 +41,7 @@
         <div class="card shadow-sm h-100">
             <div class="card-body">
                 <p class="text-muted small mb-1">Dépenses annuelles</p>
-                <h4 class="text-danger mb-2">{{ annual_depenses|floatformat:2 }} €</h4>
+                <h4 class="text-danger mb-2">{{ annual_depenses|floatformat:0 }} FCFA</h4>
                 <span class="badge bg-danger">Coûts</span>
             </div>
         </div>
@@ -45,7 +50,7 @@
         <div class="card shadow-sm h-100">
             <div class="card-body">
                 <p class="text-muted small mb-1">Bénéfice annuel</p>
-                <h4 class="text-success mb-2">{{ annual_profit|floatformat:2 }} €</h4>
+                <h4 class="text-success mb-2">{{ annual_profit|floatformat:0 }} FCFA</h4>
                 <span class="badge bg-info">Résultat</span>
             </div>
         </div>
@@ -59,9 +64,8 @@
                 <span>Transactions annuelles</span>
                 <span class="badge bg-secondary">Résumé</span>
             </div>
-            <div class="card-body">
-                <p class="mb-2"><strong>Nombre de transactions :</strong> {{ annual_transactions_count }}</p>
-                <p class="mb-0"><strong>Ticket moyen :</strong> {{ average_ticket|floatformat:2 }} €</p>
+            <div class="card-body chart-container">
+                <canvas id="financeMonthlyChart" aria-label="Recettes et dépenses mensuelles en FCFA"></canvas>
             </div>
         </div>
     </div>
@@ -71,20 +75,36 @@
                 <span>Top catégories</span>
                 <span class="badge bg-secondary">Données</span>
             </div>
-            <div class="card-body">
-                <ul class="list-group list-group-flush">
-                    {% for item in top_categories %}
-                    <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 py-2">
-                        <span>{{ item.categorie }}</span>
-                        <strong>{{ item.total|floatformat:2 }} €</strong>
-                    </li>
-                    {% empty %}
-                    <li class="list-group-item text-muted">Aucune catégorie disponible.</li>
-                    {% endfor %}
-                </ul>
+            <div class="card-body chart-container">
+                <canvas id="financeCategoryChart" aria-label="Dépenses par catégorie en FCFA"></canvas>
             </div>
         </div>
     </div>
 </div>
 
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+<script>
+    const financeCategoryLabels = JSON.parse(document.getElementById('finance-category-labels').textContent);
+    const financeCategoryValues = JSON.parse(document.getElementById('finance-category-values').textContent);
+    const financeMonthLabels = JSON.parse(document.getElementById('finance-month-labels').textContent);
+    const financeRevenueValues = JSON.parse(document.getElementById('finance-revenue-values').textContent);
+    const financeExpenseValues = JSON.parse(document.getElementById('finance-expense-values').textContent);
+
+    new Chart(document.getElementById('financeMonthlyChart'), {
+        type: 'bar',
+        data: { labels: financeMonthLabels, datasets: [
+            { label: 'Recettes (FCFA)', data: financeRevenueValues, backgroundColor: '#2d7d3a' },
+            { label: 'Dépenses (FCFA)', data: financeExpenseValues, backgroundColor: '#dc3545' }
+        ] },
+        options: { responsive: true, maintainAspectRatio: false, scales: { y: { beginAtZero: true } } }
+    });
+    new Chart(document.getElementById('financeCategoryChart'), {
+        type: 'doughnut',
+        data: { labels: financeCategoryLabels, datasets: [{ label: 'Dépenses (FCFA)', data: financeCategoryValues, backgroundColor: ['#dc3545', '#f0ad4e', '#0d6efd', '#2d7d3a', '#6f42c1'] }] },
+        options: { responsive: true, maintainAspectRatio: false }
+    });
+</script>
 {% endblock %}

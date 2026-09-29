@@ -1,5 +1,5 @@
 from django.contrib.auth import authenticate, login, logout, get_user_model, update_session_auth_hash
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm
 from django.contrib import messages
 from django.shortcuts import render, redirect, get_object_or_404
@@ -9,6 +9,11 @@ from .forms import UtilisateurRegisterForm, UtilisateurUpdateForm, ProfilForm
 from .models import ProfilUtilisateur
 
 User = get_user_model()
+
+staff_required = user_passes_test(
+    lambda user: user.is_authenticated and user.is_staff,
+    login_url='utilisateurs:login',
+)
 
 
 def connexion(request):
@@ -85,13 +90,13 @@ def profil(request):
     })
 
 
-@login_required
+@staff_required
 def liste(request):
     users = User.objects.select_related('profil').all()
     return render(request, 'utilisateurs/liste.html', {'users': users})
 
 
-@login_required
+@staff_required
 def ajouter(request):
     if request.method == 'POST':
         user_form = UtilisateurRegisterForm(request.POST)
@@ -113,7 +118,7 @@ def ajouter(request):
     })
 
 
-@login_required
+@staff_required
 def modifier(request, pk):
     utilisateur = get_object_or_404(User, pk=pk)
     profile, _ = ProfilUtilisateur.objects.get_or_create(user=utilisateur)
@@ -137,7 +142,7 @@ def modifier(request, pk):
     })
 
 
-@login_required
+@staff_required
 def supprimer(request, pk):
     utilisateur = get_object_or_404(User, pk=pk)
     if request.method == 'POST':

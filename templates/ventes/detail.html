@@ -14,12 +14,12 @@
 <div class="row mb-4">
     <div class="col-md-8">
         <h1 class="h3 mb-0">
-            <i class="bi bi-cash-coin text-success"></i> Facture FAC-001
+            <i class="bi bi-cash-coin text-success"></i> Vente #{{ vente.pk }}
         </h1>
-        <p class="text-muted">15 juillet 2026</p>
+        <p class="text-muted">{{ vente.date_commande|date:'d F Y' }}</p>
     </div>
     <div class="col-md-4 text-md-end">
-        <a href="{% url 'ventes:facture' vente.pk %}" class="btn btn-primary btn-sm">
+        <a href="{% url 'ventes:facture_pdf' vente.pk %}" class="btn btn-primary btn-sm">
             <i class="bi bi-file-pdf"></i> Télécharger PDF
         </a>
     </div>
@@ -31,15 +31,15 @@
         <div class="card">
             <div class="card-body">
                 <p class="text-muted small">Montant Total</p>
-                <p class="h4 text-success">450 €</p>
+                <p class="h4 text-success">{{ vente.total|floatformat:0 }} CFA</p>
             </div>
         </div>
     </div>
     <div class="col-md-3 mb-3">
         <div class="card">
             <div class="card-body">
-                <p class="text-muted small">Paiement</p>
-                <p class="h5"><span class="badge bg-success">Payé</span></p>
+                <p class="text-muted small">Statut</p>
+                <p class="h5"><span class="badge {% if vente.statut == 'livree' %}bg-success{% elif vente.statut == 'confirmee' %}bg-info{% elif vente.statut == 'brouillon' %}bg-warning{% else %}bg-danger{% endif %}">{{ vente.get_statut_display }}</span></p>
             </div>
         </div>
     </div>
@@ -47,15 +47,15 @@
         <div class="card">
             <div class="card-body">
                 <p class="text-muted small">Client</p>
-                <p class="h6">Restaurant La Maison</p>
+                <p class="h6">{{ vente.client|default:"-" }}</p>
             </div>
         </div>
     </div>
     <div class="col-md-3 mb-3">
         <div class="card">
             <div class="card-body">
-                <p class="text-muted small">Méthode</p>
-                <p class="h6">Virement</p>
+                <p class="text-muted small">Responsable</p>
+                <p class="h6">{{ vente.responsable|default:"-" }}</p>
             </div>
         </div>
     </div>
@@ -66,26 +66,40 @@
     <div class="col-md-12">
         <div class="card">
             <div class="card-header bg-light border-bottom">
-                <h6 class="mb-0">Produits Vendus</h6>
+                <h6 class="mb-0">Articles Vendus</h6>
             </div>
             <div class="table-responsive">
                 <table class="table table-hover mb-0">
                     <thead class="table-light">
                         <tr>
                             <th>Produit</th>
-                            <th>Quantité</th>
-                            <th>Prix Unitaire</th>
-                            <th>Total</th>
+                            <th>Parcelle</th>
+                            <th class="text-end">Quantité</th>
+                            <th class="text-end">Prix Unitaire (CFA)</th>
+                            <th class="text-end">Total (CFA)</th>
                         </tr>
                     </thead>
                     <tbody>
+                        {% for article in vente.articles.all %}
                         <tr>
-                            <td><strong>Tomates fraîches</strong></td>
-                            <td>50 kg</td>
-                            <td>1.50 €</td>
-                            <td>75 €</td>
+                            <td><strong>{{ article.culture|default:"-" }}</strong></td>
+                            <td>{{ article.parcelle|default:"-" }}</td>
+                            <td class="text-end">{{ article.quantite }}</td>
+                            <td class="text-end">{{ article.prix_unitaire|floatformat:0 }}</td>
+                            <td class="text-end">{{ article.montant_total|floatformat:0 }}</td>
                         </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="5" class="text-center text-muted">Aucun article trouvé.</td>
+                        </tr>
+                        {% endfor %}
                     </tbody>
+                    <tfoot>
+                        <tr class="table-light">
+                            <td colspan="4" class="text-end"><strong>Total général</strong></td>
+                            <td class="text-end"><strong>{{ vente.total|floatformat:0 }} CFA</strong></td>
+                        </tr>
+                    </tfoot>
                 </table>
             </div>
         </div>

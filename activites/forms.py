@@ -43,3 +43,13 @@ class ActiviteForm(forms.ModelForm):
         self.fields['parcelle'].required = False
         self.fields['responsable'].required = False
         self.fields['date_fin'].required = False
+
+    def clean(self):
+        cleaned_data = super().clean()
+        date_debut = cleaned_data.get('date_debut')
+        date_fin = cleaned_data.get('date_fin')
+
+        if date_debut and date_fin and date_fin < date_debut:
+            self.add_error('date_fin', 'La date de fin doit être postérieure ou égale à la date de début.')
+
+        return cleaned_data

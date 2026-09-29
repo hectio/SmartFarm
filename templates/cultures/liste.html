@@ -12,11 +12,12 @@
 {% endblock %}
 
 {% block content %}
-<div class="row mb-4">
+<div class="row list-page-header mb-4 align-items-center">
     <div class="col-md-8">
         <h1 class="h3 mb-0">
             <i class="bi bi-flower1 text-success"></i> Cultures
         </h1>
+        <p class="text-muted mb-0 mt-1">Visualisez les cycles de production et les récoltes à venir.</p>
     </div>
     <div class="col-md-4 text-md-end">
         <a href="{% url 'cultures:ajouter' %}" class="btn btn-success">
@@ -28,7 +29,7 @@
 <!-- Filtres -->
 <div class="row mb-4">
     <div class="col-md-12">
-        <div class="card bg-light">
+        <div class="card filter-panel">
             <div class="card-body">
                 <form method="GET" class="row gx-2 gy-2">
                     <div class="col-md-4">
@@ -59,7 +60,7 @@
 <!-- Tableau des Cultures -->
 <div class="row">
     <div class="col-md-12">
-        <div class="card shadow-sm">
+        <div class="card data-card shadow-sm">
             <div class="card-header bg-white border-bottom d-flex justify-content-between align-items-center">
                 <div>
                     <h5 class="mb-0">Cultures</h5>

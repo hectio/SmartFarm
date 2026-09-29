@@ -25,8 +25,8 @@
         <div class="card">
             <div class="card-body">
                 <p class="text-muted small">Total Récolté</p>
-                <p class="h4 text-success">2,450 kg</p>
-                <small class="text-muted">Depuis le début de la saison</small>
+                <p class="h4 text-success">{{ total_recolte|floatformat:2 }} kg</p>
+                    <small class="text-muted">Récoltes en kg en {{ annee_statistiques }}</small>
             </div>
         </div>
     </div>
@@ -34,8 +34,8 @@
         <div class="card">
             <div class="card-body">
                 <p class="text-muted small">Rendement Moyen</p>
-                <p class="h4 text-info">2.8 kg/m²</p>
-                <small class="text-muted">Par rapport au prévisionnel</small>
+                <p class="h4 text-info">{{ rendement_moyen|floatformat:2 }} kg/m²</p>
+                <small class="text-muted">Production / superficie récoltée</small>
             </div>
         </div>
     </div>
@@ -43,8 +43,8 @@
         <div class="card">
             <div class="card-body">
                 <p class="text-muted small">Nombre de récoltes</p>
-                <p class="h4 text-warning">18</p>
-                <small class="text-muted">Cette année</small>
+                <p class="h4 text-warning">{{ nombre_recoltes }}</p>
+                <small class="text-muted">Enregistrées en {{ annee_statistiques }}</small>
             </div>
         </div>
     </div>
@@ -52,22 +52,25 @@
         <div class="card">
             <div class="card-body">
                 <p class="text-muted small">Valeur Estimée</p>
-                <p class="h4 text-success">6,125 €</p>
-                <small class="text-muted">Au prix de marché</small>
+                <p class="h4 text-success">{{ valeur_ventes|floatformat:0 }} FCFA</p>
+                <small class="text-muted">Ventes enregistrées</small>
             </div>
         </div>
     </div>
 </div>
 
-<!-- Graphiques (Placeholders) -->
+{{ culture_chart_labels|json_script:"recoltes-culture-labels" }}
+{{ culture_chart_values|json_script:"recoltes-culture-values" }}
+{{ month_chart_labels|json_script:"recoltes-month-labels" }}
+{{ month_chart_values|json_script:"recoltes-month-values" }}
 <div class="row">
     <div class="col-md-6 mb-4">
         <div class="card">
             <div class="card-header bg-light">
                 <h6 class="mb-0">Récolte par Culture</h6>
             </div>
-            <div class="card-body" style="height: 250px; display: flex; align-items: center; justify-content: center;">
-                <p class="text-muted">Graphique à intégrer</p>
+            <div class="card-body chart-container">
+                <canvas id="harvestByCultureChart" aria-label="Récoltes par culture"></canvas>
             </div>
         </div>
     </div>
@@ -76,11 +79,32 @@
             <div class="card-header bg-light">
                 <h6 class="mb-0">Tendance Mensuelle</h6>
             </div>
-            <div class="card-body" style="height: 250px; display: flex; align-items: center; justify-content: center;">
-                <p class="text-muted">Graphique à intégrer</p>
+            <div class="card-body chart-container">
+                <canvas id="monthlyHarvestChart" aria-label="Tendance mensuelle des récoltes"></canvas>
             </div>
         </div>
     </div>
 </div>
 
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+<script>
+    const harvestCultureLabels = JSON.parse(document.getElementById('recoltes-culture-labels').textContent);
+    const harvestCultureValues = JSON.parse(document.getElementById('recoltes-culture-values').textContent);
+    const harvestMonthLabels = JSON.parse(document.getElementById('recoltes-month-labels').textContent);
+    const harvestMonthValues = JSON.parse(document.getElementById('recoltes-month-values').textContent);
+
+    new Chart(document.getElementById('harvestByCultureChart'), {
+        type: 'doughnut',
+        data: { labels: harvestCultureLabels, datasets: [{ label: 'Récoltes (kg)', data: harvestCultureValues, backgroundColor: ['#2d7d3a', '#0d6efd', '#f0ad4e', '#dc3545', '#6f42c1'] }] },
+        options: { responsive: true, maintainAspectRatio: false }
+    });
+    new Chart(document.getElementById('monthlyHarvestChart'), {
+        type: 'line',
+        data: { labels: harvestMonthLabels, datasets: [{ label: 'Récoltes (kg)', data: harvestMonthValues, borderColor: '#2d7d3a', backgroundColor: 'rgba(45, 125, 58, .12)', fill: true, tension: .3 }] },
+        options: { responsive: true, maintainAspectRatio: false, scales: { y: { beginAtZero: true } } }
+    });
+</script>
 {% endblock %}

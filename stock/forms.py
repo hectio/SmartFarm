@@ -35,3 +35,9 @@ class MouvementStockForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['responsable'].queryset = User.objects.all()
+
+    def clean_quantite(self):
+        quantite = self.cleaned_data['quantite']
+        if quantite <= 0:
+            raise forms.ValidationError('La quantité doit être supérieure à zéro.')
+        return quantite

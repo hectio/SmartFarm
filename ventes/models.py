@@ -77,6 +77,10 @@ class VENTE(models.Model):
     def __str__(self):
         return f"Vente #{self.pk} - {self.client}"
 
+    def recalculer_total(self):
+        self.total = sum(article.montant_total() for article in self.articles.all())
+        self.save(update_fields=['total', 'date_modification'])
+
 
 class VenteArticle(models.Model):
     vente = models.ForeignKey(

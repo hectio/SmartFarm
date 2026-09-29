@@ -25,89 +25,77 @@
             <div class="card-body">
                 <form method="POST" action="">
                     {% csrf_token %}
-                    
+                    {{ form.non_field_errors }}
+
                     <h5 class="mb-3">Informations Commande</h5>
-                    
-                    <div class="row">
-                        <div class="col-md-6 mb-3">
-                            <label for="client" class="form-label">Client *</label>
-                            <select class="form-select" id="client" name="client" required>
-                                <option value="">-- Sélectionner --</option>
-                                <option>Restaurant La Maison</option>
-                                <option>Marché Bio Lyon</option>
-                            </select>
+                    <div class="row gy-3">
+                        <div class="col-md-6">
+                            <label class="form-label">Client</label>
+                            {{ form.client }}
+                            {{ form.client.errors }}
                         </div>
-                        <div class="col-md-6 mb-3">
-                            <label for="date" class="form-label">Date de commande *</label>
-                            <input type="date" class="form-control" id="date" name="date" required>
+                        <div class="col-md-6">
+                            <label class="form-label">Date de commande</label>
+                            {{ form.date_commande }}
+                            {{ form.date_commande.errors }}
+                        </div>
+                        <div class="col-md-12">
+                            <label class="form-label">Description</label>
+                            {{ form.description }}
+                            {{ form.description.errors }}
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Statut</label>
+                            {{ form.statut }}
+                            {{ form.statut.errors }}
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Responsable</label>
+                            {{ form.responsable }}
+                            {{ form.responsable.errors }}
                         </div>
                     </div>
-                    
+
                     <hr class="my-4">
-                    
-                    <h5 class="mb-3">Produits</h5>
-                    
-                    <div class="table-responsive mb-3">
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th>Produit</th>
-                                    <th>Quantité</th>
-                                    <th>Prix Unitaire</th>
-                                    <th>Total</th>
-                                    <th></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>
-                                        <select class="form-select form-select-sm">
-                                            <option>Tomates</option>
-                                            <option>Salades</option>
-                                        </select>
-                                    </td>
-                                    <td><input type="number" class="form-control form-control-sm" value="50" step="0.1"></td>
-                                    <td><input type="number" class="form-control form-control-sm" value="1.50" step="0.01"></td>
-                                    <td><strong>75 €</strong></td>
-                                    <td><button class="btn btn-sm btn-danger">Supprimer</button></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    
-                    <button type="button" class="btn btn-outline-success btn-sm mb-3">
-                        <i class="bi bi-plus"></i> Ajouter un produit
-                    </button>
-                    
-                    <hr class="my-4">
-                    
-                    <div class="row justify-content-end">
-                        <div class="col-md-4">
-                            <div class="card bg-light">
-                                <div class="card-body">
-                                    <p class="mb-2">
-                                        <strong>Sous-total :</strong>
-                                        <span class="float-end">75 €</span>
-                                    </p>
-                                    <p class="mb-2">
-                                        <strong>TVA (5,5%) :</strong>
-                                        <span class="float-end">4.13 €</span>
-                                    </p>
-                                    <hr>
-                                    <p class="mb-0">
-                                        <strong>Total :</strong>
-                                        <span class="float-end h5 text-success">79.13 €</span>
-                                    </p>
+                    <h5 class="mb-3">Articles de la commande</h5>
+                    {{ article_formset.management_form }}
+                    {% for article_form in article_formset %}
+                        <div class="border rounded p-3 mb-3">
+                            {% for hidden in article_form.hidden_fields %}{{ hidden }}{% endfor %}
+                            {{ article_form.non_field_errors }}
+                            <div class="row gy-3">
+                                <div class="col-md-3">
+                                    <label class="form-label">Culture</label>
+                                    {{ article_form.culture }}
+                                    {{ article_form.culture.errors }}
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="form-label">Parcelle</label>
+                                    {{ article_form.parcelle }}
+                                    {{ article_form.parcelle.errors }}
+                                </div>
+                                <div class="col-md-2">
+                                    <label class="form-label">Quantité</label>
+                                    {{ article_form.quantite }}
+                                    {{ article_form.quantite.errors }}
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="form-label">Prix unitaire (CFA)</label>
+                                    {{ article_form.prix_unitaire }}
+                                    {{ article_form.prix_unitaire.errors }}
+                                </div>
+                                <div class="col-md-1">
+                                    <label class="form-label">Suppr.</label>
+                                    {{ article_form.DELETE }}
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    
-                    <hr class="my-4">
-                    
+                    {% endfor %}
+
+                    <div class="alert alert-info">Le total est calculé automatiquement à l'enregistrement.</div>
                     <div class="d-flex gap-2">
                         <button type="submit" class="btn btn-success">
-                            <i class="bi bi-check-circle"></i> Créer la commande
+                            <i class="bi bi-check-circle"></i> Enregistrer la commande
                         </button>
                         <a href="{% url 'ventes:commandes_liste' %}" class="btn btn-outline-secondary">Annuler</a>
                     </div>

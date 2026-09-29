@@ -30,35 +30,35 @@
     <div class="col-md-12">
         <div class="card">
             <div class="table-responsive">
-                <table class="table table-hover mb-0">
+                <table class="table table-hover mb-0 ventes-table">
                     <thead class="table-light">
                         <tr>
                             <th>Date</th>
                             <th>N° Facture</th>
                             <th>Client</th>
-                            <th>Montant</th>
+                            <th class="text-end">Montant</th>
                             <th>Statut Paiement</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {% for vente in ventes %}
+                         {% for vente in ventes %}
                         <tr>
                             <td>{{ vente.date_commande|date:'d/m/Y' }}</td>
                             <td><strong>{{ vente.id }}</strong></td>
                             <td>{{ vente.client }}</td>
-                            <td>{{ vente.total }} €</td>
+                            <td class="text-end"><strong>{{ vente.total|floatformat:2 }} CFA</strong></td>
                             <td><span class="badge {% if vente.statut == 'livree' %}bg-success{% elif vente.statut == 'confirmee' %}bg-warning{% else %}bg-secondary{% endif %}">{{ vente.get_statut_display }}</span></td>
                             <td>
                                 <a href="{% url 'ventes:detail' vente.pk %}" class="btn btn-sm btn-outline-primary"><i class="bi bi-eye"></i></a>
                                 <a href="{% url 'ventes:facture' vente.pk %}" class="btn btn-sm btn-outline-primary"><i class="bi bi-file-pdf"></i></a>
                             </td>
                         </tr>
-                        {% empty %}
-                        <tr>
-                            <td colspan="6" class="text-center text-muted">Aucune vente trouvée.</td>
-                        </tr>
-                        {% endfor %}
+                         {% empty %}
+                         <tr>
+                             <td colspan="6" class="text-center text-muted">Aucune vente trouvée.</td>
+                         </tr>
+                         {% endfor %}
                     </tbody>
                 </table>
             </div>

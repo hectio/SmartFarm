@@ -34,7 +34,7 @@
                     <span class="badge bg-danger rounded-pill p-3"><i class="bi bi-cash-stack fs-5"></i></span>
                     <div>
                         <p class="text-muted mb-1">Total des dépenses</p>
-                        <h4 class="mb-0">{{ total_depenses|default:'0.00' }} €</h4>
+                        <h4 class="mb-0">{{ total_depenses|default:'0.00' }} CFA</h4>
                     </div>
                 </div>
             </div>
@@ -95,7 +95,7 @@
                             <td>{{ transaction.date_operation|date:'d/m/Y' }}</td>
                             <td><span class="badge {% if transaction.type_transaction == 'depense' %}bg-danger{% else %}bg-success{% endif %}">{{ transaction.get_categorie_display }}</span></td>
                             <td>{{ transaction.titre }}</td>
-                            <td class="text-end">{{ transaction.montant|floatformat:2 }} €</td>
+                            <td class="text-end">{{ transaction.montant|floatformat:0 }} CFA</td>
                             <td>{{ transaction.responsable }}</td>
                         </tr>
                         {% empty %}

@@ -14,12 +14,12 @@
 <div class="row mb-4">
     <div class="col-md-8">
         <h1 class="h3 mb-0">
-            <i class="bi bi-cart-check text-success"></i> Commande CMD-001
+            <i class="bi bi-cart-check text-success"></i> Commande CMD-{{ commande.pk }}
         </h1>
-        <p class="text-muted">15 juillet 2026</p>
+        <p class="text-muted">{{ commande.date_commande|date:'d F Y' }}</p>
     </div>
     <div class="col-md-4 text-md-end">
-        <a href="{% url 'ventes:commandes_facture' commande.pk %}" class="btn btn-primary btn-sm">
+        <a href="{% url 'ventes:facture_pdf' commande.pk %}" class="btn btn-primary btn-sm">
             <i class="bi bi-file-pdf"></i> Télécharger PDF
         </a>
     </div>
@@ -33,10 +33,11 @@
                 <h6 class="mb-0">Informations Commande</h6>
             </div>
             <div class="card-body">
-                <p><strong>N° Commande :</strong> CMD-001</p>
-                <p><strong>Date :</strong> 15/07/2026</p>
-                <p><strong>Client :</strong> Restaurant La Maison</p>
-                <p class="mb-0"><strong>Statut :</strong> <span class="badge bg-info">En préparation</span></p>
+                <p><strong>N° Commande :</strong> CMD-{{ commande.pk }}</p>
+                <p><strong>Date :</strong> {{ commande.date_commande|date:'d/m/Y' }}</p>
+                <p><strong>Client :</strong> {{ commande.client|default:"-" }}</p>
+                <p><strong>Description :</strong> {{ commande.description|default:"-" }}</p>
+                <p class="mb-0"><strong>Statut :</strong> <span class="badge {% if commande.statut == 'livree' %}bg-success{% elif commande.statut == 'confirmee' %}bg-info{% elif commande.statut == 'brouillon' %}bg-warning{% else %}bg-danger{% endif %}">{{ commande.get_statut_display }}</span></p>
             </div>
         </div>
     </div>
@@ -47,7 +48,7 @@
                 <h6 class="mb-0">Adresse Livraison</h6>
             </div>
             <div class="card-body">
-                <p>45 Grand Rue<br>67000 Strasbourg<br>France</p>
+                <p>{{ commande.client.adresse|default:"Adresse non renseignée" }}<br>{{ commande.client.code_postal|default:"" }} {{ commande.client.ville|default:"" }}</p>
             </div>
         </div>
     </div>
@@ -71,12 +72,16 @@
                         </tr>
                     </thead>
                     <tbody>
+                        {% for article in commande.articles.all %}
                         <tr>
-                            <td><strong>Tomates</strong></td>
-                            <td>50 kg</td>
-                            <td>1.50 €</td>
-                            <td>75 €</td>
+                            <td><strong>{{ article.culture|default:article.parcelle|default:"Article" }}</strong></td>
+                            <td>{{ article.quantite }}</td>
+                            <td>{{ article.prix_unitaire|floatformat:2 }} FCFA</td>
+                            <td>{{ article.montant_total|floatformat:2 }} FCFA</td>
                         </tr>
+                        {% empty %}
+                        <tr><td colspan="4" class="text-center text-muted">Aucun article.</td></tr>
+                        {% endfor %}
                     </tbody>
                 </table>
             </div>
@@ -91,16 +96,16 @@
             <div class="card-body">
                 <p class="mb-2">
                     <strong>Sous-total :</strong>
-                    <span class="float-end">75 €</span>
+                    <span class="float-end">{{ commande.total|floatformat:2 }} FCFA</span>
                 </p>
                 <p class="mb-2">
                     <strong>TVA (5,5%) :</strong>
-                    <span class="float-end">4.13 €</span>
+                    <span class="float-end">0.00 FCFA</span>
                 </p>
                 <hr>
                 <p class="mb-0">
-                    <strong>Total TTC :</strong>
-                    <span class="float-end h5 text-success">79.13 €</span>
+                    <strong>Total :</strong>
+                    <span class="float-end h5 text-success">{{ commande.total|floatformat:2 }} FCFA</span>
                 </p>
             </div>
         </div>

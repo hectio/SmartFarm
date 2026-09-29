@@ -27,7 +27,7 @@
         <div class="card">
             <div class="card-body">
                 <p class="text-muted small">Recettes (Mois)</p>
-                <p class="h4 text-success">{{ total_recettes|floatformat:2 }} €</p>
+                <p class="h4 text-success">{{ total_recettes|floatformat:0 }} FCFA</p>
                 <small class="text-success"><i class="bi bi-arrow-up"></i> {{ revenue_trend|floatformat:0 }}% vs mois dernier</small>
             </div>
         </div>
@@ -36,7 +36,7 @@
         <div class="card">
             <div class="card-body">
                 <p class="text-muted small">Dépenses (Mois)</p>
-                <p class="h4 text-danger">{{ total_depenses|floatformat:2 }} €</p>
+                <p class="h4 text-danger">{{ total_depenses|floatformat:0 }} FCFA</p>
                 <small class="text-danger"><i class="bi bi-arrow-up"></i> {{ expense_trend|floatformat:0 }}% vs mois dernier</small>
             </div>
         </div>
@@ -45,7 +45,7 @@
         <div class="card">
             <div class="card-body">
                 <p class="text-muted small">Bénéfice (Mois)</p>
-                <p class="h4 text-success">{{ net_profit|floatformat:2 }} €</p>
+                <p class="h4 text-success">{{ net_profit|floatformat:0 }} FCFA</p>
                 <small class="text-success"><i class="bi bi-arrow-up"></i> {{ benefice_trend|floatformat:0 }}% vs mois dernier</small>
             </div>
         </div>
@@ -61,15 +61,16 @@
     </div>
 </div>
 
-<!-- Graphiques (Placeholder) -->
 <div class="row">
     <div class="col-md-6 mb-4">
         <div class="card">
             <div class="card-header bg-light">
                 <h6 class="mb-0">Évolution Mensuelle</h6>
             </div>
-            <div class="card-body" style="height: 250px; display: flex; align-items: center; justify-content: center;">
-                <p class="text-muted">Graphique à intégrer</p>
+            <div class="card-body chart-empty-state text-center">
+                <div class="chart-empty-icon"><i class="bi bi-graph-up"></i></div>
+                <h6 class="mb-2">Évolution bientôt disponible</h6>
+                <p class="text-muted mb-0">Les données mensuelles s’afficheront dès que les transactions seront enregistrées.</p>
             </div>
         </div>
     </div>
@@ -78,8 +79,10 @@
             <div class="card-header bg-light">
                 <h6 class="mb-0">Répartition Dépenses</h6>
             </div>
-            <div class="card-body" style="height: 250px; display: flex; align-items: center; justify-content: center;">
-                <p class="text-muted">Graphique à intégrer</p>
+            <div class="card-body chart-empty-state text-center">
+                <div class="chart-empty-icon"><i class="bi bi-pie-chart"></i></div>
+                <h6 class="mb-2">Répartition bientôt disponible</h6>
+                <p class="text-muted mb-0">Les catégories de dépenses seront visibles après l’enregistrement des opérations.</p>
             </div>
         </div>
     </div>

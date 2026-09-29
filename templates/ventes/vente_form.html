@@ -19,13 +19,14 @@
 </div>
 
 <div class="row">
-    <div class="col-md-8">
+    <div class="col-md-12">
         <div class="card">
             <div class="card-body">
                 <form method="POST" action="">
                     {% csrf_token %}
                     {{ form.non_field_errors }}
 
+                    <h5 class="mb-3">Informations de la Vente</h5>
                     <div class="row gy-3">
                         <div class="col-md-6">
                             <label class="form-label">Client</label>
@@ -39,18 +40,57 @@
                             <label class="form-label">Description</label>
                             {{ form.description }}
                         </div>
-                        <div class="col-md-4">
-                            <label class="form-label">Total</label>
-                            {{ form.total }}
-                        </div>
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                             <label class="form-label">Statut</label>
                             {{ form.statut }}
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                             <label class="form-label">Responsable</label>
                             {{ form.responsable }}
                         </div>
+                    </div>
+
+                    <hr class="my-4">
+                    <h5 class="mb-3">Articles de la Vente</h5>
+                    {{ article_formset.management_form }}
+                    {% for article_form in article_formset %}
+                        <div class="article-row border rounded p-3 mb-3">
+                            {{ article_form.id }}
+                            {% for hidden in article_form.hidden_fields %}{{ hidden }}{% endfor %}
+                            {% if article_form.non_field_errors %}
+                                <div class="alert alert-danger">{{ article_form.non_field_errors }}</div>
+                            {% endif %}
+                            <div class="row gy-3">
+                                <div class="col-md-3">
+                                    <label class="form-label">Culture</label>
+                                    {{ article_form.culture }}
+                                    {{ article_form.culture.errors }}
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="form-label">Parcelle</label>
+                                    {{ article_form.parcelle }}
+                                    {{ article_form.parcelle.errors }}
+                                </div>
+                                <div class="col-md-2">
+                                    <label class="form-label">Quantité</label>
+                                    {{ article_form.quantite }}
+                                    {{ article_form.quantite.errors }}
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="form-label">Prix unitaire (CFA)</label>
+                                    {{ article_form.prix_unitaire }}
+                                    {{ article_form.prix_unitaire.errors }}
+                                </div>
+                                <div class="col-md-2">
+                                    <label class="form-label">Supprimer</label>
+                                    {{ article_form.DELETE }}
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+
+                    <div class="alert alert-info">
+                        <strong>Total général: calculé automatiquement à l'enregistrement</strong>
                     </div>
 
                     <div class="mt-4 d-flex gap-2">
@@ -64,4 +104,5 @@
         </div>
     </div>
 </div>
+
 {% endblock %}

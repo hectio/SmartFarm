@@ -12,11 +12,12 @@
 {% endblock %}
 
 {% block content %}
-<div class="row mb-4">
+<div class="row list-page-header mb-4 align-items-center">
     <div class="col-md-8">
         <h1 class="h3 mb-0">
             <i class="bi bi-grid-3x2 text-success"></i> Parcelles
         </h1>
+        <p class="text-muted mb-0 mt-1">Suivez l’état, la superficie et l’exploitation de chaque parcelle.</p>
     </div>
     <div class="col-md-4 text-md-end">
         <a href="{% url 'parcelles:parcelle_create' %}" class="btn btn-success">
@@ -28,7 +29,7 @@
 <!-- Filtres -->
 <div class="row mb-4">
     <div class="col-md-12">
-        <div class="card bg-light">
+        <div class="card filter-panel">
             <div class="card-body">
                 <form method="GET" id="parcelle-filter-form" class="row">
                     <div class="col-md-4">
@@ -59,7 +60,7 @@
 <!-- Tableau des Parcelles -->
 <div class="row">
     <div class="col-md-12">
-        <div class="card">
+        <div class="card data-card">
             <div class="table-responsive">
                 <table class="table table-hover mb-0">
                     <thead class="table-light">

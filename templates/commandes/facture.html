@@ -16,7 +16,7 @@
         <button onclick="window.print()" class="btn btn-primary">
             <i class="bi bi-printer"></i> Imprimer
         </button>
-        <a href="{% url 'ventes:commandes_liste' %}" class="btn btn-secondary">
+        <a href="{% url 'ventes:facture_pdf' commande.pk %}" class="btn btn-secondary">
             <i class="bi bi-download"></i> Télécharger PDF
         </a>
     </div>
@@ -35,8 +35,8 @@
                     </div>
                     <div class="col-md-6 text-end">
                         <h3 class="text-success">FACTURE</h3>
-                        <p><strong>N° Facture :</strong> FAC-CMD-001</p>
-                        <p><strong>Date :</strong> 15/07/2026</p>
+                        <p><strong>N° Facture :</strong> FAC-CMD-{{ commande.pk }}</p>
+                        <p><strong>Date :</strong> {{ commande.date_commande|date:'d/m/Y' }}</p>
                     </div>
                 </div>
                 
@@ -47,19 +47,17 @@
                     <div class="col-md-6">
                         <h6 class="text-muted">Facturé à:</h6>
                         <p>
-                            <strong>Restaurant La Maison</strong><br>
-                            45 Grand Rue<br>
-                            67000 Strasbourg<br>
-                            France
+                            <strong>{{ commande.client|default:"Client non renseigné" }}</strong><br>
+                            {{ commande.client.adresse|default:"" }}<br>
+                            {{ commande.client.code_postal|default:"" }} {{ commande.client.ville|default:"" }}
                         </p>
                     </div>
                     <div class="col-md-6">
                         <h6 class="text-muted">Livré à:</h6>
                         <p>
-                            <strong>Restaurant La Maison</strong><br>
-                            45 Grand Rue<br>
-                            67000 Strasbourg<br>
-                            France
+                            <strong>{{ commande.client|default:"Client non renseigné" }}</strong><br>
+                            {{ commande.client.adresse|default:"" }}<br>
+                            {{ commande.client.code_postal|default:"" }} {{ commande.client.ville|default:"" }}
                         </p>
                     </div>
                 </div>
@@ -76,12 +74,16 @@
                             </tr>
                         </thead>
                         <tbody>
+                            {% for article in commande.articles.all %}
                             <tr>
-                                <td><strong>Tomates fraîches - Roma VF</strong><br><small class="text-muted">Livraison immédiate</small></td>
-                                <td class="text-end">50 kg</td>
-                                <td class="text-end">1.50 €</td>
-                                <td class="text-end"><strong>75.00 €</strong></td>
+                                <td><strong>{{ article.culture|default:article.parcelle|default:"Article" }}</strong></td>
+                                <td class="text-end">{{ article.quantite }}</td>
+                                <td class="text-end">{{ article.prix_unitaire|floatformat:2 }} FCFA</td>
+                                <td class="text-end"><strong>{{ article.montant_total|floatformat:2 }} FCFA</strong></td>
                             </tr>
+                            {% empty %}
+                            <tr><td colspan="4" class="text-center text-muted">Aucun article</td></tr>
+                            {% endfor %}
                         </tbody>
                     </table>
                 </div>
@@ -92,15 +94,15 @@
                         <table class="table table-borderless">
                             <tr>
                                 <td><strong>Sous-total :</strong></td>
-                                <td class="text-end">75.00 €</td>
+                                <td class="text-end">{{ commande.total|floatformat:2 }} FCFA</td>
                             </tr>
                             <tr>
                                 <td><strong>TVA (5,5%) :</strong></td>
-                                <td class="text-end">4.13 €</td>
+                                <td class="text-end">0.00 FCFA</td>
                             </tr>
                             <tr style="border-top: 2px solid #2d7d3a;">
                                 <td><strong class="text-success">Total TTC :</strong></td>
-                                <td class="text-end"><strong class="text-success" style="font-size: 1.2rem;">79.13 €</strong></td>
+                                <td class="text-end"><strong class="text-success" style="font-size: 1.2rem;">{{ commande.total|floatformat:2 }} FCFA</strong></td>
                             </tr>
                         </table>
                     </div>
@@ -110,7 +112,7 @@
                 
                 <!-- Notes -->
                 <p class="text-muted text-center small">
-                    Merci pour votre commande! Pour toute question, contactez-nous à contact@smartfarm.fr
+                    {{ commande.description|default:"Merci pour votre commande !" }}
                 </p>
             </div>
         </div>

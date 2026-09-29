@@ -48,7 +48,7 @@
                                     <span class="badge bg-danger">Sortie</span>
                                 {% endif %}
                             </td>
-                            <td>{{ mouvement.intrant.nom }}</td>
+                            <td><a href="{% url 'stock:mouvement_detail' mouvement.pk %}">{{ mouvement.intrant.nom }}</a></td>
                             <td>{{ mouvement.quantite }} {{ mouvement.intrant.unite }}</td>
                             <td>{{ mouvement.commentaire|truncatewords:10 }}</td>
                             <td>{{ mouvement.responsable|default:"-" }}</td>

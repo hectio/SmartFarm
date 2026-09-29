@@ -65,7 +65,7 @@
         <div class="card shadow-sm h-100">
             <div class="card-body">
                 <p class="text-muted small mb-1">Recettes totales</p>
-                <h4 class="mb-1 text-success">{{ total_recettes|floatformat:2 }} €</h4>
+                <h4 class="mb-1 text-success">{{ total_recettes|floatformat:0 }} FCFA</h4>
                 <span class="badge bg-success">Performance</span>
             </div>
         </div>
@@ -74,7 +74,7 @@
         <div class="card shadow-sm h-100">
             <div class="card-body">
                 <p class="text-muted small mb-1">Dépenses totales</p>
-                <h4 class="mb-1 text-danger">{{ total_depenses|floatformat:2 }} €</h4>
+                <h4 class="mb-1 text-danger">{{ total_depenses|floatformat:0 }} FCFA</h4>
                 <span class="badge bg-danger">Coûts</span>
             </div>
         </div>
@@ -83,7 +83,7 @@
         <div class="card shadow-sm h-100">
             <div class="card-body">
                 <p class="text-muted small mb-1">Bénéfice net</p>
-                <h4 class="mb-1 text-success">{{ net_profit|floatformat:2 }} €</h4>
+                <h4 class="mb-1 text-success">{{ net_profit|floatformat:0 }} FCFA</h4>
                 <span class="badge bg-success">Rentabilité</span>
             </div>
         </div>
@@ -112,9 +112,9 @@
             <div class="card-body">
                 <div class="row gy-3">
                     <div class="col-md-6">
-                        <p class="mb-2"><strong>Recettes totales :</strong> {{ total_recettes|floatformat:2 }} €</p>
-                        <p class="mb-2"><strong>Dépenses totales :</strong> {{ total_depenses|floatformat:2 }} €</p>
-                        <p class="mb-0"><strong>Bénéfice net :</strong> <span class="text-success">{{ net_profit|floatformat:2 }} €</span></p>
+                        <p class="mb-2"><strong>Recettes totales :</strong> {{ total_recettes|floatformat:0 }} FCFA</p>
+                        <p class="mb-2"><strong>Dépenses totales :</strong> {{ total_depenses|floatformat:0 }} FCFA</p>
+                        <p class="mb-0"><strong>Bénéfice net :</strong> <span class="text-success">{{ net_profit|floatformat:0 }} FCFA</span></p>
                     </div>
                     <div class="col-md-6">
                         <p class="mb-2"><strong>Marge nette :</strong> {{ marge_nette|floatformat:1 }}%</p>
@@ -146,7 +146,7 @@
                         {% for item in category_breakdown %}
                         <tr>
                             <td><strong>{{ item.categorie }}</strong></td>
-                            <td>{{ item.total|floatformat:2 }} €</td>
+                            <td>{{ item.total|floatformat:0 }} FCFA</td>
                             <td>{{ item.percent|floatformat:1 }}%</td>
                         </tr>
                         {% empty %}

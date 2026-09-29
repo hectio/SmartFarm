@@ -8,6 +8,7 @@ from django.db import models
 
 from .models import Transaction
 from .forms import TransactionForm
+from ventes.models import Client
 
 
 class TransactionListView(LoginRequiredMixin, ListView):
@@ -33,6 +34,16 @@ class TransactionListView(LoginRequiredMixin, ListView):
                 | models.Q(description__icontains=recherche)
             )
         return queryset.order_by('-date_operation')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['total_recettes'] = self.get_queryset().filter(
+            type_transaction='recette'
+        ).aggregate(total=models.Sum('montant'))['total'] or 0
+        context['clients_count'] = Client.objects.filter(
+            ventes__date_commande__isnull=False
+        ).distinct().count()
+        return context
 
 
 class RecetteListView(TransactionListView):
@@ -192,6 +203,14 @@ class FinanceStatsView(LoginRequiredMixin, ListView):
             .annotate(total=models.Sum('montant'))
             .order_by('-total')[:5]
         )
+        category_breakdown_list = list(category_breakdown)
+        monthly_totals = annual_transactions.values('date_operation__month', 'type_transaction').annotate(
+            total=models.Sum('montant')
+        )
+        monthly_map = {
+            (item['date_operation__month'], item['type_transaction']): float(item['total'] or 0)
+            for item in monthly_totals
+        }
 
         context.update({
             'annual_recettes': recettes,
@@ -204,7 +223,15 @@ class FinanceStatsView(LoginRequiredMixin, ListView):
                     'categorie': dict(Transaction.CATEGORIE_CHOICES).get(item['categorie'], item['categorie']),
                     'total': item['total'] or 0,
                 }
-                for item in category_breakdown
+                for item in category_breakdown_list
             ],
+            'category_chart_labels': [
+                dict(Transaction.CATEGORIE_CHOICES).get(item['categorie'], item['categorie'])
+                for item in category_breakdown_list
+            ],
+            'category_chart_values': [float(item['total'] or 0) for item in category_breakdown_list],
+            'finance_month_labels': [f'Mois {month}' for month in range(1, 13)],
+            'finance_revenue_values': [monthly_map.get((month, 'recette'), 0) for month in range(1, 13)],
+            'finance_expense_values': [monthly_map.get((month, 'depense'), 0) for month in range(1, 13)],
         })
         return context

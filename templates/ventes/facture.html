@@ -16,7 +16,7 @@
         <button onclick="window.print()" class="btn btn-primary">
             <i class="bi bi-printer"></i> Imprimer
         </button>
-        <a href="{% url 'ventes:liste' %}" class="btn btn-secondary">
+        <a href="{% url 'ventes:facture_pdf' vente.pk %}" class="btn btn-secondary">
             <i class="bi bi-download"></i> Télécharger PDF
         </a>
     </div>
@@ -35,8 +35,8 @@
                     </div>
                     <div class="col-md-6 text-end">
                         <h3 class="text-success">FACTURE DE VENTE</h3>
-                        <p><strong>N° Facture :</strong> FAC-001</p>
-                        <p><strong>Date :</strong> 15/07/2026</p>
+                        <p><strong>N° Facture :</strong> FAC-{{ vente.pk }}</p>
+                        <p><strong>Date :</strong> {{ vente.date_commande|date:'d/m/Y' }}</p>
                     </div>
                 </div>
                 
@@ -47,10 +47,9 @@
                     <div class="col-md-6">
                         <h6 class="text-muted">Facturé à:</h6>
                         <p>
-                            <strong>Restaurant La Maison</strong><br>
-                            45 Grand Rue<br>
-                            67000 Strasbourg<br>
-                            France
+                            <strong>{{ vente.client|default:"Client non renseigné" }}</strong><br>
+                            {{ vente.client.adresse|default:"" }}<br>
+                            {{ vente.client.code_postal|default:"" }} {{ vente.client.ville|default:"" }}
                         </p>
                     </div>
                 </div>
@@ -67,12 +66,16 @@
                             </tr>
                         </thead>
                         <tbody>
+                            {% for article in vente.articles.all %}
                             <tr>
-                                <td><strong>Tomates fraîches - Roma VF</strong></td>
-                                <td class="text-end">50 kg</td>
-                                <td class="text-end">9.00 €</td>
-                                <td class="text-end"><strong>450.00 €</strong></td>
+                                <td><strong>{{ article.culture|default:article.parcelle|default:"Article" }}</strong></td>
+                                <td class="text-end">{{ article.quantite|floatformat:2 }}</td>
+                                <td class="text-end">{{ article.prix_unitaire|floatformat:2 }} FCFA</td>
+                                <td class="text-end"><strong>{{ article.montant_total|floatformat:2 }} FCFA</strong></td>
                             </tr>
+                            {% empty %}
+                            <tr><td colspan="4" class="text-center text-muted">Aucun article</td></tr>
+                            {% endfor %}
                         </tbody>
                     </table>
                 </div>
@@ -83,15 +86,15 @@
                         <table class="table table-borderless">
                             <tr>
                                 <td><strong>Sous-total :</strong></td>
-                                <td class="text-end">450.00 €</td>
+                                <td class="text-end">{{ vente.total|floatformat:2 }} FCFA</td>
                             </tr>
                             <tr>
                                 <td><strong>TVA (5,5%) :</strong></td>
-                                <td class="text-end">24.75 €</td>
+                                <td class="text-end">0.00 FCFA</td>
                             </tr>
                             <tr style="border-top: 2px solid #2d7d3a;">
                                 <td><strong class="text-success">Total TTC :</strong></td>
-                                <td class="text-end"><strong class="text-success" style="font-size: 1.2rem;">474.75 €</strong></td>
+                                <td class="text-end"><strong class="text-success" style="font-size: 1.2rem;">{{ vente.total|floatformat:2 }} FCFA</strong></td>
                             </tr>
                         </table>
                     </div>
@@ -101,8 +104,8 @@
                 
                 <!-- Notes -->
                 <p class="text-muted text-center small">
-                    Paiement effectué le 15/07/2026 par virement<br>
-                    Merci pour votre achat! Pour toute question, contactez-nous à contact@smartfarm.fr
+                    Vente {{ vente.get_statut_display|lower }}<br>
+                    {{ vente.description|default:"Merci pour votre achat !" }}
                 </p>
             </div>
         </div>
